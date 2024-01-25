@@ -6,7 +6,10 @@
 class Map
 {
 public:
+	void GenerateMap() {
 
+
+}
 };
 
 #endif
