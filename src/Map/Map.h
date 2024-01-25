@@ -7,7 +7,7 @@ class Map
 {
 public:
 	void GenerateMap() {
-	std::cout<<"Test Test"<<std::endl;
+	std::cout<<"Tes"<<std::endl;
 
 }
 };
