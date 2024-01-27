@@ -412,8 +412,8 @@ FT_BEGIN_HEADER
   /*    FT_Outline_Get_Bitmap                                              */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Render an outline within a bitmenumap.  The outline's image is simply  */
-  /*    OR-ed to the target bitmenumap.                                        */
+  /*    Render an outline within a bitmapselection.  The outline's image is simply  */
+  /*    OR-ed to the target bitmapselection.                                        */
   /*                                                                       */
   /* <Input>                                                               */
   /*    library :: A handle to a FreeType library object.                  */

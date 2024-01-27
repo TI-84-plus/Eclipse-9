@@ -15,7 +15,7 @@
 #include "../../libs/FastNoiseLite.h"
 const float screenwidth = 1920.f;
 const float screenheight = 1080.f;
-class MenuMap
+class MapSelection
 {
 private:
     std::vector<Chunk> chunks;
@@ -38,7 +38,7 @@ public:
     bool IsMovingLeft = false;
 
     sf::View view = sf::View(sf::FloatRect(200.f, 200.f, screenwidth, screenheight));
-    MenuMap()
+    MapSelection()
     {
         view.setCenter(0, 0);
     }
@@ -80,7 +80,7 @@ public:
         x_counter++;
         if(x_counter == -(chunkSize/2) && y_counter == -(chunkSize/2))
         {
-            MenuMap();
+            MapSelection();
             chunks.clear();
         }
         if(x_counter == chunkSize/2)
@@ -89,7 +89,7 @@ public:
             y_counter++;
         }
         //each call to this chunk_gen function passes it a different seed
-        // std::cout<<"Seed: "<<menumap.seed1<<std::endl;
+        // std::cout<<"Seed: "<<mapselection.seed1<<std::endl;
         Chunk &chunk = chunks.emplace_back();
         chunk = ChunkGen(seed1, x_counter, y_counter);
         std::cout<<seed1<<std::endl;

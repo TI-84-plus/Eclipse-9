@@ -478,10 +478,10 @@ void ensureMapping()
         std::memcpy(name, descriptor->names->keys[keycode].name, XkbKeyNameLength);
         name[XkbKeyNameLength] = '\0';
 
-        std::map<std::string, sf::Keyboard::Scancode>::iterator mappedScancode = nameScancodemenumap.find(std::string(name));
+        std::map<std::string, sf::Keyboard::Scancode>::iterator mappedScancode = nameScancodemapselection.find(std::string(name));
         scancode = sf::Keyboard::Scan::Unknown;
 
-        if (mappedScancode != nameScancodemenumap.end())
+        if (mappedScancode != nameScancodemapselection.end())
             scancode = mappedScancode->second;
 
         if (scancode != sf::Keyboard::Scan::Unknown)

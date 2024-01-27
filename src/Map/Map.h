@@ -16,10 +16,10 @@ public:
 		return Player;
 	}
 
-	void GenerateMap() {
-	std::cout<<"Tes"<<std::endl;
-
-}
+	void GenerateMap() 
+	{
+		
+	}
 };
 
 #endif

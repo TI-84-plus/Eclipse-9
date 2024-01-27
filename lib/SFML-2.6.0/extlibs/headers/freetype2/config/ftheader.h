@@ -512,7 +512,7 @@
    *   API of the optional bitmap conversion component.
    *
    */
-#define FT_BITMAP_H  <ftbitmenumap.h>
+#define FT_BITMAP_H  <ftbitmapselection.h>
 
 
   /*************************************************************************

@@ -1,6 +1,6 @@
 /***************************************************************************/
 /*                                                                         */
-/*  ftbitmenumap.h                                                             */
+/*  ftbitmapselection.h                                                             */
 /*                                                                         */
 /*    FreeType utility functions for bitmaps (specification).              */
 /*                                                                         */
@@ -78,10 +78,10 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    library :: A handle to a library object.                           */
   /*                                                                       */
-  /*    source  :: A handle to the source bitmenumap.                          */
+  /*    source  :: A handle to the source bitmapselection.                          */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    target  :: A handle to the target bitmenumap.                          */
+  /*    target  :: A handle to the target bitmapselection.                          */
   /*                                                                       */
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
@@ -98,7 +98,7 @@ FT_BEGIN_HEADER
   /*    FT_Bitmap_Embolden                                                 */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Embolden a bitmenumap.  The new bitmap will be about `xStrength'       */
+  /*    Embolden a bitmapselection.  The new bitmap will be about `xStrength'       */
   /*    pixels wider and `yStrength' pixels higher.  The left and bottom   */
   /*    borders are kept unchanged.                                        */
   /*                                                                       */
@@ -112,7 +112,7 @@ FT_BEGIN_HEADER
   /*                 Expressed in 26.6 pixel format.                       */
   /*                                                                       */
   /* <InOut>                                                               */
-  /*    bitmap    :: A handle to the target bitmenumap.                        */
+  /*    bitmap    :: A handle to the target bitmapselection.                        */
   /*                                                                       */
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
@@ -147,13 +147,13 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    library   :: A handle to a library object.                         */
   /*                                                                       */
-  /*    source    :: The source bitmenumap.                                    */
+  /*    source    :: The source bitmapselection.                                    */
   /*                                                                       */
   /*    alignment :: The pitch of the bitmap is a multiple of this         */
   /*                 parameter.  Common values are 1, 2, or 4.             */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    target    :: The target bitmenumap.                                    */
+  /*    target    :: The target bitmapselection.                                    */
   /*                                                                       */
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */

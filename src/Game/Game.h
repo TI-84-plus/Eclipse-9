@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "MenuMap/MenuMap.h"
+#include "MapSelection/MapSelection.h"
 #include "Renderer/renderer.h"
 #include "Map/Map.h"
 #include "Test/Test.h"
@@ -15,11 +15,11 @@ private:
     //Game Runner
     bool IsRunning = true;
 public:
-    MenuMap menumap;
+    MapSelection mapselection;
 
     void Run() 
     {
-        menumap.MapGenerationRequested = true;
+        mapselection.MapGenerationRequested = true;
         while(IsRunning) 
         {
             Game::ProcessingInput();
@@ -53,14 +53,14 @@ public:
 
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
             {
-                menumap.MapGenerationRequested = true;
+                mapselection.MapGenerationRequested = true;
             }
 
             //Enter to select map
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter)
             {
-                menumap.selected = true;
-                menumap.isopen = false;
+                mapselection.selected = true;
+                mapselection.isopen = false;
             }
 
             if (event.type == sf::Event::Resized)
@@ -74,29 +74,29 @@ public:
     //Handle input
     void HandlePlayerInput(sf::Keyboard::Key key, bool isPressed)
     {
-        if(menumap.isopen == true)
+        if(mapselection.isopen == true)
         {
             //MenuMap Directions
             switch (key)
             {
                 case sf::Keyboard::W:
-                    menumap.IsMovingUp = isPressed;
+                    mapselection.IsMovingUp = isPressed;
                     break;
 
                 case sf::Keyboard::S:
-                    menumap.IsMovingDown = isPressed;
+                    mapselection.IsMovingDown = isPressed;
                     break;
 
                 case sf::Keyboard::A:
-                    menumap.IsMovingRight = isPressed;
+                    mapselection.IsMovingRight = isPressed;
                     break;
 
                 case sf::Keyboard::D:
-                    menumap.IsMovingLeft = isPressed;
+                    mapselection.IsMovingLeft = isPressed;
                     break;
                 
                 case sf::Keyboard::M:
-                    menumap.NoBoundry = isPressed;
+                    mapselection.NoBoundry = isPressed;
                     break;
                 default:
                     break;
@@ -116,56 +116,56 @@ public:
     void Update()
     {
         //Up
-        if(menumap.IsMovingUp)
+        if(mapselection.IsMovingUp)
         {
-            if(menumap.view.getCenter().y >= -((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && menumap.NoBoundry == true))
+            if(mapselection.view.getCenter().y >= -((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                menumap.view.move(0, -menumap.mov_speed);
+                mapselection.view.move(0, -mapselection.mov_speed);
             }
             
-            menumap.displayposition();
+            mapselection.displayposition();
         }
 
         //Down
-        if(menumap.IsMovingDown) 
+        if(mapselection.IsMovingDown) 
         {
-            if(menumap.view.getCenter().y <= ((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && menumap.NoBoundry == true))
+            if(mapselection.view.getCenter().y <= ((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                menumap.view.move(0, menumap.mov_speed);
+                mapselection.view.move(0, mapselection.mov_speed);
             }
             
-            menumap.displayposition();
+            mapselection.displayposition();
         }
 
         //Right
-        if(menumap.IsMovingRight) 
+        if(mapselection.IsMovingRight) 
         {
-            if(menumap.view.getCenter().x > -((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && menumap.NoBoundry == true))
+            if(mapselection.view.getCenter().x > -((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                menumap.view.move(-menumap.mov_speed, 0);
+                mapselection.view.move(-mapselection.mov_speed, 0);
             }
-            menumap.displayposition();
+            mapselection.displayposition();
         }
 
         //Left
-        if(menumap.IsMovingLeft)
+        if(mapselection.IsMovingLeft)
         {
-            if(menumap.view.getCenter().x < ((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && menumap.NoBoundry == true))
+            if(mapselection.view.getCenter().x < ((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                menumap.view.move(menumap.mov_speed, 0);
+                mapselection.view.move(mapselection.mov_speed, 0);
             }
-            menumap.displayposition();
+            mapselection.displayposition();
         }
 
         // Map generation
-        if (menumap.MapGenerationRequested) {
-            chunks = menumap.WorldGen();
+        if (mapselection.MapGenerationRequested) {
+            chunks = mapselection.WorldGen();
         }
 
-        if(menumap.selected)
+        if(mapselection.selected)
         {
-            //Map GameMap(menumap.seed1);
-            menumap.selected = false;
+            //Map GameMap(mapselection.seed1);
+            mapselection.selected = false;
         }
     } 
 
@@ -173,7 +173,7 @@ public:
     void Render()
     {
         render.windows.clear();
-        render.windows.setView(menumap.view);
+        render.windows.setView(mapselection.view);
         for(Chunk const &chunk : chunks) 
         {
             render.windows.draw(chunk.sprite);
