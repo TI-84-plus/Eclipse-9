@@ -3,7 +3,7 @@
 
 #include "MapSelection/MapSelection.h"
 #include "Renderer/renderer.h"
-#include "Map/Map.h"
+#include "InGame/Map.h"
 #include "Test/Test.h"
 
 class Game

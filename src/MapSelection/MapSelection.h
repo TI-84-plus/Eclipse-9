@@ -26,7 +26,7 @@ public:
     int seed1;
     bool NoBoundry = false;
     int mov_speed = 16;
-    int MMScale = 4.f;
+    int MSScale = 1.f;
     bool MapGenerationRequested = false;
     bool selected = false;
     bool isopen = true;
@@ -37,7 +37,7 @@ public:
     bool IsMovingRight = false;
     bool IsMovingLeft = false;
 
-    sf::View view = sf::View(sf::FloatRect(200.f, 200.f, screenwidth, screenheight));
+    sf::View view = sf::View(sf::FloatRect(500.f, 500.f, screenwidth, screenheight));
     MapSelection()
     {
         view.setCenter(0, 0);
@@ -68,7 +68,7 @@ public:
         noise.SetSeed(seed);
         noise.SetNoiseType(type);
         noise.SetFractalLacunarity(3.0f);
-        noise.SetFractalGain(0.4f);
+        noise.SetFractalGain(0.5f);
         noise.SetFrequency(freq);
         noise.SetFractalOctaves(oct);
         noise.SetFractalType(noise.FractalType_FBm);
@@ -92,10 +92,11 @@ public:
         // std::cout<<"Seed: "<<mapselection.seed1<<std::endl;
         Chunk &chunk = chunks.emplace_back();
         chunk = ChunkGen(seed1, x_counter, y_counter);
-        std::cout<<seed1<<std::endl;
+        // std::cout<<seed1<<std::endl;
         if(x_counter == (chunkSize/2)-1 && y_counter == (chunkSize/2)-1)
         {
             MapGenerationRequested = false;
+            seedGen();
             x_counter = ((-chunkSize/2)-1);
             y_counter = (-chunkSize/2);
         }
@@ -104,17 +105,16 @@ public:
 
     Chunk ChunkGen(int seed, float chunk_x, float chunk_y)
     {   
-        std::cout<<seed<<std::endl;
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
         int seed4 = modifyseed(seed3);
         int seed5 = modifyseed(seed4);
         //NoiseMaps
-        FastNoiseLite Layout1 = noiseparams(1, 0.0001, FastNoiseLite::NoiseType::NoiseType_Perlin, seed1);   //Layouts
-        FastNoiseLite Layout2= noiseparams(2, 0.01, FastNoiseLite::NoiseType::NoiseType_Perlin, seed2);
-        FastNoiseLite Layout3= noiseparams(3, 0.03, FastNoiseLite::NoiseType::NoiseType_Perlin, seed3);
-        FastNoiseLite Layout4= noiseparams(4, 0.003, FastNoiseLite::NoiseType::NoiseType_Perlin, seed4);
-        FastNoiseLite Layout5= noiseparams(5, 0.01, FastNoiseLite::NoiseType::NoiseType_Perlin, seed5);
+        FastNoiseLite Layout1= noiseparams(4, 0.001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed1);   //Layouts
+        FastNoiseLite Layout2= noiseparams(4, 0.002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
+        FastNoiseLite Layout3= noiseparams(4, 0.004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
+        FastNoiseLite Layout4= noiseparams(4, 0.008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
+        FastNoiseLite Layout5= noiseparams(4, 0.0016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
         Chunk chunk;
         // pixel_Y
         for (int y = -screen_height / 2; y < screen_height / 2; ++y)
@@ -159,11 +159,47 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {159};
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+                    else if(Layout < 180)
+                    {
+                        chunk.pixels[CurrentPixelIndex2] = {74}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {150}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {255};
+                    }
+                    else if(Layout < 250) 
+                    {
+                        chunk.pixels[CurrentPixelIndex2] = {36}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {98}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {255};
+                    }
+                    else if(Layout < 285) 
+                    {
+                        chunk.pixels[CurrentPixelIndex2] = {99}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {70}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {52}; //200
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {255};
+                    }
+                    else if(Layout < 300) 
+                    {
+                        chunk.pixels[CurrentPixelIndex2] = {76}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {48}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {27}; //200
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {255};
+                    }
+                    else if(Layout < 320)
+                    {
+                        chunk.pixels[CurrentPixelIndex2] = {211}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {211}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {211}; //200
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {211};
+                    }
                     else
                     {
-                        chunk.pixels[CurrentPixelIndex2] = {28}; //55
-                        chunk.pixels[CurrentPixelIndex2 + 1] = {100}; //102
-                        chunk.pixels[CurrentPixelIndex2 + 2] = {0}; //200
+
+                        chunk.pixels[CurrentPixelIndex2] = {255}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {255}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {255}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
                 }
@@ -171,10 +207,10 @@ public:
         }
         chunk.chunk_position.x = chunk_x;
         chunk.chunk_position.y = chunk_y;
-        chunk.sprite.setPosition(screen_width * (chunk_x) * MMScale, screen_height * (chunk_y) * MMScale);
+        chunk.sprite.setPosition(screen_width * (chunk_x) * MSScale, screen_height * (chunk_y) * MSScale);
         chunk.sprite.setTexture(*chunk.texture);
         chunk.texture->update(chunk.pixels.data());
-        chunk.sprite.setScale(MMScale, MMScale);
+        chunk.sprite.setScale(MSScale, MSScale);
         return chunk;
     }
 };
