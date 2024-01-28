@@ -159,7 +159,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {159};
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
-                    else if(Layout < 180)
+                    else if(Layout < 190)
                     {
                         chunk.pixels[CurrentPixelIndex2] = {74}; //55
                         chunk.pixels[CurrentPixelIndex2 + 1] = {150}; //102
