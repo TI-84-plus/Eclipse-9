@@ -133,7 +133,7 @@ public:
                 int unsigned_y = y + ((screen_width / 2));
                 int unsigned_x = x + ((screen_height / 2));
                 int CurrentPixelIndex2 = ((unsigned_y * screen_width) + unsigned_x) * 4;
-                //Medium level water
+                //Deep level water
                 if (Layout < 100)
                 {
                     chunk.pixels[CurrentPixelIndex2] = {13}; //55
@@ -142,7 +142,7 @@ public:
                     chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                 }
                 // Shallow water
-                else if (Layout < 120)
+                else if (Layout < 120  )
                 {
                     chunk.pixels[CurrentPixelIndex2] = {65}; //55
                     chunk.pixels[CurrentPixelIndex2 + 1] = {105}; //102 
