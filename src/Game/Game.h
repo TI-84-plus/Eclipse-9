@@ -8,15 +8,13 @@
 #include <iostream>
 #include <stack>
 #include <memory>
-#include <vector>
 
-renderer render;
 
 class MapSelectionState;
 class Game
 {
 private:
-    std::vector<Chunk> chunks;
+    renderer render;
     StateManager manager;
     //Game Runner
     bool IsRunning = true;
@@ -90,11 +88,12 @@ public:
         //     //Map GameMap(mapselection.seed1);
         //     mapselection.selected = false;
         // }
-    } 
+    }
 
     //Render
     void Render()
     {
+        manager.States.top()->Render(render);
     }
 };
 #endif

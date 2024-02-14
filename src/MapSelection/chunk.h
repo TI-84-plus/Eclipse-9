@@ -25,7 +25,6 @@ class Chunk
         sf::Sprite sprite;
         std::vector<uint8_t> pixels;
         sf::Vector2f chunk_position;  //Cordinate of each chunk.
-        sf::Vector2i player_pos;       //Cordinate of the chunk the player is currently in.
 
         Chunk()
         {
@@ -35,13 +34,6 @@ class Chunk
             texture = std::make_unique<sf::Texture>();
             texture->create(screen_width, screen_height);
             pixels.resize(screen_height * screen_width * pixel_channel);
-        }
-        //Retrivies the chunk cordinates that player is currently in.
-        sf::Vector2i getPlayer_Chunkpos(sf::Vector2i player_pos)
-        {
-            int pos_chunkX = player_pos.x / screen_width;
-            int pos_chunkY = player_pos.y / screen_height;
-            return sf::Vector2i(pos_chunkX, pos_chunkY);
         }
 };
 #endif

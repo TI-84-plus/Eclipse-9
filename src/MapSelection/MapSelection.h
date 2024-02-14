@@ -9,6 +9,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <cstdlib>
+#include <iterator>
 #include <random>
 #include <memory>
 #include "chunk.h"
@@ -37,12 +38,6 @@ public:
     bool IsMovingRight = false;
     bool IsMovingLeft = false;
 
-    sf::View view = sf::View(sf::FloatRect(500.f, 500.f, screenwidth, screenheight));
-    MapSelection()
-    {
-        view.setCenter(0, 0);
-    }
-
     void seedGen()
     {
         std::random_device rd;
@@ -51,10 +46,6 @@ public:
         std::cout<<"Constructor called, value is: "<<seed1<<std::endl;
     }
 
-    void displayposition() 
-    {
-        // std::cout<<"X:"<<view.getCenter().x<<"  Y:"<<view.getCenter().y<<std::endl;
-    }
 
     int modifyseed(int &seed)
     {
@@ -105,6 +96,7 @@ public:
 
     Chunk ChunkGen(int seed, float chunk_x, float chunk_y)
     {   
+        std::cout<<"ChunkGen Called"<<std::endl;
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
         int seed4 = modifyseed(seed3);

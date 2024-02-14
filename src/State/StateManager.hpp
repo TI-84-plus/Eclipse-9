@@ -12,7 +12,7 @@ public:
     std::stack<std::unique_ptr<State>> States;
     template <std::derived_from<State> T>
     void CreateState(){
-        States.emplace(std::make_unique<T>());
+    States.emplace(std::make_unique<T>());
 }
 };
 

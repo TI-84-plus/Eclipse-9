@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Keyboard.hpp"
 #include "State/State.hpp"
@@ -16,14 +17,18 @@
 #include "Test/Test.h"
 #include "Renderer/renderer.h"
 
-class Game;
-class MapSelectionState : public State 
+class game;
+class MapSelectionState: public State 
 {
     private:
-        extern renderer render;
-    	MapSelection mapselection;
-        std::vector<Chunk> chunks = mapselection.WorldGen();
+        MapSelection mapselection;
+        std::vector<Chunk> chunks;
     public:
+        MapSelectionState() {
+            chunks = mapselection.WorldGen();
+            view = sf::View(sf::FloatRect(500.f, 500.f, screenwidth, screenheight));
+        };
+
     //Initialize resources
     void Enter() 
     {
@@ -87,53 +92,45 @@ class MapSelectionState : public State
          //Up
         if(mapselection.IsMovingUp)
         {
-            if(mapselection.view.getCenter().y >= -((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
+            if(view.getCenter().y >= -((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                mapselection.view.move(0, -mapselection.mov_speed);
+               view.move(0, -mapselection.mov_speed);
             }
-            
-            mapselection.displayposition();
         }
 
         //Down
         if(mapselection.IsMovingDown) 
         {
-            if(mapselection.view.getCenter().y <= ((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
+            if(view.getCenter().y <= ((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                mapselection.view.move(0, mapselection.mov_speed);
+                view.move(0, mapselection.mov_speed);
             }
-
-            mapselection.displayposition();
         }
 
         //Right
         if(mapselection.IsMovingRight) 
         {
-            if(mapselection.view.getCenter().x >= -((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
+            if(view.getCenter().x >= -((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                mapselection.view.move(-mapselection.mov_speed, 0);
+                view.move(-mapselection.mov_speed, 0);
             }
-
-            mapselection.displayposition();
         }
 
         //Left
         if(mapselection.IsMovingLeft)
         {
-            if(mapselection.view.getCenter().x <= ((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
+            if(view.getCenter().x <= ((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
             {
-                mapselection.view.move(mapselection.mov_speed, 0);
+                view.move(mapselection.mov_speed, 0);
             }
-
-            mapselection.displayposition();
         }
     }
 
 
-    void Render()
+    void Render(renderer &render)
     {
         render.windows.clear();
-        // render.windows.setView(mapselection.view);
+        render.windows.setView(view);
         for(Chunk const &chunk : chunks)
         {
             render.windows.draw(chunk.sprite);
