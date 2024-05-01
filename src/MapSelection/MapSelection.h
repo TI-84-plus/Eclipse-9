@@ -8,10 +8,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
-#include <cstdlib>
-#include <iterator>
 #include <random>
-#include <memory>
 #include "chunk.h"
 #include "../../libs/FastNoiseLite.h"
 const float screenwidth = 1920.f;
@@ -83,6 +80,7 @@ public:
         // std::cout<<"Seed: "<<mapselection.seed1<<std::endl;
         Chunk &chunk = chunks.emplace_back();
         chunk = ChunkGen(seed1, x_counter, y_counter);
+        std::cout<<"WorldGen "<<unsigned(chunk.pixels[0])<<std::endl;
         // std::cout<<seed1<<std::endl;
         if(x_counter == (chunkSize/2)-1 && y_counter == (chunkSize/2)-1)
         {
@@ -96,7 +94,6 @@ public:
 
     Chunk ChunkGen(int seed, float chunk_x, float chunk_y)
     {   
-        std::cout<<"ChunkGen Called"<<std::endl;
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
         int seed4 = modifyseed(seed3);

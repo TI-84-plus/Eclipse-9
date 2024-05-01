@@ -1,8 +1,11 @@
 #ifndef MAPSELECTIONSTATE_H
 #define MAPSELECTIONSTATE_H
 
-#include <cstdio>
+#include <cctype>
+#include <cstdint>
 #include <iostream>
+#include "MapSelection/chunk.h"
+#include "SFML/Graphics/Color.hpp"
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Keyboard.hpp"
@@ -22,10 +25,11 @@ class MapSelectionState: public State
 {
     private:
         MapSelection mapselection;
-        std::vector<Chunk> chunks;
     public:
+        std::vector<Chunk> chunks;
         MapSelectionState() {
             chunks = mapselection.WorldGen();
+            std::cout<<"Constructor "<<unsigned(chunks[0].pixels[0])<<std::endl;
             view = sf::View(sf::FloatRect(500.f, 500.f, screenwidth, screenheight));
         };
 
@@ -129,10 +133,12 @@ class MapSelectionState: public State
 
     void Render(renderer &render)
     {
-        render.windows.clear();
+        render.windows.clear(sf::Color::Red);
         render.windows.setView(view);
         for(Chunk const &chunk : chunks)
         {
+            std::cout<<"Render "<<unsigned(chunks[0].pixels[0]);
+            //std::cout<<"Chunk added"<<std::endl;
             render.windows.draw(chunk.sprite);
         }
         render.windows.display();

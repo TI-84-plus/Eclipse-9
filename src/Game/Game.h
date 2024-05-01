@@ -9,7 +9,6 @@
 #include <stack>
 #include <memory>
 
-
 class MapSelectionState;
 class Game
 {

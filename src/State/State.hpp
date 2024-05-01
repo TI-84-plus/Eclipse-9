@@ -4,6 +4,7 @@
 #include "Renderer/renderer.h"
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"
+#include "State/StateManager.hpp"
 #include <iostream>
 
 class State
@@ -21,5 +22,6 @@ public:
 
     virtual void Render(renderer &render) = 0;
 };
+
 
 #endif

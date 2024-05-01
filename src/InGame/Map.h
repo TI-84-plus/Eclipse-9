@@ -2,7 +2,6 @@
 #define MAP_H
 
 #include "Player/player.h"
-#include <iostream>
 
 class Map
 {
