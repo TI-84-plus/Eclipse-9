@@ -13,7 +13,7 @@
 #include <cstdint>
 
 const int chunkSize = 16;
-const int screen = 128;
+const int screen = 64;
 const int screen_width = screen;
 const int screen_height = screen;
 const int pixel_channel = 4;

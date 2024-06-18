@@ -24,7 +24,7 @@ public:
     int seed1;
     bool NoBoundry = false;
     int mov_speed = 16;
-    int MSScale = 1.f;
+    int MSScale = 2.f;
     bool MapGenerationRequested = false;
     bool selected = false;
     bool isopen = true;
@@ -63,34 +63,34 @@ public:
         return noise;
     };
 
+    //Try Nested for loops
+
     std::vector<Chunk> WorldGen()
     {
-        x_counter++;
-        if(x_counter == -(chunkSize/2) && y_counter == -(chunkSize/2))
+        while (x_counter != (chunkSize/2) || y_counter != (chunkSize/2))
         {
-            MapSelection();
-            chunks.clear();
+            x_counter++;
+            
+            if(x_counter == ((chunkSize/2)))
+            {
+                x_counter = -(chunkSize/2);
+                y_counter++;
+                if(y_counter == ((chunkSize/2)))
+                {
+                    MapGenerationRequested = false;
+                    seedGen();
+                    x_counter = ((-chunkSize/2)-1);
+                    y_counter = -(chunkSize/2);
+                    break;
+                }
+            }
+            Chunk &chunk = chunks.emplace_back();
+            chunk = ChunkGen(seed1, x_counter, y_counter);
         }
-        if(x_counter == chunkSize/2)
-        {
-            x_counter = -chunkSize/2;
-            y_counter++;
-        }
-        //each call to this chunk_gen function passes it a different seed
-        // std::cout<<"Seed: "<<mapselection.seed1<<std::endl;
-        Chunk &chunk = chunks.emplace_back();
-        chunk = ChunkGen(seed1, x_counter, y_counter);
-        std::cout<<"WorldGen "<<unsigned(chunk.pixels[0])<<std::endl;
-        // std::cout<<seed1<<std::endl;
-        if(x_counter == (chunkSize/2)-1 && y_counter == (chunkSize/2)-1)
-        {
-            MapGenerationRequested = false;
-            seedGen();
-            x_counter = ((-chunkSize/2)-1);
-            y_counter = (-chunkSize/2);
-        }
+        std::cout<<"Chunk returned"<<std::endl;
         return chunks;
     }
+
 
     Chunk ChunkGen(int seed, float chunk_x, float chunk_y)
     {   

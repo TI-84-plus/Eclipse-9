@@ -57,36 +57,13 @@ public:
               default:
                     manager.States.top()->handleInput(event);
             }
-
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
-            {
-                // mapselection.MapGenerationRequested = true;
-            }
-
-            //Enter to select map
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter)
-            {
-                // mapselection.selected = true;
-                // mapselection.isopen = false;
-            }
-
         }
     }
 
     //Update
     void Update()
     {
-
-        // // Map generation
-        // if (mapselection.MapGenerationRequested) {
-        //     chunks = mapselection.WorldGen();
-        // }
-
-        // if(mapselection.selected)
-        // {
-        //     //Map GameMap(mapselection.seed1);
-        //     mapselection.selected = false;
-        // }
+        manager.States.top()->Update();
     }
 
     //Render

@@ -1,6 +1,7 @@
 #ifndef MAPSELECTIONSTATE_H
 #define MAPSELECTIONSTATE_H
 
+#include <algorithm>
 #include <cctype>
 #include <cstdint>
 #include <iostream>
@@ -17,6 +18,7 @@
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <ostream>
 #include "Test/Test.h"
 #include "Renderer/renderer.h"
 
@@ -29,8 +31,8 @@ class MapSelectionState: public State
         std::vector<Chunk> chunks;
         MapSelectionState() {
             chunks = mapselection.WorldGen();
-            std::cout<<"Constructor "<<unsigned(chunks[0].pixels[0])<<std::endl;
-            view = sf::View(sf::FloatRect(500.f, 500.f, screenwidth, screenheight));
+            view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
+            view.setCenter(0,0);
         };
 
     //Initialize resources
@@ -68,11 +70,11 @@ class MapSelectionState: public State
                 break;
 
             case sf::Keyboard::Enter:
-
+                    mapselection.selected = isPressed;
                 break;
 
             case sf::Keyboard::Space:
-                    
+                    mapselection.MapGenerationRequested = isPressed;
             default:
                 break;
         }
@@ -82,11 +84,11 @@ class MapSelectionState: public State
     {
         switch (key.type) {
             case key.KeyReleased:
-                processInput(key, true);
+                processInput(key, false);
                 break;
 
             case key.KeyPressed:
-                processInput(key, false);
+                processInput(key, true);
                 break;
         };
     }
@@ -96,49 +98,57 @@ class MapSelectionState: public State
          //Up
         if(mapselection.IsMovingUp)
         {
-            if(view.getCenter().y >= -((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
-            {
-               view.move(0, -mapselection.mov_speed);
-            }
+            float y = view.getCenter().x;
+            y = std::clamp(y, -128.0f, 128.0f);
+            view.setCenter(view.getCenter().x, y);
+            std::cout<<view.getCenter().y<<std::endl;
+            view.move(0, -mapselection.mov_speed);
         }
 
         //Down
         if(mapselection.IsMovingDown) 
         {
-            if(view.getCenter().y <= ((chunkSize*screen_height)/2)/2.2 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
-            {
-                view.move(0, mapselection.mov_speed);
-            }
+            float y = view.getCenter().x;
+            y = std::clamp(y, -128.0f, 128.0f);
+            view.setCenter(view.getCenter().x, y);
+            std::cout<<view.getCenter().y<<std::endl;
+            view.move(0, mapselection.mov_speed);
         }
 
         //Right
         if(mapselection.IsMovingRight) 
         {
-            if(view.getCenter().x >= -((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
-            {
-                view.move(-mapselection.mov_speed, 0);
-            }
+            float x = view.getCenter().x;
+            x = std::clamp(x, -32.0f, 32.0f);
+            view.setCenter(x, view.getCenter().y);
+            view.move(-mapselection.mov_speed, 0);
+            std::cout<<view.getCenter().x<<std::endl;
         }
 
         //Left
         if(mapselection.IsMovingLeft)
         {
-            if(view.getCenter().x <= ((chunkSize*screen_width)/2)/16 || (Test::MMLimiter == true && mapselection.NoBoundry == true))
-            {
-                view.move(mapselection.mov_speed, 0);
-            }
+            float x = view.getCenter().x;
+            x = std::clamp(x, -32.0f, 32.0f);
+            view.setCenter(x, view.getCenter().y);
+            view.move(mapselection.mov_speed, 0);
+            std::cout<<view.getCenter().x<<std::endl;
+        }
+
+        //regenerate map
+        if(mapselection.MapGenerationRequested) {
+            chunks = mapselection.WorldGen();
+            mapselection.MapGenerationRequested = false;
         }
     }
 
 
     void Render(renderer &render)
     {
-        render.windows.clear(sf::Color::Red);
+        render.windows.clear();
         render.windows.setView(view);
-        for(Chunk const &chunk : chunks)
+        for(const Chunk& chunk : chunks)
         {
-            std::cout<<"Render "<<unsigned(chunks[0].pixels[0]);
-            //std::cout<<"Chunk added"<<std::endl;
             render.windows.draw(chunk.sprite);
         }
         render.windows.display();
