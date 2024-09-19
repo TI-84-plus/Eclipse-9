@@ -3,6 +3,8 @@
 
 #include "Renderer/renderer.h"
 #include "MapSelection/MapSelectionState.h"
+#include "SFML/Graphics/PrimitiveType.hpp"
+#include "SFML/Graphics/VertexArray.hpp"
 #include "State/State.hpp"
 #include "State/StateManager.hpp"
 #include <iostream>
@@ -13,11 +15,11 @@ class MapSelectionState;
 class Game
 {
 private:
-    renderer render;
-    StateManager manager;
+    renderer render; 
     //Game Runner
     bool IsRunning = true;
 public:
+    StateManager manager;
 
     Game() 
     {
@@ -64,6 +66,7 @@ public:
     void Update()
     {
         manager.States.top()->Update();
+        sf::VertexArray(sf::Lines, 2);
     }
 
     //Render

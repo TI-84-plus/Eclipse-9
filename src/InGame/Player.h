@@ -8,7 +8,7 @@
 #include <SFML/System.hpp>  
 #include <SFML/Window.hpp>
 
-class player
+class Player
 {
     private:
         enum dir {Moving_up = 0, Moving_Down = 0, Move_Right = 0, Move_Left = 0};

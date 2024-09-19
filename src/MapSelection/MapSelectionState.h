@@ -19,6 +19,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <ostream>
+#include "State/StateManager.hpp"
 #include "Test/Test.h"
 #include "Renderer/renderer.h"
 
@@ -139,6 +140,11 @@ class MapSelectionState: public State
         if(mapselection.MapGenerationRequested) {
             chunks = mapselection.WorldGen();
             mapselection.MapGenerationRequested = false;
+        }
+        
+        if(mapselection.selected) 
+        {
+            
         }
     }
 
