@@ -5,7 +5,7 @@
 #include "MapSelection/MapSelectionState.h"
 #include "SFML/Graphics/PrimitiveType.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
-#include "State/State.hpp"
+#include "State/GameState.hpp"
 #include "State/StateManager.hpp"
 #include <iostream>
 #include <stack>
@@ -18,12 +18,13 @@ private:
     renderer render; 
     //Game Runner
     bool IsRunning = true;
-public:
     StateManager manager;
+public:
 
     Game() 
     {
-        manager.CreateState<MapSelectionState>();
+        manager.AddState(std::make_unique<MapSelectionState>(), true);
+        std::cout<<"State added"
     }
 
     void Run()
@@ -57,7 +58,7 @@ public:
                     break;}
 
               default:
-                    manager.States.top()->handleInput(event);
+                    manager.GetActiveState()->HandleInput(&manager, event);
             }
         }
     }
@@ -65,14 +66,14 @@ public:
     //Update
     void Update()
     {
-        manager.States.top()->Update();
+        // manager.States.top()->Update();
         sf::VertexArray(sf::Lines, 2);
     }
 
     //Render
     void Render()
     {
-        manager.States.top()->Render(render);
+        // manager.States.top()->Render(render);
     }
 };
 #endif

@@ -10,7 +10,7 @@
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Keyboard.hpp"
-#include "State/State.hpp"
+#include "State/GameState.hpp"
 #include "MapSelection/MapSelection.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -24,7 +24,7 @@
 #include "Renderer/renderer.h"
 
 class game;
-class MapSelectionState: public State 
+class MapSelectionState: public GameState 
 {
     private:
         MapSelection mapselection;
@@ -37,64 +37,57 @@ class MapSelectionState: public State
         };
 
     //Initialize resources
-    void Enter() 
+    void Init() 
     {
         
     }
 
-    void Exit(){}
-
-    void processInput(sf::Event event, bool isPressed) 
+    void Cleanup(){}
+    
+    bool isPressed(sf::Event event)
     {
-        //MenuMap Directions
+        return event.type == event.KeyPressed;
+    }
+
+    void HandleInput(StateManager* m_manager, sf::Event event) 
+    {
         switch (event.key.code)
         {
             case sf::Keyboard::W:
-                mapselection.IsMovingUp = isPressed;
+                mapselection.IsMovingUp = isPressed(event);
                 std::cout<<"State called"<<std::endl;
                 break;
                 
             case sf::Keyboard::S:
-               mapselection.IsMovingDown = isPressed;
+               mapselection.IsMovingDown = isPressed(event);
                 break;
 
             case sf::Keyboard::A:
-                mapselection.IsMovingRight = isPressed;
+                mapselection.IsMovingRight = isPressed(event);
                 break;
 
             case sf::Keyboard::D:
-                mapselection.IsMovingLeft = isPressed;
+                mapselection.IsMovingLeft = isPressed(event);
                 break;
             
             case sf::Keyboard::M:
-                mapselection.NoBoundry = isPressed;
+                mapselection.NoBoundry = isPressed(event);
                 break;
 
             case sf::Keyboard::Enter:
-                    mapselection.selected = isPressed;
+                    mapselection.selected = isPressed(event);
                 break;
 
             case sf::Keyboard::Space:
-                    mapselection.MapGenerationRequested = isPressed;
+                    mapselection.MapGenerationRequested = isPressed(event);
+                break;
+            
             default:
                 break;
         }
     }
-
-    void handleInput(sf::Event key) 
-    {
-        switch (key.type) {
-            case key.KeyReleased:
-                processInput(key, false);
-                break;
-
-            case key.KeyPressed:
-                processInput(key, true);
-                break;
-        };
-    }
     
-    void Update() {
+    void Update(StateManager* m_manager) {
         
          //Up
         if(mapselection.IsMovingUp)
@@ -148,16 +141,19 @@ class MapSelectionState: public State
         }
     }
 
+    void Pause() {};
+    void Resume() {};
 
-    void Render(renderer &render)
+
+    void Draw(StateManager* m_manager)
     {
-        render.windows.clear();
-        render.windows.setView(view);
-        for(const Chunk& chunk : chunks)
-        {
-            render.windows.draw(chunk.sprite);
-        }
-        render.windows.display();
+        // render.windows.clear();
+        // render.windows.setView(view);
+        // for(const Chunk& chunk : chunks)
+        // {
+        //     render.windows.draw(chunk.sprite);
+        // }
+        // render.windows.display();
     }
 };
 

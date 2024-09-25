@@ -41,7 +41,6 @@ class TileMap : sf::Drawable
 				AddVertices(tile, sf::Vector2f((float)x, (float)y));
 			}
 		}
-
 	}
 
 	void AddVertices(Tile tile, sf::Vector2f position) 
@@ -59,9 +58,6 @@ class TileMap : sf::Drawable
 					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y + tileTextureDimension)));	//0, 1
 					
 	}
-	
-
-
 
 	void draw (sf::RenderTarget &target, sf::RenderStates states) const override
 	{
