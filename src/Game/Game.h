@@ -4,6 +4,7 @@
 #include "Renderer/renderer.h"
 #include "MapSelection/MapSelectionState.h"
 #include "SFML/Graphics/PrimitiveType.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
@@ -15,7 +16,8 @@ class MapSelectionState;
 class Game
 {
 private:
-    renderer render; 
+    sf::RenderWindow render = sf::RenderWindow(sf::VideoMode(screenwidth, screenheight), "Procedural generation");
+    
     //Game Runner
     bool IsRunning = true;
     StateManager manager;
@@ -23,8 +25,9 @@ public:
 
     Game() 
     {
+        render.setVerticalSyncEnabled(true);
         manager.AddState(std::make_unique<MapSelectionState>(), true);
-        std::cout<<"State added"
+        manager.ProcessStateChanges();
     }
 
     void Run()
@@ -43,21 +46,21 @@ public:
     void ProcessingInput()
     {
         sf::Event event;
-        while (render.windows.pollEvent(event))
+        while (render.pollEvent(event))
         {
             switch (event.type)
             {
                 case sf::Event::Closed:
                     IsRunning = false;
-                    render.windows.close();
+                    render.close();
                     break;
 
                 case sf::Event::Resized:
                     {sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
-                    render.windows.setView(sf::View(visibleArea));
+                    render.setView(sf::View(visibleArea));
                     break;}
 
-              default:
+                default:
                     manager.GetActiveState()->HandleInput(&manager, event);
             }
         }
@@ -66,14 +69,13 @@ public:
     //Update
     void Update()
     {
-        // manager.States.top()->Update();
-        sf::VertexArray(sf::Lines, 2);
+        manager.GetActiveState()->Update(&manager);
     }
 
     //Render
     void Render()
     {
-        // manager.States.top()->Render(render);
-    }
+        manager.GetActiveState()->Draw(&manager, render);
+    };
 };
 #endif

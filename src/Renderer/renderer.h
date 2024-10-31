@@ -13,11 +13,6 @@ class renderer
 {
     public:
         sf::RenderWindow windows = sf::RenderWindow(sf::VideoMode(screenwidth, screenheight), "Procedural generation");
-
-        renderer()
-        {
-            windows.setVerticalSyncEnabled(true);
-        }
 };
 
 #endif

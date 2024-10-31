@@ -30,7 +30,8 @@ class TileMap : sf::Drawable
 		this->tileTextureDimension = tileTextureDimension;
 		this->tileWorldDimension = tileWorldDimension;
 
-		vertexArray {sf::Quads, (width * height) * 4};
+		vertexArray.resize((width * height) * 4);
+		vertexArray.setPrimitiveType(sf::Quads);
 		
 		Tile tile(0, 1);
 
@@ -61,6 +62,6 @@ class TileMap : sf::Drawable
 
 	void draw (sf::RenderTarget &target, sf::RenderStates states) const override
 	{
-
+		
 	};
 };

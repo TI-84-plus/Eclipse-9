@@ -20,20 +20,20 @@ public:
         this->IsAdding = true;
         this->isReplacing = isReplacing;
 
-        this->newState = std::move(newState);
+        this->_newState = std::move(newState);
     };
     void RemoveState() {
         this->IsRemoving = true;
     };
 
     void ProcessStateChanges(){
-        if(this->IsRemoving && !this->states.empty() )
+        if(this->IsRemoving && !this->_states.empty() )
         {
-            this->states.pop();
+            this->_states.pop();
             
-            if ( !this-> states.empty() )
+            if ( !this->_states.empty() )
             {
-                this->states.top()->Resume();
+                this->_states.top()->Resume();
             }
 
             this->IsRemoving = false;
@@ -41,30 +41,30 @@ public:
 
         if ( this->IsAdding) 
         {
-            if( !this->states.empty()) {
+            if( !this->_states.empty()) {
 
                 if( this->isReplacing ) {
 
-                    this->states.pop();
+                    this->_states.pop();
                 }
                 else {
-                    this->states.top()->Pause();
+                    this->_states.top()->Pause();
                 }
             }
-            this->states.push( std::move(this->newState));
-            this->states.top()->Init( );
+            this->_states.push( std::move(this->_newState));
+            this->_states.top()->Init();
             this->IsAdding = false;
         }
     };
 
     Stateref &GetActiveState() {
-        return this->states.top();
+        return this->_states.top();
     };
 
     
 private:
-    std::stack<Stateref> states;
-    Stateref newState;
+    std::stack<Stateref> _states;
+    Stateref _newState;
 
     bool IsRemoving;
     bool IsAdding;

@@ -5,8 +5,10 @@
 #include <cctype>
 #include <cstdint>
 #include <iostream>
+#include "InGame/InGameState.h"
 #include "MapSelection/chunk.h"
 #include "SFML/Graphics/Color.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Keyboard.hpp"
@@ -18,6 +20,7 @@
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <memory>
 #include <ostream>
 #include "State/StateManager.hpp"
 #include "Test/Test.h"
@@ -37,17 +40,17 @@ class MapSelectionState: public GameState
         };
 
     //Initialize resources
-    void Init() 
-    {
-        
-    }
+    void Init(){}
 
     void Cleanup(){}
     
+
+
     bool isPressed(sf::Event event)
     {
         return event.type == event.KeyPressed;
     }
+
 
     void HandleInput(StateManager* m_manager, sf::Event event) 
     {
@@ -55,7 +58,7 @@ class MapSelectionState: public GameState
         {
             case sf::Keyboard::W:
                 mapselection.IsMovingUp = isPressed(event);
-                std::cout<<"State called"<<std::endl;
+                std::cout<<isPressed(event)<<std::endl;
                 break;
                 
             case sf::Keyboard::S:
@@ -90,6 +93,7 @@ class MapSelectionState: public GameState
     void Update(StateManager* m_manager) {
         
          //Up
+        
         if(mapselection.IsMovingUp)
         {
             float y = view.getCenter().x;
@@ -97,6 +101,7 @@ class MapSelectionState: public GameState
             view.setCenter(view.getCenter().x, y);
             std::cout<<view.getCenter().y<<std::endl;
             view.move(0, -mapselection.mov_speed);
+            std::cout<<"State called"<<std::endl;
         }
 
         //Down
@@ -137,7 +142,8 @@ class MapSelectionState: public GameState
         
         if(mapselection.selected) 
         {
-            
+            m_manager->AddState(std::make_unique<InGameState>(), false);
+            m_manager->ProcessStateChanges();
         }
     }
 
@@ -145,15 +151,15 @@ class MapSelectionState: public GameState
     void Resume() {};
 
 
-    void Draw(StateManager* m_manager)
+    void Draw(StateManager* m_manager, sf::RenderWindow& renderer)
     {
-        // render.windows.clear();
-        // render.windows.setView(view);
-        // for(const Chunk& chunk : chunks)
-        // {
-        //     render.windows.draw(chunk.sprite);
-        // }
-        // render.windows.display();
+        renderer.clear();
+        renderer.setView(view);
+        for(const Chunk& chunk : chunks)
+        {
+            renderer.draw(chunk.sprite);
+        }
+        renderer.display();
     }
 };
 
