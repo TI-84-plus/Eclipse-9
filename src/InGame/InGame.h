@@ -1,6 +1,6 @@
 #ifndef INGAME_H
 #define INGAME_H
-#include "Map.h"
+#include <InGame/Map.h>
 
 class InGame 
 {

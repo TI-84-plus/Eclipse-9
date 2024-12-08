@@ -93,7 +93,6 @@ class MapSelectionState: public GameState
     void Update(StateManager* m_manager) {
         
          //Up
-        
         if(mapselection.IsMovingUp)
         {
             float y = view.getCenter().x;

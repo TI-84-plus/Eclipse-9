@@ -1,10 +1,7 @@
 #include "SFML/Graphics/Drawable.hpp"
-#include "SFML/Graphics/PrimitiveType.hpp"
 #include "SFML/Graphics/RenderStates.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
-#include "SFML/Graphics/Text.hpp"
 #include "SFML/Graphics/Texture.hpp"
-#include "SFML/Graphics/Vertex.hpp"
 #include "SFML/Graphics/VertexArray.hpp"
 #include <cmath>
 #include <sys/types.h>
@@ -35,9 +32,9 @@ class TileMap : sf::Drawable
 		
 		Tile tile(0, 1);
 
-		for (int x = 0; x < width; x++) {
+		for (int y = 0; y < width; y++) {
 			
-			for (int y = 0; y < height; y++) {
+			for (int x = 0; x < height; x++) {
 				
 				AddVertices(tile, sf::Vector2f((float)x, (float)y));
 			}
@@ -47,10 +44,10 @@ class TileMap : sf::Drawable
 	void AddVertices(Tile tile, sf::Vector2f position) 
 	{
 			vertexArray.append(sf::Vertex((sf::Vector2f(0.0f, 0.0f) + position) * tileWorldDimension,
-					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y)));	//0, 0
+					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y)));	//0, 0	text=0, 16
 
 			vertexArray.append(sf::Vertex((sf::Vector2f(1.0f, 0.0f) + position) * tileWorldDimension, 
-					sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension, tileTextureDimension * tile.Y)));	//1, 0
+					sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension, tileTextureDimension * tile.Y)));
 
 			vertexArray.append(sf::Vertex((sf::Vector2f(1.0f, 1.0f) + position) * tileWorldDimension,
 					sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension, tileTextureDimension * tile.Y + tileTextureDimension)));	//1, 1

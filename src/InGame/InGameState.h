@@ -8,12 +8,18 @@
 #include "State/StateManager.hpp"
 #include "InGame.h"
 #include <ostream>
+
 class InGameState: public GameState 
 {
     private:
         InGame Game;
         
     public:
+
+        InGameState() 
+        {
+        }
+
         void Init() {};
         void Cleanup() {};
 
@@ -22,10 +28,10 @@ class InGameState: public GameState
 
         void HandleInput(StateManager* game, sf::Event event) {
 
-            switch (event.key.code)
+        switch (event.key.code)
         {
             case sf::Keyboard::W:
-                std::cout<<"Registered"<<std::endl;
+                std::cout<<"Registered1"<<std::endl;
             break;
             
             default:
@@ -33,10 +39,12 @@ class InGameState: public GameState
         }
         };
         void Update(StateManager* game) {};
+
         void Draw(StateManager* game, sf::RenderWindow& renderer) {
             renderer.clear();
             renderer.setView(this->view);
             renderer.display();
+            std::cout<<"Registered2"<<std::endl;
         };
 
 
