@@ -10,11 +10,10 @@ class Map
 
 	private: 
 		sf::Texture tileset;
-		TileMap map(tileset, 10, 10, 16, 32);
 	public:
 		Map() 
 		{
-			
+            TileMap map(tileset, 10, 10, 16, 32);
 		}
 
 
