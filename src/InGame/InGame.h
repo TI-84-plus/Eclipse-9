@@ -1,10 +1,16 @@
 #ifndef INGAME_H
 #define INGAME_H
-#include <InGame/Map.h>
+#include <InGame/TileMap.h>
 
 class InGame 
 {
-    Map map;
+    public:
+        TileMap map{10, 10, 16.f, 32.f};
+
+        InGame()
+        {
+            std::cout<<"InGame created"<<std::endl;
+        }
     
 };
 

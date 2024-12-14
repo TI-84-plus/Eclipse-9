@@ -8,10 +8,10 @@
 #include <vector>
 #include "SFML/System/Vector2.hpp"
 #include "Tile.h"
-class TileMap : sf::Drawable
-{
-	private: 
+class TileMap : public sf::Drawable{
+		
 		sf::Texture tileset;
+		sf::Sprite sprite;
 		sf::VertexArray vertexArray;
 		int width;
 		int height;
@@ -19,9 +19,10 @@ class TileMap : sf::Drawable
 		float tileWorldDimension;
 	
 	public:
-		TileMap(sf::Texture tileset, int width, int height, float tileTextureDimension, float tileWorldDimension) 
+		TileMap(int width, int height, float tileTextureDimension, float tileWorldDimension) 
 	{
-		this->tileset = tileset;
+		std::cout<<"TileMap Constructor"<<std::endl;
+		this->tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
 		this->width = width;
 		this->height = height;
 		this->tileTextureDimension = tileTextureDimension;
@@ -39,6 +40,8 @@ class TileMap : sf::Drawable
 				AddVertices(tile, sf::Vector2f((float)x, (float)y));
 			}
 		}
+
+
 	}
 
 	void AddVertices(Tile tile, sf::Vector2f position) 
@@ -55,10 +58,11 @@ class TileMap : sf::Drawable
 			vertexArray.append(sf::Vertex((sf::Vector2f(0.0f, 1.0f) + position) * tileWorldDimension,
 					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y + tileTextureDimension)));	//0, 1
 					
+	
 	}
-
-	void draw (sf::RenderTarget &target, sf::RenderStates states) const override
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 	{
-		
-	};
+		states.texture = &tileset;
+		target.draw(vertexArray, states);
+	}
 };

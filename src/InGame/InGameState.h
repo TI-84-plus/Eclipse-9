@@ -16,10 +16,6 @@ class InGameState: public GameState
         
     public:
 
-        InGameState() 
-        {
-        }
-
         void Init() {};
         void Cleanup() {};
 
@@ -42,9 +38,9 @@ class InGameState: public GameState
 
         void Draw(StateManager* game, sf::RenderWindow& renderer) {
             renderer.clear();
-            renderer.setView(this->view);
+            renderer.draw(Game.map);
             renderer.display();
-            std::cout<<"Registered2"<<std::endl;
+            // std::cout<<"Registered2"<<std::endl;
         };
 
 
