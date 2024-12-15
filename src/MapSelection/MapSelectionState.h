@@ -100,7 +100,6 @@ class MapSelectionState: public GameState
             view.setCenter(view.getCenter().x, y);
             std::cout<<view.getCenter().y<<std::endl;
             view.move(0, -mapselection.mov_speed);
-            std::cout<<"State called"<<std::endl;
         }
 
         //Down
@@ -141,7 +140,7 @@ class MapSelectionState: public GameState
         
         if(mapselection.selected) 
         {
-            m_manager->AddState(std::make_unique<InGameState>(), false);
+            m_manager->AddState(std::make_unique<InGameState>(mapselection.seed1), false);
             m_manager->ProcessStateChanges();
         }
     }

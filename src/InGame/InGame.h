@@ -5,7 +5,7 @@
 class InGame 
 {
     public:
-        TileMap map{10, 10, 16.f, 32.f};
+        TileMap map{1, 1, 16.f, 32.f};
 
         InGame()
         {

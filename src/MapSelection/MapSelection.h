@@ -21,7 +21,7 @@ private:
     int y_counter = -(chunkSize/2);
 
 public:
-    int seed1;
+    double seed1;
     bool NoBoundry = false;
     int mov_speed = 16;
     int MSScale = 2.f;
@@ -40,7 +40,7 @@ public:
         std::random_device rd;
         std::mt19937 gen(rd());
         seed1 = gen();
-        std::cout<<"Constructor called, value is: "<<seed1<<std::endl;
+        std::cout<<"Constructor called, value is: "<<int(seed1)<<std::endl;
     }
 
 
@@ -117,6 +117,7 @@ public:
                 double Map4 = Layout4.GetNoise(float((chunk_x * screen_width)+x),float((chunk_y * screen_height)+y));
                 double Map5 = Layout5.GetNoise(float((chunk_x * screen_width)+x),float((chunk_y * screen_height)+y));
                 double Layout = Map1 + Map2 + Map3 + Map4 + Map5;
+
                 Layout = (Layout + 1.0) / 2.0;
                 Layout = int(Layout* 255);
                 int unsigned_y = y + ((screen_width / 2));
@@ -189,7 +190,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2] = {255}; //55
                         chunk.pixels[CurrentPixelIndex2 + 1] = {255}; //102
                         chunk.pixels[CurrentPixelIndex2 + 2] = {255}; //200
-                        chunk.pixels[CurrentPixelIndex2 + 3] = {255};
+                        chunk.pixels[CurrentPixelIndex2 + 3] = {255}; 
                     }
                 }
             }

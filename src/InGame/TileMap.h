@@ -31,8 +31,7 @@ class TileMap : public sf::Drawable{
 		vertexArray.resize((width * height) * 4);
 		vertexArray.setPrimitiveType(sf::Quads);
 		
-		Tile tile(0, 1);
-
+		Tile tile(4, 1);
 		for (int y = 0; y < width; y++) {
 			
 			for (int x = 0; x < height; x++) {
@@ -40,11 +39,9 @@ class TileMap : public sf::Drawable{
 				AddVertices(tile, sf::Vector2f((float)x, (float)y));
 			}
 		}
-
-
 	}
 
-	void AddVertices(Tile tile, sf::Vector2f position) 
+	void AddVertices(Tile tile, sf::Vector2f position)
 	{
 			vertexArray.append(sf::Vertex((sf::Vector2f(0.0f, 0.0f) + position) * tileWorldDimension,
 					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y)));	//0, 0	text=0, 16
@@ -57,9 +54,8 @@ class TileMap : public sf::Drawable{
 
 			vertexArray.append(sf::Vertex((sf::Vector2f(0.0f, 1.0f) + position) * tileWorldDimension,
 					sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y + tileTextureDimension)));	//0, 1
-					
-	
 	}
+	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 	{
 		states.texture = &tileset;
