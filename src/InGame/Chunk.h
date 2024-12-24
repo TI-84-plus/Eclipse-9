@@ -7,11 +7,17 @@
 class Chunk
 {
     private:
-       int ChunkSize = 8;
        sf::Texture texture;
        sf::Sprite sprite;
        sf::Vector2f pos;
 
+    public:
+        int ChunkSize = 16;
+        int width = 16;
+        int height = 16;
+
+
+        
 };
 
 #endif

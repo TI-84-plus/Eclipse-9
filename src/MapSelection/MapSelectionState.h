@@ -23,7 +23,6 @@
 #include <memory>
 #include <ostream>
 #include "State/StateManager.hpp"
-#include "Test/Test.h"
 #include "Renderer/renderer.h"
 
 class game;
@@ -34,6 +33,7 @@ class MapSelectionState: public GameState
     public:
         std::vector<Chunk> chunks;
         MapSelectionState() {
+            
             chunks = mapselection.WorldGen();
             view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
             view.setCenter(0,0);
@@ -140,7 +140,7 @@ class MapSelectionState: public GameState
         
         if(mapselection.selected) 
         {
-            m_manager->AddState(std::make_unique<InGameState>(mapselection.seed1), false);
+            m_manager->AddState(std::make_unique<InGameState>(int(mapselection.seed)), false);
             m_manager->ProcessStateChanges();
         }
     }

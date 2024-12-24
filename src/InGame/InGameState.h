@@ -12,15 +12,14 @@
 class InGameState: public GameState 
 {
     private:
-        InGame Game;
-        double MapSeed;
+        int MapSeed;
+        InGame Game{MapSeed};
         
     public:
 
-        InGameState(double seed) 
+        InGameState(int seed): MapSeed{seed}
         {
-            MapSeed = seed;
-            std::cout<<"InGameState Seed:" <<int(seed)<<std::endl;
+            std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
         }
 
         void Init() {};
@@ -34,7 +33,6 @@ class InGameState: public GameState
         switch (event.key.code)
         {
             case sf::Keyboard::W:
-                std::cout<<"Registered1"<< MapSeed<<std::endl;
             break;
             
             default:
@@ -45,9 +43,8 @@ class InGameState: public GameState
 
         void Draw(StateManager* game, sf::RenderWindow& renderer) {
             renderer.clear();
-            renderer.draw(Game.map);
+            renderer.draw(Game.map.map);
             renderer.display();
-            // std::cout<<"Registered2"<<std::endl;
         };
 
 

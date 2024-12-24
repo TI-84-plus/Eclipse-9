@@ -1,4 +1,3 @@
-#include "SFML/Graphics/Color.hpp"
 class Tile {
 	public:
 		int X;

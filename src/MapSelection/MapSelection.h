@@ -21,7 +21,7 @@ private:
     int y_counter = -(chunkSize/2);
 
 public:
-    double seed1;
+    int seed;
     bool NoBoundry = false;
     int mov_speed = 16;
     int MSScale = 2.f;
@@ -35,16 +35,7 @@ public:
     bool IsMovingRight = false;
     bool IsMovingLeft = false;
 
-    void seedGen()
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        seed1 = gen();
-        std::cout<<"Constructor called, value is: "<<int(seed1)<<std::endl;
-    }
-
-
-    int modifyseed(int &seed)
+    int modifyseed(int seed)
     {
         std::mt19937 gen(seed);
         return gen();
@@ -63,10 +54,15 @@ public:
         return noise;
     };
 
-    //Try Nested for loops
 
     std::vector<Chunk> WorldGen()
     {
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        seed = gen();
+        std::cout<<"Constructor called, value is: "<<seed<<std::endl;
+
         while (x_counter != (chunkSize/2) || y_counter != (chunkSize/2))
         {
             x_counter++;
@@ -78,14 +74,13 @@ public:
                 if(y_counter == ((chunkSize/2)))
                 {
                     MapGenerationRequested = false;
-                    seedGen();
                     x_counter = ((-chunkSize/2)-1);
                     y_counter = -(chunkSize/2);
                     break;
                 }
             }
             Chunk &chunk = chunks.emplace_back();
-            chunk = ChunkGen(seed1, x_counter, y_counter);
+            chunk = ChunkGen(seed, x_counter, y_counter);
         }
         std::cout<<"Chunk returned"<<std::endl;
         return chunks;
@@ -99,7 +94,7 @@ public:
         int seed4 = modifyseed(seed3);
         int seed5 = modifyseed(seed4);
         //NoiseMaps
-        FastNoiseLite Layout1= noiseparams(4, 0.001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed1);   //Layouts
+        FastNoiseLite Layout1= noiseparams(4, 0.001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
         FastNoiseLite Layout2= noiseparams(4, 0.002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
         FastNoiseLite Layout3= noiseparams(4, 0.004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
         FastNoiseLite Layout4= noiseparams(4, 0.008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
@@ -123,6 +118,12 @@ public:
                 int unsigned_y = y + ((screen_width / 2));
                 int unsigned_x = x + ((screen_height / 2));
                 int CurrentPixelIndex2 = ((unsigned_y * screen_width) + unsigned_x) * 4;
+
+                if(chunk_x ==-8 && chunk_y == -8 && y == -32 && x == -32) 
+				{
+                    std::cout<<"First: "<<Layout<<std::endl;
+				}
+
                 //Deep level water
                 if (Layout < 100)
                 {
@@ -195,6 +196,7 @@ public:
                 }
             }
         }
+
         chunk.chunk_position.x = chunk_x;
         chunk.chunk_position.y = chunk_y;
         chunk.sprite.setPosition(screen_width * (chunk_x) * MSScale, screen_height * (chunk_y) * MSScale);

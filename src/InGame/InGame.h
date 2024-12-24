@@ -1,17 +1,17 @@
 #ifndef INGAME_H
 #define INGAME_H
-#include <InGame/TileMap.h>
+#include <InGame/Map.h>
 
 class InGame 
 {
     public:
-        TileMap map{1, 1, 16.f, 32.f};
+        Map map;
 
-        InGame()
+        InGame(int seed): map{seed}
         {
-            std::cout<<"InGame created"<<std::endl;
         }
-    
+
+
 };
 
 #endif
