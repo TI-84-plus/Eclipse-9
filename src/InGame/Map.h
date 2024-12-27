@@ -3,6 +3,7 @@
 
 #include <InGame/TileMap.h>
 #include <random>
+#include <iostream>
 #include "../../libs/FastNoiseLite.h"
 class Map
 {
@@ -10,12 +11,28 @@ private:
     int seed;
 
 public:
-    TileMap map;
-
-    Map(int seed):map {seed}
+    std::vector<TileMap> ChunkArr;
+    Map(int seed)
     {
         this->seed = seed;
+        WorldGen();
     }
+
+    std::vector<TileMap> WorldGen()  
+    {
+        for(int chunk_y = -(chunkSize/2); chunk_y < (chunkSize / 2); chunk_y++) 
+        {
+            for(int chunk_x = -(chunkSize/2); chunk_x < (chunkSize / 2); chunk_x++) 
+            {
+                TileMap &chunk = ChunkArr.emplace_back(seed);
+                chunk.ChunkGen(chunk_x, chunk_y);
+            }
+        }
+
+        return ChunkArr;
+    }
+
+    
 
 };
 

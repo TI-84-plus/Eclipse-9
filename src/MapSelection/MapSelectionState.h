@@ -33,7 +33,7 @@ class MapSelectionState: public GameState
     public:
         std::vector<Chunk> chunks;
         MapSelectionState() {
-            
+
             chunks = mapselection.WorldGen();
             view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
             view.setCenter(0,0);
@@ -58,7 +58,6 @@ class MapSelectionState: public GameState
         {
             case sf::Keyboard::W:
                 mapselection.IsMovingUp = isPressed(event);
-                std::cout<<isPressed(event)<<std::endl;
                 break;
                 
             case sf::Keyboard::S:
@@ -98,7 +97,6 @@ class MapSelectionState: public GameState
             float y = view.getCenter().x;
             y = std::clamp(y, -128.0f, 128.0f);
             view.setCenter(view.getCenter().x, y);
-            std::cout<<view.getCenter().y<<std::endl;
             view.move(0, -mapselection.mov_speed);
         }
 
@@ -108,7 +106,6 @@ class MapSelectionState: public GameState
             float y = view.getCenter().x;
             y = std::clamp(y, -128.0f, 128.0f);
             view.setCenter(view.getCenter().x, y);
-            std::cout<<view.getCenter().y<<std::endl;
             view.move(0, mapselection.mov_speed);
         }
 
@@ -119,7 +116,6 @@ class MapSelectionState: public GameState
             x = std::clamp(x, -32.0f, 32.0f);
             view.setCenter(x, view.getCenter().y);
             view.move(-mapselection.mov_speed, 0);
-            std::cout<<view.getCenter().x<<std::endl;
         }
 
         //Left
@@ -129,7 +125,6 @@ class MapSelectionState: public GameState
             x = std::clamp(x, -32.0f, 32.0f);
             view.setCenter(x, view.getCenter().y);
             view.move(mapselection.mov_speed, 0);
-            std::cout<<view.getCenter().x<<std::endl;
         }
 
         //regenerate map

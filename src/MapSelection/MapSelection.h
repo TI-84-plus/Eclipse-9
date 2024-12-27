@@ -79,15 +79,15 @@ public:
                     break;
                 }
             }
-            Chunk &chunk = chunks.emplace_back();
-            chunk = ChunkGen(seed, x_counter, y_counter);
+            Chunk &chunk = chunks.emplace_back(); //2.
+            chunk = ChunkGen(seed, x_counter, y_counter); 
         }
         std::cout<<"Chunk returned"<<std::endl;
         return chunks;
     }
 
 
-    Chunk ChunkGen(int seed, float chunk_x, float chunk_y)
+    Chunk ChunkGen(int seed, float chunk_x, float chunk_y) //1. Move this function defination to Chunk constructor
     {   
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
@@ -121,7 +121,7 @@ public:
 
                 if(chunk_x ==-8 && chunk_y == -8 && y == -32 && x == -32) 
 				{
-                    std::cout<<"First: "<<Layout<<std::endl;
+                    std::cout<<"First: "<<(float((chunk_x * screen_width)+x))<<std::endl;
 				}
 
                 //Deep level water

@@ -30,8 +30,7 @@ class Chunk
         {
             //Dont know why i assigned texture and pixels to make_unique even tho i defined them as shared ptr
             //but when i change them the code breaks
-            //if it works it works
-            texture = std::make_unique<sf::Texture>();
+            texture = std::make_unique<sf::Texture>(); //Need to fix this
             texture->create(screen_width, screen_height);
             pixels.resize(screen_height * screen_width * pixel_channel);
         }
