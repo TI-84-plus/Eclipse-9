@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <InGame/TileMap.hpp>
+#include "TileMap.hpp"
 #include <random>
 #include <iostream>
 #include "../../libs/FastNoiseLite.h"

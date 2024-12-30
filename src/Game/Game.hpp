@@ -1,16 +1,20 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Renderer/renderer.hpp"
-#include "MapSelection/MapSelectionState.hpp"
-#include "SFML/Graphics/PrimitiveType.hpp"
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Graphics/VertexArray.hpp"
-#include "State/GameState.hpp"
-#include "State/StateManager.hpp"
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Main.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 #include <stack>
 #include <memory>
+#include "MapSelection/MapSelectionState.hpp"
+#include "State/GameState.hpp"
+#include "State/StateManager.hpp"
+#include "Renderer/renderer.hpp"
+
 
 class MapSelectionState;
 class Game

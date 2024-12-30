@@ -1,19 +1,7 @@
 #ifndef MAPSELECTIONSTATE_H
 #define MAPSELECTIONSTATE_H
 
-#include <algorithm>
-#include <cctype>
-#include <cstdint>
-#include <iostream>
-#include "InGame/InGameState.hpp"
-#include "MapSelection/chunk.hpp"
-#include "SFML/Graphics/Color.hpp"
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Graphics/View.hpp"
-#include "SFML/Window/Event.hpp"
-#include "SFML/Window/Keyboard.hpp"
-#include "State/GameState.hpp"
-#include "MapSelection/MapSelection.hpp"
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
@@ -22,6 +10,13 @@
 #include <SFML/Window.hpp>
 #include <memory>
 #include <ostream>
+#include <algorithm>
+#include <cctype>
+#include <cstdint>
+#include <iostream>
+#include "InGame/InGameState.hpp"
+#include "chunk.hpp"
+#include "MapSelection.hpp"
 #include "State/StateManager.hpp"
 #include "Renderer/renderer.hpp"
 

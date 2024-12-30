@@ -1,15 +1,15 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
-#include "SFML/Graphics/Drawable.hpp"
-#include "SFML/Graphics/RenderStates.hpp"
-#include "SFML/Graphics/RenderTarget.hpp"
-#include "SFML/Graphics/Texture.hpp"
-#include "SFML/Graphics/VertexArray.hpp"
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Main.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <cmath>
 #include <sys/types.h>
 #include <vector>
-#include "SFML/System/Vector2.hpp"
 #include "Tile.hpp"
 class TileMap : public sf::Drawable{
 		
@@ -56,7 +56,6 @@ class TileMap : public sf::Drawable{
 		{
 			std::cout<<"Chunk X: "<<unsigned_x<<std::endl;
 		}
-		std::cout<<"dsds"<<std::endl;
 	}
 
     int modifyseed(int seed)

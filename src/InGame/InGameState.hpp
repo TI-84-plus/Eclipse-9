@@ -1,11 +1,16 @@
 #ifndef INGAMESTATE_H
 #define INGAMESTATE_H
 
-#include "Renderer/renderer.hpp"
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Event.hpp"
+
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Main.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
+#include "Renderer/renderer.hpp"
 #include "InGame.hpp"
 #include <ostream>
 
