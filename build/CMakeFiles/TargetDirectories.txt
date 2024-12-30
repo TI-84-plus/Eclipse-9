@@ -1,7 +1,0 @@
-/home/fiveeght/Proc_Gen/build/CMakeFiles/CMakeSFMLProject.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/edit_cache.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/rebuild_cache.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/list_install_components.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/install.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/install/local.dir
-/home/fiveeght/Proc_Gen/build/CMakeFiles/install/strip.dir
