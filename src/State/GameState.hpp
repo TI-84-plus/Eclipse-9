@@ -1,7 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include "Renderer/renderer.h"
+#include "Renderer/renderer.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/View.hpp"
 #include "SFML/Window/Event.hpp"

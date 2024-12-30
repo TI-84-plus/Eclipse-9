@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/fiveeght/Proc_Gen/build",
+  "command": "/usr/bin/g++ -I/home/fiveeght/Proc_Gen/src -g -std=gnu++20 -o CMakeFiles/CMakeSFMLProject.dir/src/Main.cpp.o -c /home/fiveeght/Proc_Gen/src/Main.cpp",
+  "file": "/home/fiveeght/Proc_Gen/src/Main.cpp"
+}
+]
