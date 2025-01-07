@@ -12,8 +12,8 @@
 #include "chunk.hpp"
 #include "../../libs/FastNoiseLite.h"
 
-const float screenwidth = 1920.f;
-const float screenheight = 1080.f;
+const int screenwidth = 1920;
+const int screenheight = 1080;
 class MapSelection
 {
 private:
@@ -144,6 +144,7 @@ public:
                 // Rest
                 else
                 {
+					//Sand
                     if(Layout < 160)
                     {
                         chunk.pixels[CurrentPixelIndex2] = {223};
@@ -151,6 +152,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {159};
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+					//Shallow Forest
                     else if(Layout < 190)
                     {
                         chunk.pixels[CurrentPixelIndex2] = {74}; //55
@@ -158,6 +160,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+					//Dense forest
                     else if(Layout < 250) 
                     {
                         chunk.pixels[CurrentPixelIndex2] = {36}; //55
@@ -165,6 +168,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+					//Shallow dirt
                     else if(Layout < 285) 
                     {
                         chunk.pixels[CurrentPixelIndex2] = {99}; //55
@@ -172,6 +176,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {52}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+					//Dense Dirt
                     else if(Layout < 300) 
                     {
                         chunk.pixels[CurrentPixelIndex2] = {76}; //55
@@ -179,6 +184,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {27}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
+					//Light snow
                     else if(Layout < 320)
                     {
                         chunk.pixels[CurrentPixelIndex2] = {211}; //55
@@ -186,6 +192,7 @@ public:
                         chunk.pixels[CurrentPixelIndex2 + 2] = {211}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {211};
                     }
+					//Dense Snow
                     else
                     {
 

@@ -7,13 +7,10 @@
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#include <iostream>
-#include <stack>
 #include <memory>
 #include "MapSelection/MapSelectionState.hpp"
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
-#include "Renderer/renderer.hpp"
 
 
 class MapSelectionState;
@@ -60,12 +57,18 @@ public:
                     break;
 
                 case sf::Event::Resized:
-                    {sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+                    {sf::FloatRect visibleArea(event.size.width, event.size.height, event.size.width, event.size.height);
                     render.setView(sf::View(visibleArea));
                     break;}
 
-                default:
+				case sf::Event::KeyPressed:
                     manager.GetActiveState()->HandleInput(&manager, event);
+
+                case sf::Event::KeyReleased:
+                    manager.GetActiveState()->HandleInput(&manager, event);
+
+				case sf::Event::MouseWheelScrolled:
+					manager.GetActiveState()->HandleInput(&manager, event);
             }
         }
     }

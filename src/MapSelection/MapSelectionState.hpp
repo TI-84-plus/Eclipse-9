@@ -9,16 +9,12 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
-#include <ostream>
 #include <algorithm>
 #include <cctype>
-#include <cstdint>
-#include <iostream>
 #include "InGame/InGameState.hpp"
 #include "chunk.hpp"
 #include "MapSelection.hpp"
 #include "State/StateManager.hpp"
-#include "Renderer/renderer.hpp"
 
 
 class game;

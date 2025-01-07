@@ -1,6 +1,6 @@
 #ifndef INGAME_H
 #define INGAME_H
-#include <InGame/Map.hpp>
+#include <InGame/Map.hpp>	
 
 class InGame 
 {
@@ -13,7 +13,7 @@ class InGame
         bool IsMovingRight = false;
         bool IsMovingLeft = false;
 
-        int move_speed = 64;
+        float move_speed = 32.f;
 
         InGame(int seed): map{seed}
         {

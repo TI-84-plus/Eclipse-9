@@ -8,32 +8,29 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
+#include <iostream>
 #include <sys/types.h>
-#include <vector>
 #include "Tile.hpp"
+#include <random>
+#include "../../libs/FastNoiseLite.h"
 class TileMap : public sf::Drawable{
 		
 	private:
 		sf::Texture tileset;
-		sf::Sprite sprite;
-		sf::VertexArray vertexArray;
 
 		int seed;
 		int width = 16;
 		int height = 16;
-		float tileTextureDimension = 16.f;
-		float tileWorldDimension = 32.f;
+		int tileTextureDimension = 32;
+		int tileWorldDimension = 32;
 	
 	public:
-		int ChunkSize = 16;
+		sf::VertexArray vertexArray;
+		static constexpr float ChunkSize = 16.0f;
 
 		TileMap(int seed){
 		this->seed = seed;
 		this->tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
-		// this->width = width;
-		// this->height = height;
-		// this->tileTextureDimension = tileTextureDimension;
-		// this->tileWorldDimension = tileWorldDimension;
 
 		vertexArray.resize((width * height) * 4);
 		vertexArray.setPrimitiveType(sf::Quads);
@@ -42,20 +39,19 @@ class TileMap : public sf::Drawable{
 	void TilePosition(int TileX, int TileY, int unsigned_x, int unsigned_y, int chunk_x, int chunk_y) 
 	{
 		Tile tile(TileX, TileY);
-		float unsigned_chunkX = float(chunk_x+(chunkSize/2));
-		float unsigned_chunkY = float(chunk_y+(chunkSize/2));
+		int unsigned_chunkX = chunk_x+(ChunkSize/2.0f);
+		int unsigned_chunkY = chunk_y+(ChunkSize/2.0f);
 		sf::Vector2f tile_pos = {float(unsigned_x), float(unsigned_y)};
-		sf::Vector2f chunk_pos = {unsigned_chunkX, unsigned_chunkY};
+		sf::Vector2f chunk_pos = {float(unsigned_chunkX), float(unsigned_chunkY)};
 
-		vertexArray.append(sf::Vertex(((sf::Vector2f(0.0f, 0.0f) + tile_pos) + (chunk_pos * float((chunkSize*4)))) * tileWorldDimension, sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y)));;
-		vertexArray.append(sf::Vertex(((sf::Vector2f(1.0f, 0.0f) + tile_pos) + (chunk_pos * float((chunkSize*4)))) * tileWorldDimension, sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension, tileTextureDimension * tile.Y)));
-		vertexArray.append(sf::Vertex(((sf::Vector2f(1.0f, 1.0f) + tile_pos) + (chunk_pos * float((chunkSize*4)))) * tileWorldDimension, sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension, tileTextureDimension * tile.Y + tileTextureDimension)));
-		vertexArray.append(sf::Vertex(((sf::Vector2f(0.0f, 1.0f) + tile_pos) + (chunk_pos * float((chunkSize*4)))) * tileWorldDimension, sf::Vector2f(tileTextureDimension * tile.X, tileTextureDimension * tile.Y + tileTextureDimension)));
+		vertexArray.append(sf::Vertex((((sf::Vector2f(0.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize*4))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
 
-		if(unsigned_x == 64 && unsigned_y == 64) 
-		{
-			std::cout<<"Chunk X: "<<unsigned_x<<std::endl;
-		}
+		vertexArray.append(sf::Vertex((((sf::Vector2f(1.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize*4))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
+
+		vertexArray.append(sf::Vertex((((sf::Vector2f(1.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize*4))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
+
+		vertexArray.append(sf::Vertex((((sf::Vector2f(0.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize*4))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
+
 	}
 
     int modifyseed(int seed)
@@ -77,18 +73,18 @@ class TileMap : public sf::Drawable{
         return noise;
     };
 
-	void ChunkGen(int chunk_x, int chunk_y)
+	void ChunkGen(float chunk_x, float chunk_y)
     {
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
         int seed4 = modifyseed(seed3);
         int seed5 = modifyseed(seed4);
         //NoiseMaps
-        FastNoiseLite Layout1= noiseparams(4, 0.001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
-        FastNoiseLite Layout2= noiseparams(4, 0.002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
-        FastNoiseLite Layout3= noiseparams(4, 0.004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
-        FastNoiseLite Layout4= noiseparams(4, 0.008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
-        FastNoiseLite Layout5= noiseparams(4, 0.0016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
+        FastNoiseLite Layout1= noiseparams(4, 0.00090, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
+        FastNoiseLite Layout2= noiseparams(4, 0.00080, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
+        FastNoiseLite Layout3= noiseparams(4, 0.0040, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
+        FastNoiseLite Layout4= noiseparams(4, 0.0020, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
+        FastNoiseLite Layout5= noiseparams(4, 0.0010, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
 
 
 
@@ -104,8 +100,8 @@ class TileMap : public sf::Drawable{
         		double Layout = Map1 + Map2 + Map3 + Map4 + Map5;
         		Layout = (Layout + 1.0) / 2.0;
         		Layout = int(Layout * 255);
-				int unsigned_y = (y+(height*2));
-				int unsigned_x = (x+(width*2));
+				float unsigned_y = std::floor((y+(height*2.f)));
+				float unsigned_x = std::floor((x+(width*2.f)));
 				
 
                 if(chunk_x ==-8 && chunk_y == -8 && y == -32 && x == -32) 
@@ -114,27 +110,64 @@ class TileMap : public sf::Drawable{
 				}
 
 				if (Layout < 100)
-        		{
-					TilePosition(5, 1, unsigned_x, unsigned_y, chunk_x, chunk_y);
-        		}
+				{
+					TilePosition(4, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+				}
 
 				else if (Layout < 120) 
 				{
-					TilePosition(3, 2, unsigned_x, unsigned_y, chunk_x, chunk_y);
+					TilePosition(3, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
 				}
 
 				else
 				{
-					TilePosition(1, 2, unsigned_x, unsigned_y, chunk_x, chunk_y);
-				}
+					//Sand
+                    if(Layout < 160)
+                    {
+						TilePosition(2, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Shallow Forest
+                    else if(Layout < 190)
+                    {
+						TilePosition(0, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Dense forest
+                    else if(Layout < 250) 
+                    {
+						TilePosition(1, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Shallow dirt
+                    else if(Layout < 285) 
+                    {
+						TilePosition(5, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Dense Dirt
+                    else if(Layout < 300) 
+                    {
+						TilePosition(6, 0, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Mountains
+                    else if(Layout < 320)
+                    {
+						TilePosition(0, 1, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+					//Dense Snow
+                    else
+                    {
+
+						TilePosition(1, 1, unsigned_x, unsigned_y, chunk_x, chunk_y);
+                    }
+                }
 			}
 		}
-    }
+
+	}
 	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 	{
 		states.texture = &tileset;		//The White Square problem is probably not at issue but if it does happen 
 		target.draw(vertexArray, states);
+		// std::cout<<tileset.getSize().y<<std::endl;
 	}
 };
 

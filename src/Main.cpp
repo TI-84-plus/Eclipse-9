@@ -6,7 +6,6 @@
 #include <SFML/System.hpp>  
 #include <SFML/Window.hpp>
 #include "Game/Game.hpp"
-using namespace std;
 
 int main()
 {
