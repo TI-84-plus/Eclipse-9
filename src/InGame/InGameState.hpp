@@ -44,16 +44,16 @@ class InGameState: public GameState
 
 			switch (event.key.code) {
 				case sf::Keyboard::W:
-					Game.IsMovingUp = isPressed(event);
+					Game.player.IsMovingUp = isPressed(event);
 					break;
 				case sf::Keyboard::S:
-					Game.IsMovingDown = isPressed(event);
+					Game.player.IsMovingDown = isPressed(event);
 					break;
 				case sf::Keyboard::A:
-					Game.IsMovingLeft = isPressed(event);
+					Game.player.IsMovingLeft = isPressed(event);
 					break;
 				case sf::Keyboard::D:
-					Game.IsMovingRight = isPressed(event);
+					Game.player.IsMovingRight = isPressed(event);
 					break;
 
 			}
@@ -90,35 +90,40 @@ class InGameState: public GameState
         void Update(StateManager* game) {
 
             //Up
-            if(Game.IsMovingUp)
+            if(Game.player.IsMovingUp)
             {
                 // float y = view.getCenter().x;
-                view.move(0.f, -Game.move_speed);
-                std::cout<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+                Game.player.position.y -= Game.player.player_speed;		
+				view.setCenter(Game.player.position);
+				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
             //Down
-            if(Game.IsMovingDown) 
+            if(Game.player.IsMovingDown) 
             {
-                // float y = view.getCenter().x;
-                view.move(0.f, Game.move_speed);
-                std::cout<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+                Game.player.position.y += Game.player.player_speed;		
+				view.setCenter(Game.player.position);
+				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
             //Right
-            if(Game.IsMovingRight) 
+            if(Game.player.IsMovingRight) 
             {
-                // float x = view.getCenter().x;
-                view.move(Game.move_speed, 0.f);
-                std::cout<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+                Game.player.position.x += Game.player.player_speed;		
+				view.setCenter(Game.player.position);
+				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
             //Left
-            if(Game.IsMovingLeft) 
+            if(Game.player.IsMovingLeft) 
             {
-                // std::cout<<isPressed(event)<<std::endl;
-                view.move(-Game.move_speed, 0.f);
-                std::cout<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+                Game.player.position.x -= Game.player.player_speed;		
+				view.setCenter(Game.player.position);
+				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
         };
 
@@ -129,6 +134,8 @@ class InGameState: public GameState
             for(const TileMap& chunk : Game.map.ChunkArr) 
             {
                 renderer.draw(chunk);
+				renderer.draw(Game.player);
+
             }
             renderer.display();
         };

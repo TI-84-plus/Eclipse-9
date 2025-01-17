@@ -1,11 +1,12 @@
 #ifndef INGAME_H
 #define INGAME_H
 #include <InGame/Map.hpp>	
-
+#include <InGame/Player.hpp>
 class InGame 
 {
     public:
         Map map;
+		Player player;
 
         //Controls
         bool IsMovingUp = false;

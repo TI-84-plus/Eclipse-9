@@ -10,12 +10,15 @@ class Map
 {
 private:
     int seed;
+	sf::Texture tileset;
 
 public:
     std::vector<TileMap> ChunkArr;
+
     Map(int seed)
     {
         this->seed = seed;
+		tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
         WorldGen();
     }
 
@@ -25,7 +28,7 @@ public:
         {
             for(int chunk_x = -(TileMap::ChunkSize/2); chunk_x < (TileMap::ChunkSize / 2); chunk_x++) 
             {
-                TileMap &chunk = ChunkArr.emplace_back(seed);
+                TileMap &chunk = ChunkArr.emplace_back(seed, tileset);
                 chunk.ChunkGen(chunk_x, chunk_y);
             }
         }

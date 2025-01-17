@@ -11,6 +11,8 @@
 #include "MapSelection/MapSelectionState.hpp"
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
+#include <chrono>
+#include <string>
 
 
 class MapSelectionState;
@@ -22,11 +24,19 @@ private:
     //Game Runner
     bool IsRunning = true;
     StateManager manager;
+
+
+	std::chrono::high_resolution_clock::time_point start;
+	std::chrono::high_resolution_clock::time_point end;
+	float fps;
+    sf::Text fpsT;
+    sf::Font font;
+
 public:
 
     Game() 
     {
-        render.setVerticalSyncEnabled(true);
+        render.setVerticalSyncEnabled(false);
         manager.AddState(std::make_unique<MapSelectionState>(), true);
         manager.ProcessStateChanges();
     }
@@ -46,6 +56,7 @@ public:
     //Process Input
     void ProcessingInput()
     {
+        start = std::chrono::high_resolution_clock::now();
         sf::Event event;
         while (render.pollEvent(event))
         {
@@ -83,6 +94,10 @@ public:
     void Render()
     {
         manager.GetActiveState()->Draw(&manager, render);
+        end = std::chrono::high_resolution_clock::now();
+        fps = (float)1e9/(float)std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+        std::cout<<fps<<std::endl;
+
     };
 };
 #endif

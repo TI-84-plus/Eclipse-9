@@ -15,29 +15,13 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 find_package(SFML 2 REQUIRED COMPONENTS graphics)
 
 add_executable(CMakeSFMLProject src/Main.cpp
-    src/MapSelection/MapSelectionState.hpp
-    src/MapSelection/MapSelection.hpp
-    src/MapSelection/chunk.hpp
-
-    src/Game/Game.hpp
-
-    src/InGame/InGameState.hpp
-    src/InGame/InGame.hpp
-    src/InGame/Map.hpp
-    src/InGame/Chunk.hpp
-    src/InGame/TileMap.hpp
-    src/InGame/Tile.hpp
-    src/InGame/Player.hpp
-
-    src/Renderer/renderer.hpp
-
-    src/State/GameState.hpp
-    src/State/StateManager.hpp
 )
 
 target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)
 target_compile_features(CMakeSFMLProject PRIVATE cxx_std_20)
-target_include_directories(CMakeSFMLProject PUBLIC src)
+target_include_directories(CMakeSFMLProject PUBLIC src
+    ${PROJECT_SOURCE_DIR}/Font/
+)
 
 if(WIN32)
     add_custom_command(

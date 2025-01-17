@@ -17,23 +17,26 @@ class TileMap : public sf::Drawable{
 		
 	private:
 		sf::Texture tileset;
-
-		int seed;
+		int seed, seed2, seed3, seed4, seed5;
 		int width = 16;
 		int height = 16;
 		int tileTextureDimension = 32;
-		int tileWorldDimension = 32;
+		int tileWorldDimension = 16;
 	
 	public:
 		sf::VertexArray vertexArray;
 		static constexpr float ChunkSize = 16.0f;
 
-		TileMap(int seed){
+		TileMap(int seed, sf::Texture& tileset){
 		this->seed = seed;
-		this->tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
-
+		this->tileset = tileset;
 		vertexArray.resize((width * height) * 4);
 		vertexArray.setPrimitiveType(sf::Quads);
+
+        seed2 = modifyseed(seed);
+        seed3 = modifyseed(seed2);
+        seed4 = modifyseed(seed3);
+        seed5 = modifyseed(seed4);
 	}
 
 	void TilePosition(int TileX, int TileY, int unsigned_x, int unsigned_y, int chunk_x, int chunk_y) 
@@ -75,16 +78,12 @@ class TileMap : public sf::Drawable{
 
 	void ChunkGen(float chunk_x, float chunk_y)
     {
-        int seed2 = modifyseed(seed);
-        int seed3 = modifyseed(seed2);
-        int seed4 = modifyseed(seed3);
-        int seed5 = modifyseed(seed4);
         //NoiseMaps
-        FastNoiseLite Layout1= noiseparams(4, 0.00090, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
-        FastNoiseLite Layout2= noiseparams(4, 0.00080, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
-        FastNoiseLite Layout3= noiseparams(4, 0.0040, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
-        FastNoiseLite Layout4= noiseparams(4, 0.0020, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
-        FastNoiseLite Layout5= noiseparams(4, 0.0010, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
+        FastNoiseLite Layout1= noiseparams(8, 0.00001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
+        FastNoiseLite Layout2= noiseparams(8, 0.00002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
+        FastNoiseLite Layout3= noiseparams(8, 0.00004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
+        FastNoiseLite Layout4= noiseparams(8, 0.00008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
+        FastNoiseLite Layout5= noiseparams(8, 0.000016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
 
 
 
@@ -165,7 +164,7 @@ class TileMap : public sf::Drawable{
 	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 	{
-		states.texture = &tileset;		//The White Square problem is probably not at issue but if it does happen 
+		states.texture = &tileset;
 		target.draw(vertexArray, states);
 		// std::cout<<tileset.getSize().y<<std::endl;
 	}
