@@ -22,10 +22,11 @@ class InGameState: public GameState
         InGame Game{MapSeed};
 
     public:
-
         InGameState(int seed): MapSeed{seed}
         {
             view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
+            view.setCenter(1024, 1024);
+            Game.player.player_sprt.setPosition(1024, 1024);
             std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
         }
 
@@ -45,15 +46,19 @@ class InGameState: public GameState
 			switch (event.key.code) {
 				case sf::Keyboard::W:
 					Game.player.IsMovingUp = isPressed(event);
+					Game.player.UpdatePlayerStatus(event);
 					break;
 				case sf::Keyboard::S:
 					Game.player.IsMovingDown = isPressed(event);
+					Game.player.UpdatePlayerStatus(event);
 					break;
 				case sf::Keyboard::A:
 					Game.player.IsMovingLeft = isPressed(event);
+					Game.player.UpdatePlayerStatus(event);
 					break;
 				case sf::Keyboard::D:
 					Game.player.IsMovingRight = isPressed(event);
+					Game.player.UpdatePlayerStatus(event);
 					break;
 
 			}
@@ -61,28 +66,15 @@ class InGameState: public GameState
 			//MouseWheel
 			if(event.mouseWheelScroll.delta < 0) {
 				double MapZoom = (MapZoom*1.1);
-                // zoom_x += 400;
-                // zoom_y += 400; 
-                //view.setSize(sf::Vector2f(zoom_x, zoom_y));
 
 				view.zoom(1.1);
-                //view.setSize(std::floor(view.getSize().x), std::floor(view.getSize().y));
-				// std::cout<<MapZoom<<std::endl;
-                // std::cout<<view.getCenter().x<<"    "<<view.getCenter().y<<std::endl;
 				std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
             }
 			
 			if(event.mouseWheelScroll.delta > 0) {
 				double MapZoom = (MapZoom*0.9);
-                // zoom_x -= 400;
-                // zoom_y -= 400; 
-                // view.setSize(sf::Vector2f(zoom_x, zoom_y)); 
-
 
 				view.zoom(0.9);
-                //view.setSize(std::floor(view.getSize().x), std::floor(view.getSize().y));
-				//std::cout<<MapZoom<<std::endl;
-                //std::cout<<view.getCenter().x<<"    "<<view.getCenter().y<<std::endl;
 				std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
 			}
 		}
@@ -92,11 +84,8 @@ class InGameState: public GameState
             //Up
             if(Game.player.IsMovingUp)
             {
-                // float y = view.getCenter().x;
-                Game.player.position.y -= Game.player.player_speed;		
-				view.setCenter(Game.player.position);
-				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
-				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
+                // Game.player.position.y -= Game.player.player_speed;	
+				// view.setCenter(Game.player.position);
             }
 
             //Down
@@ -104,8 +93,6 @@ class InGameState: public GameState
             {
                 Game.player.position.y += Game.player.player_speed;		
 				view.setCenter(Game.player.position);
-				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
-				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
             //Right
@@ -113,8 +100,6 @@ class InGameState: public GameState
             {
                 Game.player.position.x += Game.player.player_speed;		
 				view.setCenter(Game.player.position);
-				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
-				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
             //Left
@@ -122,9 +107,11 @@ class InGameState: public GameState
             {
                 Game.player.position.x -= Game.player.player_speed;		
 				view.setCenter(Game.player.position);
-				std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
-				std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
+				// std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
+				// std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
+
+			
         };
 
         void Draw(StateManager* game, sf::RenderWindow& renderer) {
@@ -134,9 +121,10 @@ class InGameState: public GameState
             for(const TileMap& chunk : Game.map.ChunkArr) 
             {
                 renderer.draw(chunk);
-				renderer.draw(Game.player);
-
             }
+            
+            Game.player.animation.update(1);
+			renderer.draw(Game.player.player_sprt);
             renderer.display();
         };
 

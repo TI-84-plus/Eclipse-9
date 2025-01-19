@@ -18,7 +18,7 @@ public:
     Map(int seed)
     {
         this->seed = seed;
-		tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
+		tileset.loadFromFile("../../src/content/tileset.png");
         WorldGen();
     }
 
@@ -32,9 +32,6 @@ public:
                 chunk.ChunkGen(chunk_x, chunk_y);
             }
         }
-
-
-
         return ChunkArr;
     }
 
