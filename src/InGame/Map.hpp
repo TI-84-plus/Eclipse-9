@@ -18,20 +18,23 @@ public:
     Map(int seed)
     {
         this->seed = seed;
-		tileset.loadFromFile("../../src/content/tileset.png");
+		tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
         WorldGen();
     }
 
     std::vector<TileMap> WorldGen()  
     {
-        for(int chunk_y = -(TileMap::ChunkSize/2); chunk_y < (TileMap::ChunkSize / 2); chunk_y++) 
+        for(int chunk_y = 0; chunk_y <= TileMap::ChunkSize; chunk_y++) 
         {
-            for(int chunk_x = -(TileMap::ChunkSize/2); chunk_x < (TileMap::ChunkSize / 2); chunk_x++) 
+            for(int chunk_x = 0; chunk_x <= TileMap::ChunkSize; chunk_x++) 
             {
                 TileMap &chunk = ChunkArr.emplace_back(seed, tileset);
                 chunk.ChunkGen(chunk_x, chunk_y);
             }
         }
+
+
+
         return ChunkArr;
     }
 

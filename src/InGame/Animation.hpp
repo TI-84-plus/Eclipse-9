@@ -7,6 +7,7 @@
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <iostream>
 
 
 class Frame {
@@ -45,7 +46,6 @@ class Animation {
 
 			if (progress <= 0.0 || &frame == &frames.back()) {
 				target->setTextureRect(frame.rect);
-				std::cout<<progress<<std::endl;
 				target->setTexture(*texture);
 				break;
 			}
@@ -53,7 +53,6 @@ class Animation {
 		//Start over
 		if(progress == 21) {
 			totalProgress = 0.0;
-			std::cout<<"reset"<<std::endl;
 		}
 		
 		}	

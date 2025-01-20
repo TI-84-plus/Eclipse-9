@@ -24,18 +24,13 @@ class MapSelectionState: public GameState
         MapSelection mapselection;
     public:
         std::vector<Chunk> chunks;
+		Chunk DrawChunk; 
         MapSelectionState() {
 
             chunks = mapselection.WorldGen();
             view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
             view.setCenter(0,0);
         };
-
-    //Initialize resources
-    void Init(){}
-
-    void Cleanup(){}
-    
 
 
     bool isPressed(sf::Event event)
@@ -44,7 +39,7 @@ class MapSelectionState: public GameState
     }
 
 
-    void HandleInput(StateManager* m_manager, sf::Event event) 
+    void HandleInput(sf::Event event) 
     {
         switch (event.key.code)
         {
@@ -130,13 +125,14 @@ class MapSelectionState: public GameState
             m_manager->AddState(std::make_unique<InGameState>(int(mapselection.seed)), false);
             m_manager->ProcessStateChanges();
         }
+
     }
 
     void Pause() {};
     void Resume() {};
 
 
-    void Draw(StateManager* m_manager, sf::RenderWindow& renderer)
+    void Draw(sf::RenderWindow& renderer)
     {
         renderer.clear();
         renderer.setView(view);

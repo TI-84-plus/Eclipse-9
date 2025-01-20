@@ -31,10 +31,11 @@ class Player
 
 		sf::Vector2f position;
 
-		int player_speed = 32;
+		int player_speed = 1;
 
 		Player() {
 			player_txt.loadFromFile("../../src/content/level1_idle.png");
+			player_sprt.setScale(0.08, 0.08);
 			animation.addFrame({sf::IntRect(8, 13, 63, 101), 6});
 
 		}
@@ -62,28 +63,28 @@ class Player
 			else if(event.type == event.KeyReleased){
 				if(CurrentPlayerState == 1){
 					CurrentPlayerState = 5;
-						       animation.addFrame({sf::IntRect(8, 13, 63, 101), 30});
+						       animation.addFrame({sf::IntRect(8, 13, 63, 101), 6});
 					 animation.addFrame({sf::IntRect((txt_x*1)+8, 13, 63, 101), 6});
 					 animation.addFrame({sf::IntRect((txt_x*2)+8, 13, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((txt_x*3)+8, 13, 81, 113), 70});
+					 animation.addFrame({sf::IntRect((txt_x*3)+8, 13, 81, 113), 6});
 					 animation.addFrame({sf::IntRect((txt_x*4)+8, 13, 81, 113), 6});
-					 animation.addFrame({sf::IntRect((txt_x*5)+8, 13, 81, 113), 32});
+					 animation.addFrame({sf::IntRect((txt_x*5)+8, 13, 81, 113), 6});
 					 animation.addFrame({sf::IntRect((txt_x*6)+8, 13, 81, 113), 6});
-					 animation.addFrame({sf::IntRect((txt_x*7)+8, 13, 81, 113), 50});
+					 animation.addFrame({sf::IntRect((txt_x*7)+8, 13, 81, 113), 6});
 					 animation.addFrame({sf::IntRect((txt_x*8)+8, 13, 81, 113), 6});
-					 animation.addFrame({sf::IntRect((txt_x*9)+8, 13, 81, 113), 21});
+					 animation.addFrame({sf::IntRect((txt_x*9)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*10)+8, 13, 81, 113), 6});
-					animation.addFrame({sf::IntRect((txt_x*11)+8, 13, 81, 113), 89});
+					animation.addFrame({sf::IntRect((txt_x*11)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*12)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*13)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*14)+8, 13, 81, 113), 6});
-					animation.addFrame({sf::IntRect((txt_x*15)+8, 13, 81, 113), 100});
+					animation.addFrame({sf::IntRect((txt_x*15)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*16)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*17)+8, 13, 81, 113), 6});
-					animation.addFrame({sf::IntRect((txt_x*18)+8, 13, 81, 113), 56});
+					animation.addFrame({sf::IntRect((txt_x*18)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*19)+8, 13, 81, 113), 6});
 					animation.addFrame({sf::IntRect((txt_x*20)+8, 13, 81, 113), 6});
-					animation.addFrame({sf::IntRect((txt_x*21)+8, 13, 81, 113), 91});
+					animation.addFrame({sf::IntRect((txt_x*21)+8, 13, 81, 113), 6});
 				}
 
 				else if(CurrentPlayerState == 2) {
@@ -103,7 +104,6 @@ class Player
 
 		// virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override 
 		// {
-		// 	animation.update(1);
 		// 	states.texture = &player_txt;
 		// 	target.draw(player_sprt, states);
         //     std::cout<<CurrentPlayerState<<std::endl;

@@ -17,9 +17,9 @@ public:
     virtual void Pause() = 0;
     virtual void Resume() = 0;
 
-    virtual void HandleInput(StateManager* game, sf::Event event) = 0;
+    virtual void HandleInput(sf::Event event) = 0;
     virtual void Update(StateManager* game) = 0;
-    virtual void Draw(StateManager* game, sf::RenderWindow& renderer) = 0;
+    virtual void Draw(sf::RenderWindow& renderer) = 0;
 };
 
 #endif

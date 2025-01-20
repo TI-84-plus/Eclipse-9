@@ -29,15 +29,14 @@ private:
 	std::chrono::high_resolution_clock::time_point start;
 	std::chrono::high_resolution_clock::time_point end;
 	float fps;
-    sf::Text fpsT;
-    sf::Font font;
 
 public:
 
     Game() 
     {
         render.setVerticalSyncEnabled(false);
-        manager.AddState(std::make_unique<InGameState>(int(123)), true);
+		render.setFramerateLimit(60);
+        manager.AddState(std::make_unique<InGameState>(int(3348)), true);
         manager.ProcessStateChanges();
     }
 
@@ -73,13 +72,13 @@ public:
                     break;}
 
 				case sf::Event::KeyPressed:
-                    manager.GetActiveState()->HandleInput(&manager, event);
+                    manager.GetActiveState()->HandleInput(event);
 
                 case sf::Event::KeyReleased:
-                    manager.GetActiveState()->HandleInput(&manager, event);
+                    manager.GetActiveState()->HandleInput(event);
 
 				case sf::Event::MouseWheelScrolled:
-					manager.GetActiveState()->HandleInput(&manager, event);
+					manager.GetActiveState()->HandleInput(event);
             }
         }
     }
@@ -93,10 +92,10 @@ public:
     //Render
     void Render()
     {
-        manager.GetActiveState()->Draw(&manager, render);
+        manager.GetActiveState()->Draw(render);
         end = std::chrono::high_resolution_clock::now();
         fps = (float)1e9/(float)std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-        // std::cout<<fps<<std::endl;
+        std::cout<<fps<<std::endl;
 
     };
 };

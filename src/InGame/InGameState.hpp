@@ -25,8 +25,8 @@ class InGameState: public GameState
         InGameState(int seed): MapSeed{seed}
         {
             view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
-            view.setCenter(1024, 1024);
-            Game.player.player_sprt.setPosition(1024, 1024);
+            view.setCenter(0, 0);
+            Game.player.player_sprt.setPosition(0, 0);
             std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
         }
 
@@ -40,7 +40,7 @@ class InGameState: public GameState
         }
 
 
-        void HandleInput(StateManager* game, sf::Event event) 
+        void HandleInput(sf::Event event) 
 		{   
 
 			switch (event.key.code) {
@@ -84,14 +84,16 @@ class InGameState: public GameState
             //Up
             if(Game.player.IsMovingUp)
             {
-                // Game.player.position.y -= Game.player.player_speed;	
-				// view.setCenter(Game.player.position);
+                Game.player.position.y -= Game.player.player_speed;	
+				Game.player.player_sprt.setPosition(Game.player.position);
+				view.setCenter(Game.player.position);
             }
 
             //Down
             if(Game.player.IsMovingDown) 
             {
                 Game.player.position.y += Game.player.player_speed;		
+				Game.player.player_sprt.setPosition(Game.player.position);
 				view.setCenter(Game.player.position);
             }
 
@@ -99,6 +101,7 @@ class InGameState: public GameState
             if(Game.player.IsMovingRight) 
             {
                 Game.player.position.x += Game.player.player_speed;		
+				Game.player.player_sprt.setPosition(Game.player.position);
 				view.setCenter(Game.player.position);
             }
 
@@ -106,15 +109,14 @@ class InGameState: public GameState
             if(Game.player.IsMovingLeft) 
             {
                 Game.player.position.x -= Game.player.player_speed;		
+				Game.player.player_sprt.setPosition(Game.player.position);
 				view.setCenter(Game.player.position);
-				// std::cout<<"View: "<<view.getCenter().x<<" "<<view.getCenter().y<<std::endl;
-				// std::cout<<"Player: "<<Game.player.position.x<<" "<<Game.player.position.y<<std::endl;
             }
 
 			
         };
 
-        void Draw(StateManager* game, sf::RenderWindow& renderer) {
+        void Draw(sf::RenderWindow& renderer) {
             renderer.clear();
             //renderer.setView(game->GetActiveState()->view);
             renderer.setView(view);
@@ -123,7 +125,7 @@ class InGameState: public GameState
                 renderer.draw(chunk);
             }
             
-            Game.player.animation.update(1);
+			Game.player.animation.update(1);
 			renderer.draw(Game.player.player_sprt);
             renderer.display();
         };
