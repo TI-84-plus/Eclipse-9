@@ -8,6 +8,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <memory>
+#include <vector>
+#include <unordered_map>
 
 
 class Frame {
@@ -20,16 +23,17 @@ class Frame {
 class Animation {
 
 	private:
-	std::vector<Frame> frames;
     sf::Sprite *target;
-	sf::Texture *texture;
+	std::vector<std::unique_ptr<sf::Texture>> &m_textures;
 	double totalProgress;
 	double totalLength;
 
     public:
-      Animation(sf::Sprite &target, sf::Texture &texture) { 
-        this->target = &target;
-		this->texture = &texture;
+	  std::vector<Frame> frames;
+      Animation(sf::Sprite &target, std::vector<std::unique_ptr<sf::Texture>> &textures) : m_textures{textures} { 
+		this->target = &target;
+		//this->textures std::move(textures);
+		//this->textures.push_back(std::make_unique<sf::Texture>(texture));
 		totalProgress = 0.0;
       }
 
@@ -46,7 +50,7 @@ class Animation {
 
 			if (progress <= 0.0 || &frame == &frames.back()) {
 				target->setTextureRect(frame.rect);
-				target->setTexture(*texture);
+				
 				break;
 			}
 		}

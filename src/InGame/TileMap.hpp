@@ -23,7 +23,7 @@ class TileMap : public sf::Drawable{
 	
 	public:
 		sf::VertexArray vertexArray;
-		static constexpr float ChunkSize = 4.0f;
+		static constexpr float ChunkSize = 16.0f;
 
 		TileMap(int seed, sf::Texture& tileset){
 		this->seed = seed;

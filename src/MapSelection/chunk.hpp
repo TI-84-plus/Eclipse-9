@@ -21,7 +21,7 @@ const int pixel_channel = 4;
 class Chunk
 {
     public:
-        std::shared_ptr<sf::Texture> texture;
+        std::unique_ptr<sf::Texture> texture;
         sf::Sprite sprite;
         std::vector<uint8_t> pixels;
         sf::Vector2f chunk_position;  //Cordinate of each chunk.

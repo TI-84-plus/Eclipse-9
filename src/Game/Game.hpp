@@ -36,7 +36,7 @@ public:
     {
         render.setVerticalSyncEnabled(false);
 		render.setFramerateLimit(60);
-        manager.AddState(std::make_unique<InGameState>(int(3348)), true);
+        manager.AddState(std::make_unique<InGameState>(int(9499999834)), true);
         manager.ProcessStateChanges();
     }
 

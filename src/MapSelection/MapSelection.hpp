@@ -17,7 +17,6 @@ const int screenheight = 1080;
 class MapSelection
 {
 private:
-    std::vector<Chunk> chunks;
     int x_counter = ((-chunkSize/2)-1);
     int y_counter = -(chunkSize/2);
 
@@ -59,6 +58,7 @@ public:
     std::vector<Chunk> WorldGen()
     {
 
+		std::vector<Chunk> chunks;
         std::random_device rd;
         std::mt19937 gen(rd());
         seed = gen();
