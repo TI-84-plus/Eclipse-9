@@ -1,16 +1,87 @@
-# SFML-Game inspired by factorio
-this is my first big project, Was just supposed to be a Procedural Generation Project, But i might make it into a full on Game now
-3rd party library used  https://github.com/Auburn/FastNoiseLite
+2D Open-World Game
+==================
 
-Made a Map Selection area so far with Chunk loading implemented, You can move with W, S, A, D can regenerate the map with space (new map will be generated)
-and can select the map with enter(Selecting doesnt do anything so far).
+A work in progress game inspired by factorio and minecraft, its a 2D inifinite open world.
 
-offcourse i dont have any Game Menu, Settings Menu, stuff just yet, obviously iam gonna work on core game first and then expand into details from there.
+its a personal project that i have been working on for long time. iam doing Procedural map generation using opensimplex noise.
 
-compilation instruction coming soon...but should work with linux using CMake. Windows should also work but i have not tried compiling with windows yet.
-have not done any compilation testing or anything, no point just yet should focus more on the project then get distracted by those things, does work for me tho
-
-![image](https://github.com/FiveEight58/SFML-procedural_terrain_generation/assets/61921574/d11e07e8-4be0-47eb-bcd2-204a226fee94)
+iam using sfml library for graphics, inputs, networking, audio etc.
 
 
-![image](https://github.com/FiveEight58/SFML-procedural_terrain_generation/assets/61921574/4b2b4bb8-766e-475d-9b15-890e921dc3bc)
+Images
+======
+
+![Screenshot_20250123_214745](https://github.com/user-attachments/assets/8f19d678-982e-4af1-9319-41f58b954be4)
+![Screenshot_20250123_214101](https://github.com/user-attachments/assets/9c94fd5c-3614-4f49-87d5-ecc9f536029b)
+
+
+Compilation
+===========
+
+the sfml source is already provided with the repo so no need to install it seperately
+
+Windows
+-------
+
+- Install [CMake](https://cmake.org/download/) if you dont already have it
+
+Linux
+-----
+
+- install [CMake](https://cmake.org.download/) if you dont already have it:
+  - Installation by PPA
+    ```sh
+    sudo apt-get install software-properties-common
+    sudo add-apt-repository ppa:george-edison55/cmake-3.x
+    sudo apt-get update
+
+    sudo apt-get install cmake
+    ```
+
+  - Installation by compiling source 
+    - Download:
+      ```sh
+      $ wget http://www.cmake.org/files/v2.8/cmake-2.8.3.tar.gz
+      ```
+    - Extration of cmake source code from downloaded file:
+      ```sh
+      $ tar xzf cmake-2.8.3.tar.gz
+      $ cd cmake-2.8.3
+      ```
+    - Configuration:
+        ```sh
+        make
+        ```
+    - Installation:
+        ```sh
+        make install
+        ```
+Building
+========
+
+- Clone the repository:
+
+  ```sh
+  git clone https://github.com/TI-84-plus/SFML-procedural_terrain_generation/
+  ```
+- cd into repo and create build directory:
+    ```sh
+      cd Proc_Gen
+      mkdir build
+      cd build/
+    ```
+- build
+  ```sh
+      cmake ..
+  ```
+  run
+  ```sh
+    ./bin/CMakeSFMLProject
+  ```
+
+  more features, bugfixes etc are coming soon.....
+
+    
+
+
+
