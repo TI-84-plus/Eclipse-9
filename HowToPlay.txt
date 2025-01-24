@@ -1,4 +1,0 @@
-When you start the Game a Mapselection area will show up, offcoarse none of this is finished, i need to make menu, proper controls etc
-
-- generate a different map with space,
-- when decided on a map press Enter to enter the map
