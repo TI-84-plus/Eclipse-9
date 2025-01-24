@@ -26,23 +26,38 @@ class Player
 		bool IsMovingRight = false;
 		bool IsMovingLeft = false;
 
+		double running_duration = 1;
+		double idle_duration = 10;
+
 		std::map<std::string, int> PlayerStates 
 		{
 			{"idle_up", 5},
 			{"idle_down", 6},
 			{"idle_right", 7},
 			{"idle_left", 8},
+
+			{"idle_topRight", 9},
+			{"idle_bottomRight", 10},
+			{"idle_bottomLeft", 11},
+			{"idle_topLeft", 12},
 			
+
+
 			{"running_up", 1},
 			{"running_down", 2},
 			{"running_right", 3},
-			{"running_left", 4}
+			{"running_left", 4},
+
+			{"runnin_topRight", 13},
+			{"running_bottomRight", 14},
+			{"running_bottomLeft", 15},
+			{"running_topLeft", 16}	
 		};
 
 
 		Animation animation{player_sprt, textures};
 
-		int CurrentPlayerState = 0;
+		int CurrentPlayerState = 6;
 
 		sf::Vector2f position;
 
@@ -58,167 +73,123 @@ class Player
 			textures.push_back(std::move(idle_txt));
 			
 			player_sprt.setScale(0.08, 0.08);
-			animation.addFrame({sf::IntRect(8, 13, 63, 101), 6});
+
+			animation.addFrame(92, 0, 92, 116, running_duration);	//idle up
+			animation.addFrame(92, 464, 92, 116, running_duration); //idle down
+			animation.addFrame(92, 232, 92, 116, running_duration);	//idle right
+			animation.addFrame(92, 696, 92, 116, running_duration); //idle left
+
+			animation.addFrame(88, 0, 88, 132, running_duration);	//running up
+			animation.addFrame(88, 528, 88, 132, running_duration);	//running down
+			animation.addFrame(88, 264, 88, 132, running_duration); //running right
+			animation.addFrame(88, 792, 88, 132, running_duration); //running left
+			
+			animation.addFrame(92, 116, 92, 116, idle_duration);	//idle topRight
+			animation.addFrame(92, 348, 92, 116, idle_duration);	//idle bottomRight
+			animation.addFrame(92, 580, 92, 116, idle_duration);	//idle bottomLeft
+			animation.addFrame(92, 812, 92, 116, idle_duration);	//idle topLeft
+
+			animation.addFrame(88, 132, 92, 116, idle_duration);	//running topRight
+			animation.addFrame(88, 396, 92, 116, idle_duration);	//running bottomRight
+			animation.addFrame(88, 660, 92, 116, idle_duration);	//running bottomLeft
+			animation.addFrame(88, 924, 92, 116, idle_duration);	//running topLeft
+
 		}
 
 		void UpdatePlayerStatus(sf::Event event) {
-			if(event.type == event.KeyPressed) 
+		if(IsMovingUp == 1 || IsMovingDown == 1 || IsMovingLeft == 1 || IsMovingRight == 1) 
 			{
+				player_sprt.setTexture(*textures[0]);
 				if(IsMovingUp) {
 					CurrentPlayerState = PlayerStates["running_up"];
-					player_sprt.setTexture(*textures[0]);
-					animation.frames.clear();
-					 animation.addFrame({sf::IntRect((88*0), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*1), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*2), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*3), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*4), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*5), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*6), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*7), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*8), 0, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((88*9), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*10), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*11), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*12), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*13), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*14), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*15), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*16), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*17), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*18), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*19), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*20), 0, 63, 101), 6});
-					animation.addFrame({sf::IntRect((88*21), 0, 63, 101), 6});
+					animation.currentFrame = 4;
+				}
 
+				else if(IsMovingUp && IsMovingRight) {
+					CurrentPlayerState = PlayerStates["running_topRight"];
+					animation.currentFrame = 12;
 				}
 
 				else if(IsMovingDown) {
 					CurrentPlayerState = PlayerStates["running_down"];
+					animation.currentFrame = 5;
+				}
+
+				else if(IsMovingDown && IsMovingRight) {
+					CurrentPlayerState = PlayerStates["running_bottomRight"];
+					animation.currentFrame = 13;
 				}
 
 				else if(IsMovingRight) {
 					CurrentPlayerState = PlayerStates["running_right"];
+					animation.currentFrame = 6;
+				}
+
+				else if(IsMovingDown && IsMovingLeft) {
+					CurrentPlayerState = PlayerStates["running_bottomLeft"];
+					animation.currentFrame = 14;
 				}
 
 				else if(IsMovingLeft) {
 					CurrentPlayerState = PlayerStates["running_left"];
+					animation.currentFrame = 7;
 				}
-				std::cout<<CurrentPlayerState<<std::endl;
+
+				else if(IsMovingUp && IsMovingLeft) {
+					CurrentPlayerState = PlayerStates["running_topLeft"];
+					animation.currentFrame = 15;
+				}
 			}
 
 
-			else if(event.type == event.KeyReleased)
+			else if(IsMovingLeft == 0 && IsMovingRight == 0 && IsMovingDown == 0 && IsMovingUp == 0)
 			{
 				player_sprt.setTexture(*textures[1]);
 				if(CurrentPlayerState == PlayerStates["running_up"])
 				{
 					CurrentPlayerState = PlayerStates["idle_up"];
-					animation.frames.clear();
-					 animation.addFrame({sf::IntRect((92*0)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*1)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*2)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*3)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*4)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*5)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*6)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*7)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*8)+8, 11, 63, 101), 6});
-					 animation.addFrame({sf::IntRect((92*9)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*10)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*11)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*12)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*13)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*14)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*15)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*16)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*17)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*18)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*19)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*20)+8, 11, 63, 101), 6});
-					animation.addFrame({sf::IntRect((92*21)+8, 11, 63, 101), 6});
+					 animation.currentFrame = 0;
+				}
+
+				if(CurrentPlayerState == PlayerStates["running_topRight"])
+				{
+					CurrentPlayerState = PlayerStates["idle_topRight"];
+					 animation.currentFrame = 8;
 				}
 
 				else if(CurrentPlayerState == PlayerStates["running_down"]) {
 					CurrentPlayerState = PlayerStates["idle_down"];
-					animation.frames.clear();	
-					 animation.addFrame({sf::IntRect((92*0)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*1)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*2)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*3)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*4)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*5)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*6)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*7)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*8)+21, 463, 63, 108), 6});
-					 animation.addFrame({sf::IntRect((92*9)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*10)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*11)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*12)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*13)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*14)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*15)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*16)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*17)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*18)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*19)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*20)+21, 463, 63, 108), 6});
-					animation.addFrame({sf::IntRect((92*21)+21, 463, 63, 108), 6});
+					 animation.currentFrame = 1;
+				}
+
+				if(CurrentPlayerState == PlayerStates["running_bottomRight"])
+				{
+					CurrentPlayerState = PlayerStates["idle_bottomRight"];
+					 animation.currentFrame = 9;
 				}
 
 				else if(CurrentPlayerState == PlayerStates["running_right"]) {
 					CurrentPlayerState = PlayerStates["idle_right"];
-					animation.frames.clear();	
-					 animation.addFrame({sf::IntRect((92*0)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*1)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*2)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*3)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*4)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*5)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*6)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*7)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*8)+10, 239, 48, 101), 6});
-					 animation.addFrame({sf::IntRect((92*9)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*10)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*11)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*12)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*13)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*14)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*15)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*16)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*17)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*18)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*19)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*20)+10, 239, 48, 101), 6});
-					animation.addFrame({sf::IntRect((92*21)+10, 239, 48, 101), 6});
+					animation.currentFrame = 2;
+				}
+
+				if(CurrentPlayerState == PlayerStates["running_bottomLeft"])
+				{
+					CurrentPlayerState = PlayerStates["idle_bottomLeft"];
+					 animation.currentFrame = 10;
 				}
 
 				else if(CurrentPlayerState == PlayerStates["running_left"]) {
 					CurrentPlayerState = PlayerStates["idle_left"];
-					animation.frames.clear();	
-						    animation.addFrame({sf::IntRect(34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*1)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*2)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*3)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*4)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*5)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*6)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*7)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*8)+34, 704, 48, 103), 6});
-					 animation.addFrame({sf::IntRect((92*9)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*10)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*11)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*12)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*13)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*14)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*15)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*16)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*17)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*18)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*19)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*20)+34, 704, 48, 103), 6});
-					animation.addFrame({sf::IntRect((92*21)+34, 704, 48, 103), 6});
-				};
+					animation.currentFrame = 3;
+				}
+
+				if(CurrentPlayerState == PlayerStates["running_topLeft"])
+				{
+					CurrentPlayerState = PlayerStates["idle_topLeft"];
+					 animation.currentFrame = 11;
+				}
+
 			};
 			std::cout<<CurrentPlayerState<<std::endl;
 		};

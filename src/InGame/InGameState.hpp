@@ -115,7 +115,7 @@ class InGameState: public GameState
 
 			
         };
-
+	
         void Draw(sf::RenderWindow& renderer) {
             renderer.clear();
             //renderer.setView(game->GetActiveState()->view);
@@ -125,7 +125,7 @@ class InGameState: public GameState
                 renderer.draw(chunk);
             }
             
-			Game.player.animation.update(1);
+			Game.player.animation.update(0.8);
 			renderer.draw(Game.player.player_sprt);
             renderer.display();
         };

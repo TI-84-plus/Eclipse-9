@@ -36,7 +36,7 @@ public:
     {
         render.setVerticalSyncEnabled(false);
 		render.setFramerateLimit(60);
-        manager.AddState(std::make_unique<InGameState>(int(9499999834)), true);
+        manager.AddState(std::make_unique<MapSelectionState>(), true);
         manager.ProcessStateChanges();
     }
 
@@ -95,7 +95,7 @@ public:
         manager.GetActiveState()->Draw(render);
         end = std::chrono::high_resolution_clock::now();
         fps = (float)1e9/(float)std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-        std::cout<<fps<<std::endl;
+        // std::cout<<fps<<std::endl;
 
     };
 };
