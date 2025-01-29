@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "TileMap.hpp"
+#include "Chunk.hpp"
 #include <random>
 #include <iostream>
 #include "../../libs/FastNoiseLite.h"
@@ -13,7 +13,7 @@ private:
 	sf::Texture tileset;
 
 public:
-    std::vector<TileMap> ChunkArr;
+    std::vector<Chunk> ChunkArr;
 
     Map(int seed)
     {
@@ -22,13 +22,13 @@ public:
         WorldGen();
     }
 
-    std::vector<TileMap> WorldGen()  
+    std::vector<Chunk> WorldGen()  
     {
-        for(int chunk_y = 0; chunk_y <= TileMap::ChunkSize; chunk_y++) 
+        for(int chunk_y = 0; chunk_y <= Chunk::ChunkSize; chunk_y++) 
         {
-            for(int chunk_x = 0; chunk_x <= TileMap::ChunkSize; chunk_x++) 
+            for(int chunk_x = 0; chunk_x <= Chunk::ChunkSize; chunk_x++) 
             {
-                TileMap &chunk = ChunkArr.emplace_back(seed, tileset);
+                Chunk &chunk = ChunkArr.emplace_back(seed, tileset);
                 chunk.ChunkGen(chunk_x, chunk_y);
             }
         }

@@ -9,7 +9,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <random>
-#include "chunk.hpp"
+#include "S_Chunk.hpp"
 #include "../../libs/FastNoiseLite.h"
 
 const int screenwidth = 1920;
@@ -55,10 +55,10 @@ public:
     };
 
 
-    std::vector<Chunk> WorldGen()
+    std::vector<S_Chunk> WorldGen()
     {
 
-		std::vector<Chunk> chunks;
+		std::vector<S_Chunk> chunks;
         std::random_device rd;
         std::mt19937 gen(rd());
         seed = gen();
@@ -80,7 +80,7 @@ public:
                     break;
                 }
             }
-            Chunk &chunk = chunks.emplace_back(); //2.
+            S_Chunk &chunk = chunks.emplace_back(); //2.
             chunk = ChunkGen(seed, x_counter, y_counter); 
         }
         std::cout<<"Chunk returned"<<std::endl;
@@ -88,7 +88,7 @@ public:
     }
 
 
-    Chunk ChunkGen(int seed, float chunk_x, float chunk_y) //1. Move this function defination to Chunk constructor
+    S_Chunk ChunkGen(int seed, float chunk_x, float chunk_y) //1. Move this function defination to Chunk constructor
     {   
         int seed2 = modifyseed(seed);
         int seed3 = modifyseed(seed2);
@@ -100,7 +100,7 @@ public:
         FastNoiseLite Layout3= noiseparams(4, 0.004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
         FastNoiseLite Layout4= noiseparams(4, 0.008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
         FastNoiseLite Layout5= noiseparams(4, 0.0016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
-        Chunk chunk;
+        S_Chunk chunk;
         // pixel_Y
         for (int y = -screen_height / 2; y < screen_height / 2; ++y)
         {

@@ -14,13 +14,18 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 find_package(SFML 2 REQUIRED COMPONENTS graphics)
 
-add_executable(CMakeSFMLProject src/Main.cpp
+add_executable(CMakeSFMLProject 
+    src/Main.cpp 
+    src/Game/Game.cpp 
+    src/InGame/Animation.cpp
+    src/InGame/Player.cpp
+    src/InGame/InGameState.cpp
+    
 )
 
 target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)
 target_compile_features(CMakeSFMLProject PRIVATE cxx_std_20)
 target_include_directories(CMakeSFMLProject PUBLIC src
-    ${PROJECT_SOURCE_DIR}/Font/
 )
 
 if(WIN32)

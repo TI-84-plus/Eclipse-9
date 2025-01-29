@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <cctype>
 #include "InGame/InGameState.hpp"
-#include "chunk.hpp"
+#include "S_Chunk.hpp"
 #include "MapSelection.hpp"
 #include "State/StateManager.hpp"
 
@@ -23,8 +23,8 @@ class MapSelectionState: public GameState
     private:
         MapSelection mapselection;
     public:
-        std::vector<Chunk> chunks;
-		Chunk DrawChunk; 
+        std::vector<S_Chunk> chunks;
+		S_Chunk DrawChunk; 
         MapSelectionState() {
 
             chunks = mapselection.WorldGen();
@@ -136,7 +136,7 @@ class MapSelectionState: public GameState
     {
         renderer.clear();
         renderer.setView(view);
-        for(const Chunk& chunk : chunks)
+        for(const S_Chunk& chunk : chunks)
         {
             renderer.draw(chunk.sprite);
         }

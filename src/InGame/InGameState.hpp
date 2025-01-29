@@ -22,113 +22,19 @@ class InGameState: public GameState
         InGame Game{MapSeed};
 
     public:
-        InGameState(int seed): MapSeed{seed}
-        {
-            view = sf::View(sf::FloatRect(800.f, 800.f, screenwidth, screenheight));
-            view.setCenter(0, 0);
-            Game.player.player_sprt.setPosition(0, 0);
-            std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
-        }
+        InGameState(int seed);
 
 
-        void Pause() {};
-        void Resume() {};
-
-        bool isPressed(sf::Event event)
-        {
-            return event.type == event.KeyPressed;
-        }
-
-
-        void HandleInput(sf::Event event) 
-		{   
-
-			switch (event.key.code) {
-				case sf::Keyboard::W:
-					Game.player.IsMovingUp = isPressed(event);
-					Game.player.UpdatePlayerStatus(event);
-					break;
-				case sf::Keyboard::S:
-					Game.player.IsMovingDown = isPressed(event);
-					Game.player.UpdatePlayerStatus(event);
-					break;
-				case sf::Keyboard::A:
-					Game.player.IsMovingLeft = isPressed(event);
-					Game.player.UpdatePlayerStatus(event);
-					break;
-				case sf::Keyboard::D:
-					Game.player.IsMovingRight = isPressed(event);
-					Game.player.UpdatePlayerStatus(event);
-					break;
-
-			}
-
-			//MouseWheel
-			if(event.mouseWheelScroll.delta < 0) {
-				double MapZoom = (MapZoom*1.1);
-
-				view.zoom(1.1);
-				std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
-            }
-			
-			if(event.mouseWheelScroll.delta > 0) {
-				double MapZoom = (MapZoom*0.9);
-
-				view.zoom(0.9);
-				std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
-			}
-		}
-
-        void Update(StateManager* game) {
-
-            //Up
-            if(Game.player.IsMovingUp)
-            {
-                Game.player.position.y -= Game.player.player_speed;	
-				Game.player.player_sprt.setPosition(Game.player.position);
-				view.setCenter(Game.player.position);
-            }
-
-            //Down
-            if(Game.player.IsMovingDown) 
-            {
-                Game.player.position.y += Game.player.player_speed;		
-				Game.player.player_sprt.setPosition(Game.player.position);
-				view.setCenter(Game.player.position);
-            }
-
-            //Right
-            if(Game.player.IsMovingRight) 
-            {
-                Game.player.position.x += Game.player.player_speed;		
-				Game.player.player_sprt.setPosition(Game.player.position);
-				view.setCenter(Game.player.position);
-            }
-
-            //Left
-            if(Game.player.IsMovingLeft) 
-            {
-                Game.player.position.x -= Game.player.player_speed;		
-				Game.player.player_sprt.setPosition(Game.player.position);
-				view.setCenter(Game.player.position);
-            }
-
-			
-        };
-	
-        void Draw(sf::RenderWindow& renderer) {
-            renderer.clear();
-            //renderer.setView(game->GetActiveState()->view);
-            renderer.setView(view);
-            for(const TileMap& chunk : Game.map.ChunkArr) 
-            {
-                renderer.draw(chunk);
-            }
-            
-			Game.player.animation.update(0.8);
-			renderer.draw(Game.player.player_sprt);
-            renderer.display();
-        };
-
+        void Pause();
+        void Resume();
+    
+        bool isPressed(sf::Event event);
+    
+    
+        void HandleInput(sf::Event event);
+    
+        void Update(StateManager* game);
+    
+        void Draw(sf::RenderWindow& renderer);
 };
 #endif

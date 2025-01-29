@@ -18,7 +18,7 @@ const int screen_width = screen;
 const int screen_height = screen;
 const int pixel_channel = 4;
 
-class Chunk
+class S_Chunk
 {
     public:
         std::unique_ptr<sf::Texture> texture;
@@ -26,7 +26,7 @@ class Chunk
         std::vector<uint8_t> pixels;
         sf::Vector2f chunk_position;  //Cordinate of each chunk.
 
-        Chunk()
+        S_Chunk()
         {
             //Dont know why i assigned texture and pixels to make_unique even tho i defined them as shared ptr
             //but when i change them the code breaks
