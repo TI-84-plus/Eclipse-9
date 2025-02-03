@@ -2,5 +2,6 @@
 /.vscode
 .clangd
 .cache
+Debug/
 
 compile_commands.json

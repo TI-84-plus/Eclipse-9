@@ -2,9 +2,8 @@
 
 InGameState::InGameState(int seed): MapSeed{seed}
 {
-    view = sf::View(sf::FloatRect(0.f, 0.f, screenwidth, screenheight));
-    view.setCenter(0, 0);
-	Game.player.player_sprt.setOrigin(44.f, 104.f);
+    view = sf::View(sf::FloatRect(0, 0, screenwidth, screenheight));
+	Game.player.player_sprt.setOrigin( 44.f, 104.f);
     std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
 };
 

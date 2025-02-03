@@ -24,9 +24,9 @@ public:
 
     std::vector<Chunk> WorldGen()  
     {
-        for(int chunk_y = -(Chunk::ChunksLoaded/2); chunk_y <= Chunk::ChunksLoaded/2; chunk_y++) 
+        for(int chunk_y = 0; chunk_y <= Chunk::ChunksLoaded; chunk_y++) 
         {
-            for(int chunk_x = -(Chunk::ChunksLoaded/2); chunk_x <= Chunk::ChunksLoaded/2; chunk_x++) 
+            for(int chunk_x = 0; chunk_x <= Chunk::ChunksLoaded; chunk_x++) 
             {
                 Chunk &chunk = ChunkArr.emplace_back(seed, tileset);
                 chunk.ChunkGen(chunk_x, chunk_y);
