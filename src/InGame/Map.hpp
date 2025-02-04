@@ -13,22 +13,25 @@ private:
 	sf::Texture tileset;
 
 public:
+	float ChunkSize = 32;
+	float ChunksLoaded = 16;
+	
     std::vector<Chunk> ChunkArr;
 
     Map(int seed)
     {
         this->seed = seed;
 		tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
-        WorldGen();
+        WorldGen(ChunkSize, ChunksLoaded);
     }
 
-    std::vector<Chunk> WorldGen()  
+    std::vector<Chunk> WorldGen(float ChunkSize, float ChunksLoaded)  
     {
-        for(int chunk_y = 0; chunk_y <= Chunk::ChunksLoaded; chunk_y++) 
+        for(int chunk_y = 0; chunk_y < ChunksLoaded; chunk_y++) 
         {
-            for(int chunk_x = 0; chunk_x <= Chunk::ChunksLoaded; chunk_x++) 
+            for(int chunk_x = 0; chunk_x < ChunksLoaded; chunk_x++) 
             {
-                Chunk &chunk = ChunkArr.emplace_back(seed, tileset);
+                Chunk &chunk = ChunkArr.emplace_back(seed, tileset, ChunkSize, ChunksLoaded);
                 chunk.ChunkGen(chunk_x, chunk_y);
             }
         }

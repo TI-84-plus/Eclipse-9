@@ -20,19 +20,21 @@ class Chunk : public sf::Drawable{
 		int seed, seed2, seed3, seed4, seed5;
 		int tileTextureDimension = 32;
 		double tileWorldDimension = 1;
+		float ChunkSize;
+		float ChunksLoaded;
 
-		float ChunkSize = 32.f;	//Tiles per CHunk
 								
 		sf::Vector2f ChunkPosition;
 
 		sf::VertexArray lines;
 	
 	public:
-		static constexpr float ChunksLoaded = 16;  //Amount of Chunks Loaded
 		sf::VertexArray vertexArray;
 
-		Chunk(int seed, sf::Texture& tileset){
-
+		Chunk(int seed, sf::Texture& tileset, float ChunkSize, float ChunksLoaded){
+		
+		this->ChunksLoaded = ChunksLoaded;
+		this->ChunkSize = ChunkSize;
 		this->seed = seed;
 		this->tileset = tileset;
 		vertexArray.resize((ChunkSize*2 * ChunkSize*2) * 4);
@@ -75,26 +77,21 @@ class Chunk : public sf::Drawable{
 			// lines.append(sf::Vertex(sf::Vector2f(-128-8, (-128)+16), sf::Color::Red));
 			// lines.append(sf::Vertex(sf::Vector2f((128+8)+1, -128+16), sf::Color::Red));
 
-	//		lines.append(sf::Vertex(sf::Vector2f(-(ChunksLoaded*ChunksLoaded/2)-(ChunksLoaded/2), 	
-	//						(((-(ChunksLoaded*ChunksLoaded/2))+((ChunksLoaded/2)*(chunk_x+(ChunksLoaded/2))))+((chunk_x*(ChunksLoaded/2))+(ChunksLoaded/2)*(ChunksLoaded/2)))-(ChunksLoaded/2)), sf::Color::Red));
-
-
-	//		lines.append(sf::Vertex(sf::Vector2f((ChunksLoaded*(ChunksLoaded/2))-(ChunksLoaded/2), 
-	//						(((-(ChunksLoaded*ChunksLoaded/2))+((ChunksLoaded/2)*(chunk_x+(ChunksLoaded/2))))+((chunk_x*(ChunksLoaded/2))+((ChunksLoaded/2)*(ChunksLoaded/2))))-(ChunksLoaded/2)), sf::Color::Red));
-	
-	
-	//		lines.append(sf::Vertex(sf::Vector2f(-((ChunksLoaded/2)*ChunkSize)-(ChunksLoaded+ChunkSize), -((ChunksLoaded/2)*ChunkSize)-(ChunksLoaded)), sf::Color::Red));
-	//		lines.append(sf::Vertex(sf::Vector2f(((ChunksLoaded/2)*ChunkSize)-(ChunksLoaded+ChunkSize), -((ChunksLoaded/2)*ChunkSize)-(ChunksLoaded)), sf::Color::Red));
-	//
+			//Horizontal Chunks
 			lines.append(sf::Vertex(sf::Vector2f(0.f, 
-							chunk_y), sf::Color::Red));
+							chunk_y*(ChunkSize)), sf::Color::Red));
+			lines.append(sf::Vertex(sf::Vector2f((ChunkSize*ChunksLoaded),		//Idk why it has an offset of about 1 chunk????? thats what the +ChunkSize is for
+							chunk_y*(ChunkSize)), sf::Color::Red));	//Change This value to add many chunk horizontal outlines and later vertical
 
-			lines.append(sf::Vertex(sf::Vector2f(0.f,		//Idk Why but it has an offset of about 1????? might even need this in vertical 
-							chunk_y), sf::Color::Red));	//Change This value to add many chunk horizontal outlines and later vertical
+																	
+			//Vertical chunks
+			lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
+							0), sf::Color::Red));
+			lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
+							(ChunkSize*ChunksLoaded)), sf::Color::Red));
 																											//the second line in each vertice is vertical and first line = horizontal
-																											//position
 
-			std::cout<<-((((16/2)*32)+(0*(32))))<<std::endl;
+
 		}
 	}
 
@@ -129,9 +126,9 @@ class Chunk : public sf::Drawable{
 
 
 
-		for(int y = 0; y <= ChunkSize; y++) 
+		for(int y = 0; y < ChunkSize; y++) 
 		{
-			for(int x = 0; x <= ChunkSize; x++) 
+			for(int x = 0; x < ChunkSize; x++) 
 			{
 				double Map1 = Layout1.GetNoise(float((chunk_x*(ChunkSize))+x),float((chunk_y*(ChunkSize)+y)));
         		double Map2 = Layout2.GetNoise(float((chunk_x*(ChunkSize))+x),float((chunk_y*(ChunkSize)+y)));

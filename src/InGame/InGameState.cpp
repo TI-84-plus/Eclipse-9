@@ -3,7 +3,10 @@
 InGameState::InGameState(int seed): MapSeed{seed}
 {
     view = sf::View(sf::FloatRect(0, 0, screenwidth, screenheight));
+	view.setCenter((Game.map.ChunkSize*Game.map.ChunksLoaded)/2, (Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
 	Game.player.player_sprt.setOrigin( 44.f, 104.f);
+	Game.player.position.x = ((Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
+	Game.player.position.y = ((Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
     std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
 };
 
