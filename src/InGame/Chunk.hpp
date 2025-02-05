@@ -70,29 +70,24 @@ class Chunk : public sf::Drawable{
 
 
 
-		if(x == 0 && y == 0){
-			// lines.append(sf::Vertex(sf::Vector2f(-128-8, (-128)+8), sf::Color::Red));
-			// lines.append(sf::Vertex(sf::Vector2f((128+8)+1, -128+8), sf::Color::Red));
+		// if(x == 0 && y == 0){
 
-			// lines.append(sf::Vertex(sf::Vector2f(-128-8, (-128)+16), sf::Color::Red));
-			// lines.append(sf::Vertex(sf::Vector2f((128+8)+1, -128+16), sf::Color::Red));
-
-			//Horizontal Chunks
-			lines.append(sf::Vertex(sf::Vector2f(0.f, 
-							chunk_y*(ChunkSize)), sf::Color::Red));
-			lines.append(sf::Vertex(sf::Vector2f((ChunkSize*ChunksLoaded),		//Idk why it has an offset of about 1 chunk????? thats what the +ChunkSize is for
-							chunk_y*(ChunkSize)), sf::Color::Red));	//Change This value to add many chunk horizontal outlines and later vertical
+		// 	//Horizontal Chunks
+		// 	lines.append(sf::Vertex(sf::Vector2f(32, 
+		// 					chunk_y*(ChunkSize)), sf::Color::Red));
+		// 	lines.append(sf::Vertex(sf::Vector2f((ChunkSize*ChunksLoaded),		//Idk why it has an offset of about 1 chunk????? thats what the +ChunkSize is for
+		// 					chunk_y*(ChunkSize)), sf::Color::Red));	//Change This value to add many chunk horizontal outlines and later vertical
 
 																	
-			//Vertical chunks
-			lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
-							0), sf::Color::Red));
-			lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
-							(ChunkSize*ChunksLoaded)), sf::Color::Red));
-																											//the second line in each vertice is vertical and first line = horizontal
+		// 	//Vertical chunks
+		// 	lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
+		// 					32), sf::Color::Red));
+		// 	lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
+		// 					(ChunkSize*ChunksLoaded)), sf::Color::Red));
+		// 																									//the second line in each vertice is vertical and first line = horizontal
 
 
-		}
+		// }
 	}
 
 

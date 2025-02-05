@@ -13,7 +13,7 @@ private:
 	sf::Texture tileset;
 
 public:
-	float ChunkSize = 32;
+	float ChunkSize = 4;
 	float ChunksLoaded = 16;
 	
     std::vector<Chunk> ChunkArr;
@@ -22,20 +22,25 @@ public:
     {
         this->seed = seed;
 		tileset.loadFromFile("/home/fiveeght/Proc_Gen/src/content/tileset.png");
-        WorldGen(ChunkSize, ChunksLoaded);
     }
 
-    std::vector<Chunk> WorldGen(float ChunkSize, float ChunksLoaded)  
+    std::vector<Chunk> WorldGen(sf::Vector2f player_pos)  
     {
-        for(int chunk_y = 0; chunk_y < ChunksLoaded; chunk_y++) 
+		
+		float player_chunkPosY = round(player_pos.y/ChunkSize);
+		float player_chunkPosX = round(player_pos.x/ChunkSize);
+		
+
+        for(float LoadedChunkY = player_chunkPosY-(ChunksLoaded/2); LoadedChunkY < ChunksLoaded+(player_chunkPosY-(ChunksLoaded/2)); LoadedChunkY++) 
         {
-            for(int chunk_x = 0; chunk_x < ChunksLoaded; chunk_x++) 
+			for(float LoadedChunkX = player_chunkPosX-(ChunksLoaded/2); LoadedChunkX < ChunksLoaded+(player_chunkPosX-(ChunksLoaded/2)); LoadedChunkX++) 
             {
+					
                 Chunk &chunk = ChunkArr.emplace_back(seed, tileset, ChunkSize, ChunksLoaded);
-                chunk.ChunkGen(chunk_x, chunk_y);
+                chunk.ChunkGen(LoadedChunkX, LoadedChunkY);
+
             }
         }
-
 
 
         return ChunkArr;

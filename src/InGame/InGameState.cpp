@@ -3,11 +3,15 @@
 InGameState::InGameState(int seed): MapSeed{seed}
 {
     view = sf::View(sf::FloatRect(0, 0, screenwidth, screenheight));
-	view.setCenter((Game.map.ChunkSize*Game.map.ChunksLoaded)/2, (Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
+
+	int start = 64;
+	view.setCenter(start, start);
 	Game.player.player_sprt.setOrigin( 44.f, 104.f);
-	Game.player.position.x = ((Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
-	Game.player.position.y = ((Game.map.ChunkSize*Game.map.ChunksLoaded)/2);
+	Game.player.position.x = start;
+	Game.player.position.y = start;
     std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
+
+	Game.map.WorldGen(Game.player.position);
 };
 
 void InGameState::Pause(){};
@@ -39,7 +43,7 @@ void InGameState::HandleInput(sf::Event event)
 			Game.player.UpdatePlayerStatus(event);
 			break;
 		case sf::Keyboard::R:
-			Game.player.position = sf::Vector2f(0, 0);
+			Game.player.position = sf::Vector2f(64, 64);
 			Game.player.player_sprt.setPosition(Game.player.position);
 			view.setCenter(Game.player.position);
 			std::cout<<Game.player.player_sprt.getPosition().x<<" "<<Game.player.player_sprt.getPosition().y<<std::endl;
@@ -67,11 +71,12 @@ void InGameState::HandleInput(sf::Event event)
 void InGameState::Update(StateManager* game) {
 
     //Up
-    if(Game.player.IsMovingUp)
+    if(Game.player.IsMovingUp)	
     {
         Game.player.position.y -= Game.player.player_speed;	
 		Game.player.player_sprt.setPosition(Game.player.position);
 		view.setCenter(Game.player.position);
+		Game.map.WorldGen(Game.player.position);
     }
     //Down
     if(Game.player.IsMovingDown) 
@@ -79,6 +84,7 @@ void InGameState::Update(StateManager* game) {
         Game.player.position.y += Game.player.player_speed;		
 		Game.player.player_sprt.setPosition(Game.player.position);
 		view.setCenter(Game.player.position);
+		Game.map.WorldGen(Game.player.position);
     }
     //Right
     if(Game.player.IsMovingRight) 
@@ -86,6 +92,7 @@ void InGameState::Update(StateManager* game) {
         Game.player.position.x += Game.player.player_speed;
 		Game.player.player_sprt.setPosition(Game.player.position);
 		view.setCenter(Game.player.position);
+		Game.map.WorldGen(Game.player.position);
     }
     //Left
     if(Game.player.IsMovingLeft) 
@@ -93,6 +100,7 @@ void InGameState::Update(StateManager* game) {
         Game.player.position.x -= Game.player.player_speed;		
 		Game.player.player_sprt.setPosition(Game.player.position);
 		view.setCenter(Game.player.position);
+		Game.map.WorldGen(Game.player.position);
     }
 	
 };
