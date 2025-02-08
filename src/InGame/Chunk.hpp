@@ -18,18 +18,18 @@ class Chunk : public sf::Drawable{
 	private:
 		sf::Texture tileset;
 		int seed, seed2, seed3, seed4, seed5;
+
 		int tileTextureDimension = 32;
 		double tileWorldDimension = 1;
 		float ChunkSize;
 		float ChunksLoaded;
 
-								
-		sf::Vector2f ChunkPosition;
 
 		sf::VertexArray lines;
 	
 	public:
 		sf::VertexArray vertexArray;
+		sf::Vector2f ChunkPosition;
 
 		Chunk(int seed, sf::Texture& tileset, float ChunkSize, float ChunksLoaded){
 		
@@ -50,10 +50,6 @@ class Chunk : public sf::Drawable{
 	}
 
 	
-	void SetChunkPosition(sf::Vector2f PlayerPosition) {
-		
-	}
-
 	void TilePosition(int TileX, int TileY, int x, int y, int chunk_x, int chunk_y) 
 	{
 		Tile tile(TileX, TileY);
@@ -112,6 +108,8 @@ class Chunk : public sf::Drawable{
 
 	void ChunkGen(float chunk_x, float chunk_y)
     {
+		ChunkPosition.x = chunk_x;
+		ChunkPosition.y = chunk_y;
         //NoiseMaps
         FastNoiseLite Layout1= noiseparams(8, 0.00001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
         FastNoiseLite Layout2= noiseparams(8, 0.00002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);

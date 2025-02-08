@@ -4,7 +4,6 @@ InGameState::InGameState(int seed): MapSeed{seed}
 {
     view = sf::View(sf::FloatRect(0, 0, screenwidth, screenheight));
 
-	int start = 64;
 	view.setCenter(start, start);
 	Game.player.player_sprt.setOrigin( 44.f, 104.f);
 	Game.player.position.x = start;
@@ -43,7 +42,7 @@ void InGameState::HandleInput(sf::Event event)
 			Game.player.UpdatePlayerStatus(event);
 			break;
 		case sf::Keyboard::R:
-			Game.player.position = sf::Vector2f(64, 64);
+			Game.player.position = sf::Vector2f(start, start);
 			Game.player.player_sprt.setPosition(Game.player.position);
 			view.setCenter(Game.player.position);
 			std::cout<<Game.player.player_sprt.getPosition().x<<" "<<Game.player.player_sprt.getPosition().y<<std::endl;
@@ -51,6 +50,8 @@ void InGameState::HandleInput(sf::Event event)
 		case sf::Keyboard::Q:
 			Game.player.player_speed = 0.05;
 			break;
+		case sf::Keyboard::C:
+			Game.map.WorldGen(Game.player.position);
 	};
 
     //MouseWheel
@@ -102,6 +103,8 @@ void InGameState::Update(StateManager* game) {
 		view.setCenter(Game.player.position);
 		Game.map.WorldGen(Game.player.position);
     }
+
+	Game.player.animation.update(0.8);
 	
 };
 
@@ -116,7 +119,6 @@ void InGameState::Draw(sf::RenderWindow& renderer)
         renderer.draw(chunk);
     }
     
-	Game.player.animation.update(0.8);
 	renderer.draw(Game.player.player_sprt);
     renderer.display();
 };

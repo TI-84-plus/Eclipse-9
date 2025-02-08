@@ -20,6 +20,8 @@ class InGameState: public GameState
         float zoom_x = 1000, zoom_y = 1000;
         int MapSeed;
         InGame Game{MapSeed};
+		int start = 0;
+		
 
 		float ChunkSize = 32.f;	//Tiles per CHunk
 		float ChunksLoaded = 32;  //Amount of Chunks Loaded

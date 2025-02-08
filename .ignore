@@ -4,3 +4,5 @@ README.md
 .gitignore
 HowToPlay
 Debug/
+build/
+cmake-build-Release/
