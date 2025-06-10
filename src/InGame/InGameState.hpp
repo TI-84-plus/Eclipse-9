@@ -22,8 +22,8 @@ class InGameState: public GameState
         InGame Game{MapSeed};
 		int start = 0;
 		
-
-		float ChunkSize = 32.f;	//Tiles per CHunk
+	
+		float ChunkSize = 32.f;	//Tiles per CHunds
 		float ChunksLoaded = 32;  //Amount of Chunks Loaded
     public:
         InGameState(int seed);

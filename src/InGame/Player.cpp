@@ -38,7 +38,7 @@ void Player::UpdatePlayerStatus(sf::Event event)
 {
 	if(IsMovingUp == 1 || IsMovingDown == 1 || IsMovingLeft == 1 || IsMovingRight == 1) 
 		{
-			std::cout<<position.x<<" "<<position.y<<std::endl;
+			//std::cout<<position.x<<" "<<position.y<<std::endl;
 			player_sprt.setTexture(*textures[0]);
 			//Running Top
 			if(IsMovingUp && !IsMovingDown && !IsMovingLeft && !IsMovingRight) {
@@ -91,7 +91,7 @@ void Player::UpdatePlayerStatus(sf::Event event)
 
 		else if(IsMovingLeft == 0 && IsMovingRight == 0 && IsMovingDown == 0 && IsMovingUp == 0)
 		{
-			std::cout<<position.x<<" "<<position.y<<std::endl;
+			//std::cout<<position.x<<" "<<position.y<<std::endl;
 			player_sprt.setTexture(*textures[1]);
 			if(CurrentPlayerState == PlayerStates["running_up"])
 			{

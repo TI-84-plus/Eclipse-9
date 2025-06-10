@@ -114,10 +114,11 @@ void InGameState::Draw(sf::RenderWindow& renderer)
     renderer.clear();
     //renderer.setView(game->GetActiveState()->view);
     renderer.setView(view);
+
     for(const Chunk& chunk : Game.map.ChunkArr) 
     {
-        renderer.draw(chunk);
-    }
+		renderer.draw(chunk);
+	}
     
 	renderer.draw(Game.player.player_sprt);
     renderer.display();

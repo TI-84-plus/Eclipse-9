@@ -20,6 +20,7 @@ add_executable(CMakeSFMLProject
     src/InGame/Animation.cpp
     src/InGame/Player.cpp
     src/InGame/InGameState.cpp
+	src/MainMenu/Menu.cpp
     
 )
 

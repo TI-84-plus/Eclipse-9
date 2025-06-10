@@ -4,9 +4,9 @@
 Game::Game() 
 {
     render.setVerticalSyncEnabled(false);
-	render.setFramerateLimit(60);
+	render.setFramerateLimit(240);
     render.setKeyRepeatEnabled(false);
-    manager.AddState(std::make_unique<InGameState>(328382), true);
+    manager.AddState(std::make_unique<Menu>(), true);
     manager.ProcessStateChanges();
 }
 
@@ -22,7 +22,7 @@ void Game::Run()
 //Process Input
 void Game::ProcessingInput()
 {
-    start = std::chrono::high_resolution_clock::now();
+    //start = std::chrono::high_resolution_clock::now();
     sf::Event event;
     while (render.pollEvent(event))
     {
@@ -55,7 +55,7 @@ void Game::Update()
 void Game::Render()
 {
     manager.GetActiveState()->Draw(render);
-    end = std::chrono::high_resolution_clock::now();
-    fps = (float)1e9/(float)std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-    // std::cout<<fps<<std::endl;
+    //end = std::chrono::high_resolution_clock::now();
+    //fps = (float)1e9/(float)std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+    //std::cout<<fps<<std::endl;
 };

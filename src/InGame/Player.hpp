@@ -62,7 +62,7 @@ class Player
 		sf::Vector2f position;
 		sf::Vector2f world_position;
 		sf::Vector2f grid_position;
-		double player_speed = 1;
+		double player_speed = 1;	
 
 		Player();
 

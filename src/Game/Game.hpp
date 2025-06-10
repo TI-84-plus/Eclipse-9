@@ -11,6 +11,7 @@
 #include "MapSelection/MapSelectionState.hpp"
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
+#include "MainMenu/Menu.hpp"
 #include <chrono>
 #include <string>
 
