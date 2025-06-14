@@ -36,12 +36,51 @@ void Game::ProcessingInput()
                 {sf::FloatRect visibleArea(event.size.width, event.size.height, event.size.width, event.size.height);
                 render.setView(sf::View(visibleArea));
                 break;}
+
 			case sf::Event::KeyPressed:
-                manager.GetActiveState()->HandleInput(event);
+                if(Menu* menuState = dynamic_cast<Menu*>(manager.GetActiveState().get())){
+                    menuState->HandleInput(event, render);
+                }
+                else {
+                    manager.GetActiveState()->HandleInput(event);
+                }
+				break;
+
             case sf::Event::KeyReleased:
-                manager.GetActiveState()->HandleInput(event);
+                if(Menu* menuState = dynamic_cast<Menu*>(manager.GetActiveState().get())){
+                    menuState->HandleInput(event, render);
+                }
+                else {
+                    manager.GetActiveState()->HandleInput(event);
+                }
+				break;
+
 			case sf::Event::MouseWheelScrolled:
-				manager.GetActiveState()->HandleInput(event);
+                if(Menu* menuState = dynamic_cast<Menu*>(manager.GetActiveState().get())){
+                    menuState->HandleInput(event, render);
+                }
+                else {
+                    manager.GetActiveState()->HandleInput(event);
+                }
+				break;
+
+			case sf::Event::MouseMoved:
+                if(Menu* menuState = dynamic_cast<Menu*>(manager.GetActiveState().get())){
+                    menuState->HandleInput(event, render);
+                }
+                else {
+                    manager.GetActiveState()->HandleInput(event);
+                }
+				break;
+
+			case sf::Event::MouseButtonPressed:
+                if(Menu* menuState = dynamic_cast<Menu*>(manager.GetActiveState().get())){
+                    menuState->HandleInput(event, render);
+                }
+                else {
+                    manager.GetActiveState()->HandleInput(event);
+                }
+				break;
         }
     }
 }

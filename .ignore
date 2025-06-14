@@ -6,3 +6,4 @@ HowToPlay
 Debug/
 build/
 cmake-build-Release/
+src/content/

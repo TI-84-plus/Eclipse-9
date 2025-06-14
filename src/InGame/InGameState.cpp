@@ -55,17 +55,20 @@ void InGameState::HandleInput(sf::Event event)
 	};
 
     //MouseWheel
-	if(event.mouseWheelScroll.delta < 0) {
-		double MapZoom = (MapZoom*1.1);
-		view.zoom(1.1);
-		std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
-    }
+	if(event.type == sf::Event::MouseWheelScrolled) {
+		if(event.mouseWheelScroll.delta < 0) {
+			double MapZoom = (MapZoom*1.1);
+			view.zoom(1.1);
+			std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
+    	}
 			
-	if(event.mouseWheelScroll.delta > 0) {
-		double MapZoom = (MapZoom*0.9);
-		view.zoom(0.9);
-		std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
+		if(event.mouseWheelScroll.delta > 0) {
+			double MapZoom = (MapZoom*0.9);
+			view.zoom(0.9);
+			std::cout<<view.getSize().x<<" "<<view.getSize().y<<std::endl;
+		}
 	}
+	
 };
 
 

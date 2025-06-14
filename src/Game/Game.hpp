@@ -14,6 +14,7 @@
 #include "MainMenu/Menu.hpp"
 #include <chrono>
 #include <string>
+#include "MainMenu/Menu.hpp"
 
 
 class MapSelectionState;

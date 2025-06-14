@@ -4,16 +4,30 @@
 #include <SFML/Graphics.hpp>
 #include "State/GameState.hpp"
 #include "State/StateManager.hpp"
+#include "MapSelection/MapSelectionState.hpp"
 
 
-class options {
-	
-};
 
 class Menu: public GameState {
 	private:
-		std::vector<options> menu_options;
-		sf::Texture menu_texture;
+		enum MenuButtonType {
+			NEW_GAME,
+			LOAD,
+			OPTIONS,
+			EXIT,
+			BUTTONS_COUNT
+		};
+		bool hover_NEW_GAME = false;
+		bool hover_LOAD = false;
+		bool hover_OPTIONS = false;
+		bool hover_EXIT = false;
+
+		bool trigger_NEW_GAME = false;
+
+
+		std::vector<sf::Sprite> MenuButtons;
+		sf::Texture menu_texture_idle;
+		sf::Texture menu_texture_hover;
 		sf::Font menu_font;
 		sf::Sprite menu_sprite;
 
@@ -25,7 +39,8 @@ class Menu: public GameState {
 		void Pause();
 		void Resume();
 
-		void HandleInput(sf::Event event);
+		void HandleInput(sf::Event event) override;
+		void HandleInput(sf::Event event, sf::RenderWindow& render);
 		void Update(StateManager* game);
 		void Draw(sf::RenderWindow& renderer);
 };
