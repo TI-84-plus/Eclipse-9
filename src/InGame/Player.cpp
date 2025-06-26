@@ -4,15 +4,15 @@
 
 Player::Player() {
 	idle_txt = std::make_unique<sf::Texture>();
-	idle_txt->loadFromFile("../../src/content/level1_idle.png");
+	idle_txt->loadFromFile("assets/level1_idle.png");
 	running_txt = std::make_unique<sf::Texture>();
-	running_txt->loadFromFile("../../src/content/level1_running.png");
+	running_txt->loadFromFile("assets/level1_running.png");
 	std::cout<<"Player constructor"<<std::endl;
 	
 	textures.push_back(std::move(running_txt));
 	textures.push_back(std::move(idle_txt));
+	player_sprt.setScale(1.0/92.f, 1.3/116.f);
 	
-	player_sprt.setScale(0.006, 0.006);
 	animation.addFrame(92, 0, 92, 116, idle_duration);	//idle up
 	animation.addFrame(92, 464, 92, 116, idle_duration); //idle down
 	animation.addFrame(92, 232, 92, 116, idle_duration);	//idle right
@@ -32,6 +32,35 @@ Player::Player() {
 	animation.addFrame(88, 396, 92, 116, running_duration);	//running bottomRight
 	animation.addFrame(88, 660, 92, 116, running_duration);	//running bottomLeft
 	animation.addFrame(88, 924, 92, 116, running_duration);	//running topLef
+}
+
+void Player::update(float deltaTime) {
+    sf::Vector2f velocity(0, 0);
+    
+    // Calculate movement direction based on input
+    if (IsMovingUp) velocity.y -= player_speed;
+    if (IsMovingDown) velocity.y += player_speed;
+    if (IsMovingLeft) velocity.x -= player_speed;
+    if (IsMovingRight) velocity.x += player_speed;
+    
+    // Normalize diagonal movement to maintain consistent speed
+    if (velocity.x != 0 && velocity.y != 0) {
+        float length = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+        velocity.x = (velocity.x / length) * player_speed;
+        velocity.y = (velocity.y / length) * player_speed;
+    }
+    
+    // Apply movement with delta time
+    position.x += velocity.x * deltaTime;
+    position.y += velocity.y * deltaTime;
+    
+    // Update sprite position
+    player_sprt.setPosition(position);
+    
+    // Update world and grid positions
+    world_position = position;
+    grid_position.x = std::floor(position.x);
+    grid_position.y = std::floor(position.y);
 }
 
 void Player::UpdatePlayerStatus(sf::Event event) 
@@ -89,7 +118,7 @@ void Player::UpdatePlayerStatus(sf::Event event)
 			}
 		}
 
-		else if(IsMovingLeft == 0 && IsMovingRight == 0 && IsMovingDown == 0 && IsMovingUp == 0)
+	else if(IsMovingLeft == 0 && IsMovingRight == 0 && IsMovingDown == 0 && IsMovingUp == 0)
 		{
 			//std::cout<<position.x<<" "<<position.y<<std::endl;
 			player_sprt.setTexture(*textures[1]);

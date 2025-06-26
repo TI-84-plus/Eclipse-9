@@ -37,7 +37,7 @@ class InGameState: public GameState
     
         void HandleInput(sf::Event event);
     
-        void Update(StateManager* game);
+        void Update(StateManager* game, float deltaTime);
     
         void Draw(sf::RenderWindow& renderer);
 };

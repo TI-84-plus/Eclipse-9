@@ -9,6 +9,7 @@
 #include <SFML/Window.hpp>
 #include "Animation.hpp"
 #include <iostream>
+#include <cmath>
 
 class Player
 {
@@ -62,11 +63,12 @@ class Player
 		sf::Vector2f position;
 		sf::Vector2f world_position;
 		sf::Vector2f grid_position;
-		double player_speed = 1;	
+		double player_speed = 50.0f;	
 
 		Player();
 
 		void UpdatePlayerStatus(sf::Event event);
+		void update(float deltaTime);
 
 };
 #endif

@@ -1,7 +1,7 @@
 #include "Game/Game.hpp"
 
 
-Game::Game() 
+Game::Game() : deltaTime(0.0f)
 {
     render.setVerticalSyncEnabled(false);
 	render.setFramerateLimit(240);
@@ -14,6 +14,22 @@ void Game::Run()
 {
     while(IsRunning) 
     {
+        sf::Time dt = deltaClock.restart();
+        deltaTime = dt.asSeconds();
+        
+        // Add debug output to see delta time values
+        static int frameCount = 0;
+        static float totalTime = 0.0f;
+        frameCount++;
+        totalTime += deltaTime;
+        
+        if (frameCount % 120 == 0) {  // Print every 120 frames
+            float avgFPS = frameCount / totalTime;
+            std::cout << "Current DeltaTime: " << deltaTime << "s, Average FPS: " << avgFPS << std::endl;
+            frameCount = 0;
+            totalTime = 0.0f;
+        }
+        
         Game::ProcessingInput();
         Game::Update();
         Game::Render();
@@ -88,7 +104,7 @@ void Game::ProcessingInput()
 //Update
 void Game::Update()
 {
-    manager.GetActiveState()->Update(&manager);
+    manager.GetActiveState()->Update(&manager, deltaTime);
 }
 //Render
 void Game::Render()

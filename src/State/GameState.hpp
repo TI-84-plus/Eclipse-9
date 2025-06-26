@@ -9,6 +9,9 @@ class StateManager;
 class GameState
 {
 public:
+
+    virtual ~GameState() = default;
+
 	const int screenwidth = 1920;
 	const int screenheight = 1080;
 	
@@ -18,7 +21,7 @@ public:
     virtual void Resume() = 0;
 
     virtual void HandleInput(sf::Event event) = 0;
-    virtual void Update(StateManager* game) = 0;
+    virtual void Update(StateManager* game, float deltaTime) = 0;
     virtual void Draw(sf::RenderWindow& renderer) = 0;
 };
 

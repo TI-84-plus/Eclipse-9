@@ -23,9 +23,8 @@ class Chunk : public sf::Drawable{
 		double tileWorldDimension = 1;
 		float ChunkSize;
 		float ChunksLoaded;
-
-
 		sf::VertexArray lines;
+		int currentVertexIndex = 0;
 	
 	public:
 		sf::VertexArray vertexArray;
@@ -37,7 +36,7 @@ class Chunk : public sf::Drawable{
 		this->ChunkSize = ChunkSize;
 		this->seed = seed;
 		this->tileset = tileset;
-		vertexArray.resize((ChunkSize*2 * ChunkSize*2) * 4);
+		vertexArray.resize(ChunkSize * ChunkSize * 4);
 		vertexArray.setPrimitiveType(sf::Quads);
 
 		lines.resize(ChunksLoaded*ChunksLoaded);
@@ -56,34 +55,14 @@ class Chunk : public sf::Drawable{
 		sf::Vector2f tile_pos = {float(x), float(y)};
 		sf::Vector2f chunk_pos = {float(chunk_x), float(chunk_y)};
 
-		vertexArray.append(sf::Vertex((((sf::Vector2f(0.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(0.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
 
-		vertexArray.append(sf::Vertex((((sf::Vector2f(1.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(1.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
 
-		vertexArray.append(sf::Vertex((((sf::Vector2f(1.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(1.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
 
-		vertexArray.append(sf::Vertex((((sf::Vector2f(0.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(0.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
 
-
-
-		// if(x == 0 && y == 0){
-
-		// 	//Horizontal Chunks
-		// 	lines.append(sf::Vertex(sf::Vector2f(32, 
-		// 					chunk_y*(ChunkSize)), sf::Color::Red));
-		// 	lines.append(sf::Vertex(sf::Vector2f((ChunkSize*ChunksLoaded),		//Idk why it has an offset of about 1 chunk????? thats what the +ChunkSize is for
-		// 					chunk_y*(ChunkSize)), sf::Color::Red));	//Change This value to add many chunk horizontal outlines and later vertical
-
-																	
-		// 	//Vertical chunks
-		// 	lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
-		// 					32), sf::Color::Red));
-		// 	lines.append(sf::Vertex(sf::Vector2f(chunk_x*(ChunkSize),
-		// 					(ChunkSize*ChunksLoaded)), sf::Color::Red));
-		// 																									//the second line in each vertice is vertical and first line = horizontal
-
-
-		// }
 	}
 
 
@@ -110,12 +89,13 @@ class Chunk : public sf::Drawable{
     {
 		ChunkPosition.x = chunk_x;
 		ChunkPosition.y = chunk_y;
+		currentVertexIndex = 0;
         //NoiseMaps
-        FastNoiseLite Layout1= noiseparams(8, 0.00001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
-        FastNoiseLite Layout2= noiseparams(8, 0.00002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
-        FastNoiseLite Layout3= noiseparams(8, 0.00004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
-        FastNoiseLite Layout4= noiseparams(8, 0.00008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
-        FastNoiseLite Layout5= noiseparams(8, 0.000016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
+        FastNoiseLite Layout1= noiseparams(4, 0.001, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed);   //Layouts
+        FastNoiseLite Layout2= noiseparams(4, 0.002, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed2);
+        FastNoiseLite Layout3= noiseparams(4, 0.004, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed3);
+        FastNoiseLite Layout4= noiseparams(4, 0.008, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed4);
+        FastNoiseLite Layout5= noiseparams(4, 0.0016, FastNoiseLite::NoiseType::NoiseType_OpenSimplex2S, seed5);
 
 
 

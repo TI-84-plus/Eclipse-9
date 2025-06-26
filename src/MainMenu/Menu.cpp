@@ -2,8 +2,8 @@
 
 Menu::Menu() {
 
-	this->menu_texture_idle.loadFromFile("/home/fiveeght/Proc_Gen/src/MainMenu/Menu_Buttons_idle.png");
-	this->menu_texture_hover.loadFromFile("/home/fiveeght/Proc_Gen/src/MainMenu/Menu Buttons_pressed.png");
+	this->menu_texture_idle.loadFromFile("assets/MainMenu/Menu_Buttons_idle.png");
+	this->menu_texture_hover.loadFromFile("assets/MainMenu/Menu_Buttons_pressed.png");
 	MenuButtons.resize(BUTTONS_COUNT);
 
 	int ButtonWidth = 600;
@@ -93,7 +93,7 @@ void Menu::HandleInput(sf::Event event, sf::RenderWindow &render) {
 
 }
 
-void Menu::Update(StateManager *game) {
+void Menu::Update(StateManager *game, float deltaTime) {
 	if(hover_NEW_GAME) {
 		MenuButtons[NEW_GAME].setTexture(menu_texture_hover);
 	}

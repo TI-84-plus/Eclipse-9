@@ -65,9 +65,9 @@ private:
     std::stack<Stateref> _states;
     Stateref _newState;
 
-    bool IsRemoving;
-    bool IsAdding;
-    bool isReplacing;
+    bool IsRemoving = false;
+    bool IsAdding = false;
+    bool isReplacing = false;
 
 };
 

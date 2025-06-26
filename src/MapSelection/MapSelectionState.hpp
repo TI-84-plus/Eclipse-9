@@ -76,7 +76,7 @@ class MapSelectionState: public GameState
         }
     }
     
-    void Update(StateManager* m_manager) {
+    void Update(StateManager* m_manager, float deltaTime) {
         
          //Up
         if(mapselection.IsMovingUp)

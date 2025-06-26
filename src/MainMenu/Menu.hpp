@@ -41,7 +41,7 @@ class Menu: public GameState {
 
 		void HandleInput(sf::Event event) override;
 		void HandleInput(sf::Event event, sf::RenderWindow& render);
-		void Update(StateManager* game);
+		void Update(StateManager* game, float deltaTime);
 		void Draw(sf::RenderWindow& renderer);
 };
 

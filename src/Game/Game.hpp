@@ -21,6 +21,8 @@ class MapSelectionState;
 class Game
 {
 private:
+    sf::Clock deltaClock;
+    float deltaTime;
     sf::RenderWindow render = sf::RenderWindow(sf::VideoMode(screenwidth, screenheight), "Procedural generation");
     
     //Game Runner
