@@ -7,3 +7,6 @@ Debug/
 build/
 cmake-build-Release/
 src/content/
+assets/
+AGENT.md
+.ignore

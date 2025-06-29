@@ -51,18 +51,37 @@ class Chunk : public sf::Drawable{
 	
 	void TilePosition(int TileX, int TileY, int x, int y, int chunk_x, int chunk_y) 
 	{
-		Tile tile(TileX, TileY);
-		sf::Vector2f tile_pos = {float(x), float(y)};
-		sf::Vector2f chunk_pos = {float(chunk_x), float(chunk_y)};
+		// Calculate world position: chunk position * chunk size + tile position within chunk
+		float worldX = (chunk_x * ChunkSize) + x;
+		float worldY = (chunk_y * ChunkSize) + y;
+		
+		// Convert to screen coordinates (assuming 1 tile = 1 pixel for now)
+		sf::Vector2f screenPos = sf::Vector2f(worldX * tileWorldDimension, worldY * tileWorldDimension);
+		
+		// Calculate texture coordinates (32x32 tiles with 2px spacing)
+		float texX = TileX * (tileTextureDimension + 2) + 2;
+		float texY = TileY * (tileTextureDimension + 2) + 2;
 
-		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(0.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
+		// Set vertex positions (quad corners)
+		vertexArray[currentVertexIndex++] = sf::Vertex(
+			sf::Vector2f(screenPos.x, screenPos.y), 
+			sf::Vector2f(texX, texY)
+		);
 
-		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(1.0f, 0.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = sf::Vertex(
+			sf::Vector2f(screenPos.x + tileWorldDimension, screenPos.y), 
+			sf::Vector2f(texX + tileTextureDimension, texY)
+		);
 
-		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(1.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + tileTextureDimension + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
+		vertexArray[currentVertexIndex++] = sf::Vertex(
+			sf::Vector2f(screenPos.x + tileWorldDimension, screenPos.y + tileWorldDimension), 
+			sf::Vector2f(texX + tileTextureDimension, texY + tileTextureDimension)
+		);
 
-		vertexArray[currentVertexIndex++] = (sf::Vertex((((sf::Vector2f(0.0f, 1.0f) + tile_pos) + (chunk_pos * (ChunkSize))) * float(tileWorldDimension)), sf::Vector2f(tileTextureDimension * tile.X + 2 + (tile.X*2), tileTextureDimension * tile.Y + tileTextureDimension + 2 + (tile.Y*2))));
-
+		vertexArray[currentVertexIndex++] = sf::Vertex(
+			sf::Vector2f(screenPos.x, screenPos.y + tileWorldDimension), 
+			sf::Vector2f(texX, texY + tileTextureDimension)
+		);
 	}
 
 

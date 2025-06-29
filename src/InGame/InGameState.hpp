@@ -8,7 +8,7 @@
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#include "State/GameState.hpp"
+#include "../State/GameState.hpp"
 #include "State/StateManager.hpp"
 #include "InGame.hpp"
 #include <ostream>

@@ -11,9 +11,9 @@ class Tile {
 	public:
 		int X;
 		int Y;
-		sf::Vector2f world_position;
+		// sf::Vector2f world_position;
 
-		sf::Color color;
+		// sf::Color color;
 		Tile(int X, int Y)
 		{
 			this->X = X;

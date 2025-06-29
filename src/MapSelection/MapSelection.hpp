@@ -128,17 +128,17 @@ public:
                 //Deep level water
                 if (Layout < 100)
                 {
-                    chunk.pixels[CurrentPixelIndex2] = {13}; //55
-                    chunk.pixels[CurrentPixelIndex2 + 1] = {13}; //102 
-                    chunk.pixels[CurrentPixelIndex2 + 2] = {224}; //200
+                    chunk.pixels[CurrentPixelIndex2] = {214}; //55
+                    chunk.pixels[CurrentPixelIndex2 + 1] = {212}; //102 
+                    chunk.pixels[CurrentPixelIndex2 + 2] = {209}; //200
                     chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                 }
                 // Shallow water
                 else if (Layout < 120  )
                 {
-                    chunk.pixels[CurrentPixelIndex2] = {65}; //55
-                    chunk.pixels[CurrentPixelIndex2 + 1] = {105}; //102 
-                    chunk.pixels[CurrentPixelIndex2 + 2] = {225}; //200
+                    chunk.pixels[CurrentPixelIndex2] = {168}; //55
+                    chunk.pixels[CurrentPixelIndex2 + 1] = {166}; //102 
+                    chunk.pixels[CurrentPixelIndex2 + 2] = {163}; //200
                     chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                 }
                 // Rest
@@ -147,25 +147,25 @@ public:
 					//Sand
                     if(Layout < 160)
                     {
-                        chunk.pixels[CurrentPixelIndex2] = {223};
-                        chunk.pixels[CurrentPixelIndex2 + 1] = {206};
-                        chunk.pixels[CurrentPixelIndex2 + 2] = {159};
+                        chunk.pixels[CurrentPixelIndex2] = {123};
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {121};
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {117};
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
 					//Shallow Forest
                     else if(Layout < 190)
                     {
-                        chunk.pixels[CurrentPixelIndex2] = {74}; //55
-                        chunk.pixels[CurrentPixelIndex2 + 1] = {150}; //102
-                        chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
+                        chunk.pixels[CurrentPixelIndex2] = {54}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {56}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {58}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
 					//Dense forest
                     else if(Layout < 250) 
                     {
-                        chunk.pixels[CurrentPixelIndex2] = {36}; //55
-                        chunk.pixels[CurrentPixelIndex2 + 1] = {98}; //102
-                        chunk.pixels[CurrentPixelIndex2 + 2] = {22}; //200
+                        chunk.pixels[CurrentPixelIndex2] = {58}; //55
+                        chunk.pixels[CurrentPixelIndex2 + 1] = {57}; //102
+                        chunk.pixels[CurrentPixelIndex2 + 2] = {54}; //200
                         chunk.pixels[CurrentPixelIndex2 + 3] = {255};
                     }
 					//Shallow dirt

@@ -8,7 +8,7 @@ InGameState::InGameState(int seed): MapSeed{seed}
 	Game.player.position.x = start;
 	Game.player.position.y = start;
 	std::cout<<"InGameState Seed:" <<MapSeed<<std::endl;
-	Game.map.WorldGen(Game.player.position);
+	Game.map.StartWorldGen(Game.player.player_sprt.getPosition());
 };
 
 void InGameState::Pause(){};
@@ -43,9 +43,6 @@ void InGameState::HandleInput(sf::Event event)
 			Game.player.position = sf::Vector2f(start, start);
 			Game.player.player_sprt.setPosition(Game.player.position);
 			view.setCenter(Game.player.position);
-			break;
-		case sf::Keyboard::C:
-			Game.map.WorldGen(Game.player.position);
 			break;
 	};
 
@@ -100,13 +97,20 @@ void InGameState::Update(StateManager* game, float deltaTime)
 	view.setCenter(Game.player.position);
 	
 	// Only generate chunks when player moves significantly (fixes memory leak)
+	static bool needToGenerate = false;
 	static sf::Vector2f lastGenPos = Game.player.position;
 	float distance = sqrt(pow(Game.player.position.x - lastGenPos.x, 2) + 
 						 pow(Game.player.position.y - lastGenPos.y, 2));
 	
-	if (distance > 6.f) {  // Only when player moves 50 units
-		Game.map.WorldGen(Game.player.position);
+	if (distance > 1.f) {  // Changed from 5.f to 100.f for more reasonable chunk generation
+		Game.map.StartWorldGen(Game.player.position);
 		lastGenPos = Game.player.position;
+		needToGenerate = true;
+	}
+	
+	// Generate one chunk per frame if needed
+	if(Game.map.NeedsGeneration()) {
+		Game.map.StepWorldGen();
 	}
 	
 	// Update animation with delta time
