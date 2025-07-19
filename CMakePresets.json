@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21
+  },
+  "configurePresets": [
+    {
+      "name": "gcc-release",
+      "displayName": "GCC 11.4.0 Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build-Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "/usr/bin/gcc",
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+      }
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "GCC 11.4.0 Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build-Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "/usr/bin/gcc",
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+      }
+    }
+  ]
+}

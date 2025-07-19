@@ -6,7 +6,8 @@ HowToPlay
 Debug/
 build/
 cmake-build-Release/
+cmake-build-Debug/
 src/content/
-assets/
+Assets/
 AGENT.md
 .ignore

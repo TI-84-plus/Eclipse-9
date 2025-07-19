@@ -3,5 +3,9 @@
 .clangd
 .cache
 Debug/
-
+/cmake-build-Debug/
+/cmake-build-Release/
+.ignore
+AGENT.md
+.gitignore
 compile_commands.json

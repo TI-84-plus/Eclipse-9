@@ -8,7 +8,6 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include "Animation.hpp"
-#include <iostream>
 #include <cmath>
 
 class Player
@@ -27,8 +26,8 @@ class Player
 		bool IsMovingRight = false;
 		bool IsMovingLeft = false;
 
-		double running_duration = 1;
-		double idle_duration = 10;
+		double running_duration = 0.05;  // 0.1 seconds per frame (10 FPS)
+		double idle_duration = 0.1;     // 0.2 seconds per frame (5 FPS)
 
 		std::map<std::string, int> PlayerStates 
 		{

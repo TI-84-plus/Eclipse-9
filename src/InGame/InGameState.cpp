@@ -1,6 +1,7 @@
 #include "InGameState.hpp"
+#include <algorithm>
 
-InGameState::InGameState(int seed): MapSeed{seed}
+InGameState::InGameState(int seed): MapSeed{seed}, Game{seed}
 {
 	view = sf::View(sf::FloatRect(0, 0, screenwidth, screenheight));
 	view.setCenter(start, start);
@@ -113,6 +114,32 @@ void InGameState::Update(StateManager* game, float deltaTime)
 		Game.map.StepWorldGen();
 	}
 	
+	// Unload chunks that are too far from player
+	int player_chunk_x = static_cast<int>(floor(Game.player.position.x / Game.map.ChunkSize));
+	int player_chunk_y = static_cast<int>(floor(Game.player.position.y / Game.map.ChunkSize));
+	
+	// Collect chunks to remove first, then remove them
+	std::vector<std::pair<int, int>> chunksToRemove;
+	
+	for(const auto& chunk : Game.map.ChunkArr) {
+		int chunk_x = chunk->GetChunkX();
+		int chunk_y = chunk->GetChunkY();
+		
+		// Calculate distance from player's chunk
+		int dx = abs(chunk_x - player_chunk_x);
+		int dy = abs(chunk_y - player_chunk_y);
+		
+		// Mark chunks that are too far (beyond the loaded range)
+		if(dx > Game.map.ChunksLoaded/2 || dy > Game.map.ChunksLoaded/2) {
+			chunksToRemove.push_back({chunk_x, chunk_y});
+		}
+	}
+	
+	// Remove marked chunks
+	for(const auto& [x, y] : chunksToRemove) {
+		Game.map.removeChunk(x, y);
+	}
+	
 	// Update animation with delta time
 	Game.player.animation.update(deltaTime);
 };
@@ -122,8 +149,8 @@ void InGameState::Draw(sf::RenderWindow& renderer)
 	renderer.clear();
 	renderer.setView(view);
 	
-	for(const Chunk& chunk : Game.map.ChunkArr) {
-		renderer.draw(chunk);
+	for(const std::unique_ptr<Chunk>& chunk : Game.map.ChunkArr) {
+		renderer.draw(*chunk);
 	}
 	
 	renderer.draw(Game.player.player_sprt);

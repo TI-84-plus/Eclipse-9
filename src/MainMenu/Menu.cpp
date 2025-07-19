@@ -2,8 +2,8 @@
 
 Menu::Menu() {
 
-	this->menu_texture_idle.loadFromFile("assets/MainMenu/Menu_Buttons_idle.png");
-	this->menu_texture_hover.loadFromFile("assets/MainMenu/Menu_Buttons_pressed.png");
+	this->menu_texture_idle.loadFromFile("Assets/MainMenu/Menu_Buttons_idle.png");
+	this->menu_texture_hover.loadFromFile("Assets/MainMenu/Menu_Buttons_pressed.png");
 	MenuButtons.resize(BUTTONS_COUNT);
 
 	int ButtonWidth = 600;

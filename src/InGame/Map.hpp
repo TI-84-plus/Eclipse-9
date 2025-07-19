@@ -11,6 +11,8 @@
 #include <vector>
 #include <algorithm>
 #include <array>
+#include <unordered_set>
+#include <memory>
 
 class Map
 {
@@ -47,8 +49,8 @@ private:
 
 
 public:
-    float ChunkSize = 16;
-    float ChunksLoaded = 32; 
+    float ChunkSize = 32;
+    float ChunksLoaded = 8; 
        
     //Loop counters
     int LoadedChunkX = -(ChunksLoaded/2);
@@ -56,8 +58,24 @@ public:
     int ChunkLoadCounter = 0;
 
 
-    std::vector<Chunk> ChunkArr;
-    std::vector<sf::Vector2f> LoadedMap;
+    std::vector<std::unique_ptr<Chunk>> ChunkArr;
+    std::unordered_set<int64_t> LoadedMap;
+    
+    int64_t packBit(int x, int y){
+        // std::cout<<"X: "<<static_cast<int64_t>(x) << 32 <<" Y: "<< static_cast<int32_t>(y)<<std::endl;
+        // uint32_t xO = static_cast<int32_t>(x + offset)
+        // uint32_t yO = static_cast<uin>
+
+        return (static_cast<int64_t>(x) << 32) | static_cast<uint32_t>(y);
+        
+    };
+    
+    std::pair<int, int> unpackBit(int64_t packed){
+        int x = static_cast<int>(packed >> 32);
+        int y = static_cast<int>(packed & 0xFFFFFFFF);
+        return std::make_pair(x, y);
+    };
+    
 
     // Public method to check if generation is needed
     bool NeedsGeneration() const { return needsGeneration; }
@@ -65,11 +83,10 @@ public:
     Map(int seed)
     {
         this->seed = seed;
-        tileset.loadFromFile("assets/tileset.png");
+        tileset.loadFromFile("Assets/Tileset.png");
     }
     
     void StartWorldGen(sf::Vector2f player_pos) {
-        std::cout<<ChunkLoadCounter<<std::endl;
         
         // Don't restart generation if it's already in progress
         if(needsGeneration) return;
@@ -102,70 +119,36 @@ public:
         int currentChunkX = LoadedChunkX + CHUNK_OFFSETS[ChunkLoadCounter].first;
         int currentChunkY = LoadedChunkY + CHUNK_OFFSETS[ChunkLoadCounter].second;
         
-        if(std::find(LoadedMap.begin(), LoadedMap.end(), sf::Vector2f(currentChunkX, currentChunkY)) == LoadedMap.end()) {
-            Chunk &chunk = ChunkArr.emplace_back(seed, tileset, ChunkSize, ChunksLoaded);
-            chunk.ChunkGen(currentChunkX, currentChunkY);
-            LoadedMap.push_back(sf::Vector2f(currentChunkX, currentChunkY));
+        if(!LoadedMap.count(packBit(currentChunkX, currentChunkY))) {
+            ChunkArr.emplace_back(std::make_unique<Chunk>(seed, tileset, ChunkSize, ChunksLoaded));
+            ChunkArr.back()->ChunkGen(currentChunkX, currentChunkY);
+            LoadedMap.insert(packBit(currentChunkX, currentChunkY));
         }
         
         ChunkLoadCounter++;
         return false; // Still generating
     }
-
-    void WorldGen(sf::Vector2f player_pos)  
-    {
-
+    
+    void removeChunk(int x, int y) {
+        int64_t packedCoord = packBit(x, y);
         
-
-
-        // for(float LoadedChunkY = player_chunkPosY-(ChunksLoaded/2); LoadedChunkY < ChunksLoaded+(player_chunkPosY-(ChunksLoaded/2)); LoadedChunkY++) 
-        // {
-        //     for(float LoadedChunkX = player_chunkPosX-(ChunksLoaded/2); LoadedChunkX < ChunksLoaded+(player_chunkPosX-(ChunksLoaded/2)); LoadedChunkX++) 
-        //     {
-        //         //Will only run once at the beginning
-        //         if(LoadedMap.empty()){
-        //             //Add CHunk
-        //             Chunk &chunk = ChunkArr.emplace_back(seed, tileset, ChunkSize, ChunksLoaded);
-        //             chunk.ChunkGen(LoadedChunkX, LoadedChunkY);
-        //             LoadedMap.push_back(sf::Vector2f(LoadedChunkX, LoadedChunkY));
-        //         }
-        //         //Check if Map is already Loaded if LoadMap not empty aka not first time running the loops executable
-        //         else if(!LoadedMap.empty()){
-        //             //Did not find that particular chunk
-        //             if(std::find(LoadedMap.begin(), LoadedMap.end(), sf::Vector2f(LoadedChunkX, LoadedChunkY)) == LoadedMap.end()) {
-        //                 // BEFORE creating new chunk, remove any chunks outside the bounds using SWAP-AND-POP
-        //                 for (int i = 0; i < LoadedMap.size(); i++) {
-        //                     float chunkX = LoadedMap[i].x;
-        //                     float chunkY = LoadedMap[i].y;
-                            
-        //                     // Remove if outside the current bounds
-        //                     if (chunkX < minX || chunkX > maxX || chunkY < minY || chunkY > maxY) {
-        //                         std::cout << "Creating (" << LoadedChunkX << "," << LoadedChunkY
-        //                                   << ") - Removing out-of-bounds (" << chunkX << "," << chunkY << ")" << std::endl;
-                                
-        //                         // SWAP-AND-POP: Move target to end, then remove
-        //                         std::swap(ChunkArr[i], ChunkArr.back());
-        //                         std::swap(LoadedMap[i], LoadedMap.back());
-                                
-        //                         // Remove the last elements (which now contain our target)
-        //                         ChunkArr.pop_back();
-        //                         LoadedMap.pop_back();
-                                
-        //                         break; // Only remove one per new chunk creation
-        //                     }
-        //                 }
-                        
-        //                 //Add Chunk
-        //                 Chunk &chunk = ChunkArr.emplace_back(seed, tileset, ChunkSize, ChunksLoaded);
-        //                 chunk.ChunkGen(LoadedChunkX, LoadedChunkY);
-        //                 LoadedMap.push_back(sf::Vector2f(LoadedChunkX, LoadedChunkY));
-        //             }
-        //         }
-        //     }
-        // }
-
-        std::cout << "Total chunks loaded: " << ChunkArr.size() << std::endl;
+        if(LoadedMap.count(packedCoord)) {
+            LoadedMap.erase(packedCoord);
+            
+            // Find chunk in vector and remove using swap and pop
+            for(size_t i = 0; i < ChunkArr.size(); ++i) {
+                if(ChunkArr[i]->GetChunkX() == x && ChunkArr[i]->GetChunkY() == y) {
+                    // Swap with last element and pop
+                    if(i != ChunkArr.size() - 1) {
+                        std::swap(ChunkArr[i], ChunkArr.back());
+                    }
+                    ChunkArr.pop_back();
+                    break;
+                }
+            }
+        }
     }
+
 };
 
 #endif

@@ -4,14 +4,14 @@
 
 Player::Player() {
 	idle_txt = std::make_unique<sf::Texture>();
-	idle_txt->loadFromFile("assets/level1_idle.png");
+	idle_txt->loadFromFile("Assets/level1_idle.png");
 	running_txt = std::make_unique<sf::Texture>();
-	running_txt->loadFromFile("assets/level1_running.png");
+	running_txt->loadFromFile("Assets/level1_running.png");
 	std::cout<<"Player constructor"<<std::endl;
 	
 	textures.push_back(std::move(running_txt));
 	textures.push_back(std::move(idle_txt));
-	player_sprt.setScale(1.0/92.f, 1.3/116.f);
+	player_sprt.setScale(2.0/92.f, 2.6/116.f);
 	
 	animation.addFrame(92, 0, 92, 116, idle_duration);	//idle up
 	animation.addFrame(92, 464, 92, 116, idle_duration); //idle down

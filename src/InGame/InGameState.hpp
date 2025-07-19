@@ -19,7 +19,7 @@ class InGameState: public GameState
         double MapZoom = 4;
         float zoom_x = 1000, zoom_y = 1000;
         int MapSeed;
-        InGame Game{MapSeed};
+        InGame Game;
 		int start = 0;
 		
 	
