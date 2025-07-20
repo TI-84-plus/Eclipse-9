@@ -26,7 +26,7 @@ class Player
 		bool IsMovingRight = false;
 		bool IsMovingLeft = false;
 
-		double running_duration = 0.05;  // 0.1 seconds per frame (10 FPS)
+		double running_duration = 0.03;  // 0.1 seconds per frame (10 FPS)
 		double idle_duration = 0.1;     // 0.2 seconds per frame (5 FPS)
 
 		std::map<std::string, int> PlayerStates 

@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 project(Eclipse-9 LANGUAGES CXX)
 
-set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 include_directories(${CMAKE_SOURCE_DIR}/src)
-add_compile_options(-fsanitize=address)
-add_link_options(-fsanitize=address)
+
 
 include(FetchContent)
 FetchContent_Declare(SFML

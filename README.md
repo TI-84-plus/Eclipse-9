@@ -1,24 +1,19 @@
-2D Open-World Game
+Eclipse 9
 ==================
 
-A work in progress game inspired by factorio and minecraft, its a 2D inifinite open world.
-
-its a personal project that i have been working on for long time. iam doing Procedural map generation using opensimplex noise.
-
-iam using sfml library for graphics, inputs, networking, audio etc.
+Eclipse 9 is an open, infinite-world game inspired by Factorio, built entirely from scratch — including the custom game engine. Every core system, from terrain generation and chunk streaming to autotiling and entity logic, was handcrafted and tightly integrated into the gameplay. This isn’t just a game project — it’s a full-stack engine and world simulation built for performance, scale, and creative flexibility.
 
 
 Images
 ======
 
-![Screenshot_20250123_214745](https://github.com/user-attachments/assets/8f19d678-982e-4af1-9319-41f58b954be4)
-![Screenshot_20250123_214101](https://github.com/user-attachments/assets/9c94fd5c-3614-4f49-87d5-ecc9f536029b)
+<img width="1920" height="1080" alt="Screenshot_20250721_020436" src="https://github.com/user-attachments/assets/63c35173-8a00-47f8-887c-3bae4ba7d2dc" />
+<img width="1920" height="1080" alt="Screenshot_20250721_020744" src="https://github.com/user-attachments/assets/fb62e474-53e6-4f14-8d61-7432f90edebe" />
+
 
 
 Compilation
 ===========
-
-the sfml source is already provided with the repo so no need to install it seperately
 
 Windows
 -------

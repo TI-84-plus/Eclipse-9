@@ -83,7 +83,7 @@ public:
     Map(int seed)
     {
         this->seed = seed;
-        tileset.loadFromFile("Assets/Tileset.png");
+        tileset.loadFromFile("Assets/tileset.png");
     }
     
     void StartWorldGen(sf::Vector2f player_pos) {

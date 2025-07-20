@@ -71,16 +71,6 @@ class Chunk : public sf::Drawable{
 	}
 
 
-	int getOverlayBaseType(int tileType) {
-    	switch (tileType) {
-        	case 0: return 1; // Deep Water overlays to Shallow Water
-        	case 1: return 2; // Shallow Water overlays to Sand
-        	case 2: return 3; // Sand overlays to Grass
-        	case 3: return 4; // Grass overlays to next type (e.g., forest)
-        	default: return tileType; // No overlay
-    	}
-	}
-
 	
 	void TilePosition(int TileType, int x, int y, int chunk_x, int chunk_y) 
 	{
@@ -91,19 +81,69 @@ class Chunk : public sf::Drawable{
 		int tileCol = rand() % 8;
 		int tileRow = 0;
 
-		int compType;
+		if ((mask & 0b11111111) == 0b11111111) {
+			tileRow = 0; // Full surround
+		}
+		else if ((mask & 0b00000101) == 0b00000101) {
+			tileRow = 0; // Up + Down
+		}
+		else if ((mask & 0b00001010) == 0b00001010) {
+			tileRow = 0; // Left + Right
+		}
+		else if ((mask & 0b00000011) == 0b00000011) {	
+			tileRow = 1; // Up + Right
+		}
+		else if ((mask & 0b00000110) == 0b00000110) {
+			tileRow = 2; // Right + Down
+		}
+		else if ((mask & 0b00001100) == 0b00001100) {
+			tileRow = 3; // Down + Left
+		}
+		else if ((mask & 0b00001001) == 0b00001001) {
+			tileRow = 4; // Up + Left
+		}
+		else if (mask == 0b00000001) {
+			tileRow = 9; // Up only
+		}
+		else if (mask == 0b00000010) {
+			tileRow = 10; // Right only
+		}
+		else if (mask == 0b00000100) {
+			tileRow = 11; // Down only
+		}
+		else if (mask == 0b00001000) {
+			tileRow = 12; // Left only
+		}
+		else if ((mask & 0b01111111) == 0b01111111) {
+    		tileRow = 2; //Top Left
+		}
+		else if ((mask & 0b11101111) == 0b11101111) {
+			tileRow = 3; // Top right
+		}
+		else if ((mask & 0b11011111) == 0b11011111) {
+			tileRow = 4; //Down right
+		}
+		else if ((mask & 0b10111111) == 0b10111111) {
+			tileRow = 1; //Down left
+		}
+		else {
+			tileRow = 0; // Fallback
+		}
+
+		//Right + top right and rest are remaining
+
 		BaseMask[y][x] = 0;
 
 		//Up
     	if (y > 0 && !(mask & 1)) {
 			int upType = TileTypes[y-1][x];
 			if (getPriority(upType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
+				BaseMask[y][x] = 1	;
 			}
     	}
 
 		//Right
-		if (x < ChunkSize && !(mask & 2)) {
+		if (x < ChunkSize-1 && !(mask & 2)) {
     		int rightType = TileTypes[y][x+1];
 			if (getPriority(rightType) > getPriority(TileType)) {
 				BaseMask[y][x] = 1; // right
@@ -111,7 +151,7 @@ class Chunk : public sf::Drawable{
 		}
 
 		//Bottom
-		if (y < static_cast<int>(ChunkSize)-1 && !(mask & 4)) {
+		if (y < ChunkSize-1 && !(mask & 4)) {
 			int BottomType = TileTypes[y+1][x];
 			if (getPriority(BottomType) > getPriority(TileType)) {
 				BaseMask[y][x] = 1;
@@ -171,7 +211,7 @@ class Chunk : public sf::Drawable{
 
 
 		if(BaseMask[y][x]) {
-			int baseType = getOverlayBaseType(TileType);
+			int baseType = TileType+1;
 			int baseTileCordStart = (baseType*512);
 			int baseTileCordEnd = (baseTileCordStart+512);
 			int baseTileCol = tileCol;
@@ -182,7 +222,7 @@ class Chunk : public sf::Drawable{
 
 			vertexArray[currentVertexIndex++] = sf::Vertex(
 				sf::Vector2f(screenPos.x, screenPos.y), 
-				sf::Vector2f(baseTexX, baseTexX)
+				sf::Vector2f(baseTexX, baseTexY)
 			);
 			vertexArray[currentVertexIndex++] = sf::Vertex(
         		sf::Vector2f(screenPos.x + tileWorldDimension, screenPos.y), 
@@ -271,7 +311,6 @@ class Chunk : public sf::Drawable{
         		Layout = (Layout + 1.0) / 2.0;
         		Layout = int(Layout * 255);
 				
-				std::cout<<"Check"<<std::endl;
 				if (Layout < 100)
 				{
 					TileTypes[y][x] = 0; //Deep water
@@ -342,6 +381,15 @@ class Chunk : public sf::Drawable{
 				if (y < ChunkSize-1 && TileTypes[y+1][x] == center) mask = mask|= 4;
 				// Left
 				if (x > 0 && TileTypes[y][x-1] == center) mask = mask|= 8;
+				// Top right
+				if (y > 0 && x < ChunkSize-1 && TileTypes[y-1][x+1] == center) mask |= 16;
+				// Down right
+				if (y < ChunkSize-1 && x < ChunkSize-1 && TileTypes[y+1][x+1] == center) mask |= 32;
+				// Down left
+				if (y < ChunkSize-1 && x > 0 && TileTypes[y+1][x-1] == center) mask |= 64;
+				// Top left
+				if (y > 0 && x > 0 && TileTypes[y-1][x-1] == center) mask |= 128;
+
 				Bitmask[y][x] = mask;
 			}
 		}
