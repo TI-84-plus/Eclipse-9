@@ -70,7 +70,6 @@ class Chunk : public sf::Drawable{
     	}
 	}
 
-
 	
 	void TilePosition(int TileType, int x, int y, int chunk_x, int chunk_y) 
 	{
@@ -81,122 +80,121 @@ class Chunk : public sf::Drawable{
 		int tileCol = rand() % 8;
 		int tileRow = 0;
 
-		if ((mask & 0b11111111) == 0b11111111) {
-			tileRow = 0; // Full surround
-		}
-		else if ((mask & 0b00000101) == 0b00000101) {
-			tileRow = 0; // Up + Down
-		}
-		else if ((mask & 0b00001010) == 0b00001010) {
-			tileRow = 0; // Left + Right
-		}
-		else if ((mask & 0b00000011) == 0b00000011) {	
-			tileRow = 1; // Up + Right
-		}
-		else if ((mask & 0b00000110) == 0b00000110) {
-			tileRow = 2; // Right + Down
-		}
-		else if ((mask & 0b00001100) == 0b00001100) {
-			tileRow = 3; // Down + Left
-		}
-		else if ((mask & 0b00001001) == 0b00001001) {
-			tileRow = 4; // Up + Left
-		}
-		else if (mask == 0b00000001) {
-			tileRow = 9; // Up only
-		}
-		else if (mask == 0b00000010) {
-			tileRow = 10; // Right only
-		}
-		else if (mask == 0b00000100) {
-			tileRow = 11; // Down only
-		}
-		else if (mask == 0b00001000) {
-			tileRow = 12; // Left only
-		}
-		else if ((mask & 0b01111111) == 0b01111111) {
-    		tileRow = 2; //Top Left
-		}
-		else if ((mask & 0b11101111) == 0b11101111) {
-			tileRow = 3; // Top right
-		}
-		else if ((mask & 0b11011111) == 0b11011111) {
-			tileRow = 4; //Down right
-		}
-		else if ((mask & 0b10111111) == 0b10111111) {
-			tileRow = 1; //Down left
-		}
-		else {
-			tileRow = 0; // Fallback
-		}
 
-		//Right + top right and rest are remaining
 
-		BaseMask[y][x] = 0;
 
-		//Up
-    	if (y > 0 && !(mask & 1)) {
-			int upType = TileTypes[y-1][x];
-			if (getPriority(upType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1	;
-			}
-    	}
+	//	//Bottom right
+	//	if((mask & 0b11011111)) {
+	//		if(y < ChunkSize-1 && x < ChunkSize-1) {
+	//			if(getPriority(TileTypes[y+1][x+1]) > getPriority(TileTypes[y][x])) {
+	//				tileRow = 4;
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+	//	}
+
+
 
 		//Right
-		if (x < ChunkSize-1 && !(mask & 2)) {
-    		int rightType = TileTypes[y][x+1];
-			if (getPriority(rightType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1; // right
+		if((mask & 0b11111101)) {
+			if(x < ChunkSize-1) {
+				if(getPriority(TileTypes[y][x+1]) > getPriority(TileTypes[y][x])) {
+					tileRow = 12;
+					BaseMask[y][x] = 1;
+				}
 			}
 		}
+
 
 		//Bottom
-		if (y < ChunkSize-1 && !(mask & 4)) {
-			int BottomType = TileTypes[y+1][x];
-			if (getPriority(BottomType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
+		if((mask & 0b11111011)) {
+			if(y < ChunkSize-1) {
+				if(getPriority(TileTypes[y+1][x]) > getPriority(TileTypes[y][x])) {
+					tileRow = 9;
+					BaseMask[y][x] = 1;
+				}
 			}
 		}
+
+		//Right and bottom
+		if((mask & 0b11111001) == 0b11111001) {
+			if(y < ChunkSize-1) {
+				if(getPriority(TileTypes[y+1][x]) > getPriority(TileTypes[y][x])) {
+					tileRow = 8; //8
+					BaseMask[y][x] = 1;
+				}
+			}
+		}
+
+
+
+
+
 		
-		//Left
-		if (x > 0 && !(mask & 8)) {
-			int leftType = TileTypes[y][x-1];
-			if (getPriority(leftType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
-			}
-		}
 
-		// Up-Right
-		if (y > 0 && x < ChunkSize-1 && TileTypes[y-1][x+1] != TileType) {
-			int upRightType = TileTypes[y-1][x+1];
-			if (getPriority(upRightType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
-			}
-		}
+	//		//Up
+    //		if (y > 0 && !(mask & 1)) {
+	//			int upType = TileTypes[y-1][x];
+	//			if (upType > TileType) {
+	//				BaseMask[y][x] = 1	;
+	//			}
+    //		}
 
-		// Down-Right
-		if (y < ChunkSize-1 && x < ChunkSize-1 && TileTypes[y+1][x+1] != TileType) {
-			int downRightType = TileTypes[y+1][x+1];
-			if (getPriority(downRightType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
-			}
-		}
+	//		//Right
+	//		if (x < ChunkSize-1 && !(mask & 2)) {
+    //			int rightType = TileTypes[y][x+1];
+	//			if (rightType > TileType) {
+	//				BaseMask[y][x] = 1; // right
+	//			}
+	//		}
 
-		// Down-Left
-		if (y < ChunkSize-1 && x > 0 && TileTypes[y+1][x-1] != TileType) {
-			int downLeftType = TileTypes[y+1][x-1];
-			if (getPriority(downLeftType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
-			}
-		}
-		
-		// Up-Left
-		if (y > 0 && x > 0 && TileTypes[y-1][x-1] != TileType) {
-   			int upLeftType = TileTypes[y-1][x-1];
-    		if (getPriority(upLeftType) > getPriority(TileType)) {
-				BaseMask[y][x] = 1;
-			}
-		}
+	//		//Bottom
+	//		if (y < ChunkSize-1 && !(mask & 4)) {
+	//			int BottomType = TileTypes[y+1][x];
+	//			if (BottomType > TileType){
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+	//		
+	//		//Left
+	//		if (x > 0 && !(mask & 8)) {
+	//			int leftType = TileTypes[y][x-1];
+	//			if (leftType > TileType) {
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+
+	//		// Up-Right
+	//		if (y > 0 && x < ChunkSize-1 && TileTypes[y-1][x+1] != TileType) {
+	//			int upRightType = TileTypes[y-1][x+1];
+	//			if (upRightType > TileType) {
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+
+	//		// Down-Right
+	//		if (y < ChunkSize-1 && x < ChunkSize-1 && TileTypes[y+1][x+1] != TileType) {
+	//			int downRightType = TileTypes[y+1][x+1];
+	//			if (downRightType > TileType) {
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+
+	//		// Down-Left
+	//		if (y < ChunkSize-1 && x > 0 && TileTypes[y+1][x-1] != TileType) {
+	//			int downLeftType = TileTypes[y+1][x-1];
+	//			if (downLeftType > TileType) {
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
+	//		
+	//		// Up-Left
+	//		if (y > 0 && x > 0 && TileTypes[y-1][x-1] != TileType) {
+   	//			int upLeftType = TileTypes[y-1][x-1];
+    //			if (upLeftType > TileType) {
+	//				BaseMask[y][x] = 1;
+	//			}
+	//		}
 		
 
 		float texX = TileCordStart + (tileCol * 64);
@@ -321,49 +319,43 @@ class Chunk : public sf::Drawable{
 					TileTypes[y][x] = 1; //Shallow water
 				}
 
-				//Rest
-				else
-				{
-                    if(Layout < 160)
-                    {
-						TileTypes[y][x] = 2; //Sand
-                    }
+                else if(Layout < 160)
+                {
+					TileTypes[y][x] = 2; //Sand
+                }
 
-                    else if(Layout < 190)
-                    {
-						TileTypes[y][x] = 3; //Grass	
-                    }
-
-					//Dense forest
-                    else if(Layout < 250) 
-                    {
-						TileTypes[y][x] = 4; //Dense forest
-                    }
-					//Shallow dirt
-                    else if(Layout < 285) 
-                    {
-						// TilePosition(5, x, y, chunk_x, chunk_y);
-						TileTypes[y][x] = 5;
-                    }
-					//Dense Dirt
-                    else if(Layout < 300) 
-                    {
-						// TilePosition(6, x, y, chunk_x, chunk_y);
-						TileTypes[y][x] = 6;
-                    }
-					//Mountains
-                    else if(Layout < 320)
-                    {
-						// TilePosition(7, x, y, chunk_x, chunk_y);
-						TileTypes[y][x] = 7;
-                    }
-					//Dense Snow
-                    else
-                    {
-
-						// TilePosition(8, x, y, chunk_x, chunk_y);
-						TileTypes[y][x] = 8;
-                    }
+                else if(Layout < 190)
+                {
+					TileTypes[y][x] = 3; //Grass	
+                }
+				//Dense forest
+                else if(Layout < 250) 
+                {
+					TileTypes[y][x] = 4; //Dense forest
+                }
+				//Shallow dirt
+                else if(Layout < 285) 
+                {
+					// TilePosition(5, x, y, chunk_x, chunk_y);
+					TileTypes[y][x] = 5;
+                }
+				//Dense Dirt
+                else if(Layout < 300) 
+                {
+					// TilePosition(6, x, y, chunk_x, chunk_y);
+					TileTypes[y][x] = 6;
+                }
+				//Mountains
+                else if(Layout < 320)
+                {
+					// TilePosition(7, x, y, chunk_x, chunk_y);
+					TileTypes[y][x] = 7;
+                }
+				//Dense Snow
+                else
+                {
+					// TilePosition(8, x, y, chunk_x, chunk_y);
+					TileTypes[y][x] = 8;
                 }
 			}
 		}
@@ -391,6 +383,9 @@ class Chunk : public sf::Drawable{
 				if (y > 0 && x > 0 && TileTypes[y-1][x-1] == center) mask |= 128;
 
 				Bitmask[y][x] = mask;
+				if(mask == 0b11101111) {
+					std::cout<< static_cast<int>(Bitmask[y][x])<<std::endl;
+				}
 			}
 		}
 		
